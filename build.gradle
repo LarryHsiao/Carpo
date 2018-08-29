@@ -37,8 +37,8 @@ sonarqube {
         property "sonar.projectKey", "CARPO"
         property "sonar.projectVersion", "${version}"
 
-        property 'sonar.sources', 'src/main/java'
-        property "sonar.tests", "src/test/java"
+        property 'sonar.sources', 'src/main/kotlin'
+        property "sonar.tests", "src/test/kotlin"
 
 //        property "sonar.java.binaries", "build/tmp/kotlin-classes/debug"
 
