@@ -1,15 +1,17 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+    id 'org.sonarqube' version '2.6.2'
 }
 
 group 'com.silverhetch'
-version '1.0.0'
+version '1.0.' + "${(int)(new Date().getTime()/300000)}"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    testCompile "junit:junit:4.12"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
@@ -18,4 +20,29 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+apply plugin: 'jacoco'
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+    }
+}
+
+apply plugin: 'org.sonarqube'
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://silverhetch.com:9100"
+        property "sonar.projectName", "Carpo"
+        property "sonar.projectKey", "CARPO"
+        property "sonar.projectVersion", "${version}"
+
+        property 'sonar.sources', 'src/main/java'
+        property "sonar.tests", "src/test/java"
+
+//        property "sonar.java.binaries", "build/tmp/kotlin-classes/debug"
+
+        property "sonar.jacoco.reportPaths","build/jacoco/test.exec"
+        property "sonar.junit.reportPahts","build/test-results/test"
+    }
 }
