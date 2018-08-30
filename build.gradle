@@ -42,7 +42,7 @@ sonarqube {
         property 'sonar.sources', 'src/main/kotlin'
         property "sonar.tests", "src/test/kotlin"
 
-        property "sonar.java.binaries", "${project.projectDir}/out/production/classes"
+        property "sonar.java.binaries", "${project.buildDir}/classes/kotlin/main"
         property "sonar.java.test.binaries", "${project.buildDir}/classes/kotlin/test"
 
         property "sonar.jacoco.reportPaths","${project.buildDir}/jacoco/test.exec"
