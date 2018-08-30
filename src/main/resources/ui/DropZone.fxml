@@ -10,10 +10,10 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.silverhetch.carpo.javafx.DropZone">
     <Label fx:id="info"
-           text="abc"
-           AnchorPane.topAnchor="0"
-           AnchorPane.rightAnchor="0"
-           AnchorPane.leftAnchor="0"
+           alignment="CENTER"
+           textAlignment="CENTER"
            AnchorPane.bottomAnchor="0"
-           textAlignment="CENTER"/>
+           AnchorPane.leftAnchor="0"
+           AnchorPane.rightAnchor="0"
+           AnchorPane.topAnchor="0"/>
 </AnchorPane>
