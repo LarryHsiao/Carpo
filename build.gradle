@@ -8,11 +8,13 @@ version '1.0.' + "${(int)(new Date().getTime()/300000)}"
 
 repositories {
     mavenCentral()
+    maven { url = 'http://172.104.79.181:81/repository/Elizabeth/' }
 }
 
 dependencies {
     testCompile "junit:junit:4.12"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "com.silverhetch:clotho:1.0.5118111"
 }
 
 compileKotlin {
