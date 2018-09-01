@@ -15,7 +15,7 @@ class CarpoImplTest {
                 File(
                     Files.createTempDirectory("prefix").toUri()
                 )
-            ).all()
+            ).all().size
         )
     }
 
