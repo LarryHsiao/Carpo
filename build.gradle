@@ -15,6 +15,7 @@ dependencies {
     testCompile "junit:junit:4.12"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "com.silverhetch:clotho:1.0.5118111"
+    compile 'de.codecentric.centerdevice:javafxsvg:1.3.0'
 }
 
 compileKotlin {

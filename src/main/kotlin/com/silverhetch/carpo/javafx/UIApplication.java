@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.javafx;
 
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import java.util.ResourceBundle;
 
 public class UIApplication extends Application {
     public static void main(String[] args) {
+        SvgImageLoaderFactory.install();
         launch(args);
     }
 
