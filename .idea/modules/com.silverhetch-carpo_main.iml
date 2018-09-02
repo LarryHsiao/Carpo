@@ -24,8 +24,4 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager">
-    <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
-  </component>
 </module>
