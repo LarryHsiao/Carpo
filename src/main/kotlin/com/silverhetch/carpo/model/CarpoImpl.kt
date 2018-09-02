@@ -11,4 +11,8 @@ class CarpoImpl(private val workspace: File) : Carpo {
         }
         return listOf()
     }
+
+    override fun addFile(file: File) {
+        file.renameTo(File(workspace, file.name))
+    }
 }
