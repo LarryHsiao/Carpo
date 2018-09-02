@@ -1,3 +1,5 @@
 .gradle
 .idea/workspace.xml
 out
+local.properties
+
