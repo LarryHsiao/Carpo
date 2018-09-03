@@ -6,6 +6,9 @@ import com.silverhetch.clotho.Source
 import java.io.File
 import java.nio.file.Files
 
+/**
+ * Carpo implementation which using temporary directory as workspace.
+ */
 class TempCarpoFactory : Source<Carpo> {
     override fun fetch(): Carpo {
         return CarpoImpl(

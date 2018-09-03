@@ -10,6 +10,9 @@ import javafx.scene.layout.AnchorPane
 import java.net.URL
 import java.util.*
 
+/**
+ * Controls drop zone view.
+ */
 class DropZone : Initializable {
     @FXML
     private lateinit var dropZone: AnchorPane
