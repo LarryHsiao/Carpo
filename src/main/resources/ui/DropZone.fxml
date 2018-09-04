@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?><?import javafx.scene.layout.AnchorPane?>
-
-<?import com.jfoenix.controls.JFXButton?><?import javafx.scene.layout.VBox?><?import javafx.scene.layout.HBox?><?import com.jfoenix.controls.JFXTextArea?><?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextArea?><?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.*?><?import com.jfoenix.controls.JFXListView?>
 <VBox fx:id="dropZone"
     prefHeight="350.0"
     prefWidth="350.0"
@@ -16,9 +14,8 @@
         <JFXButton onMouseClicked="#changePath"
             text="%DropZone.changePath" />
     </HBox>
-    <JFXTextArea fx:id="info"
+    <JFXListView fx:id="fileList"
         VBox.vgrow="ALWAYS"
-        editable="false"
         AnchorPane.bottomAnchor="0"
         AnchorPane.leftAnchor="0"
         AnchorPane.rightAnchor="0"
