@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.model
 
+import com.silverhetch.carpo.model.database.DatabaseCFile
 import com.silverhetch.clotho.database.sqlite.InMemoryConn
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -9,7 +10,6 @@ class DatabaseCFileTest {
 
     @Test
     fun tagSimple() {
-        TODO()
         DatabaseCFile(
             InMemoryConn(),
             Files.createTempDirectory("prefix").toFile()
