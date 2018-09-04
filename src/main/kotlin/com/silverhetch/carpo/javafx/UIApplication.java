@@ -26,7 +26,7 @@ public class UIApplication extends Application {
                 getClass().getResource("/ui/css/General.css").toURI().toString()
         );
         final Parent parent = FXMLLoader.load(
-                getClass().getResource("/ui/DropZone.fxml"),
+                getClass().getResource("/ui/Main.fxml"),
                 ResourceBundle.getBundle("ui/i18n/default")
         );
         stage.setScene(new Scene(parent));

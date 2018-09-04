@@ -7,36 +7,34 @@ import com.silverhetch.carpo.model.CFile
 import com.silverhetch.carpo.model.Carpo
 import com.silverhetch.carpo.model.CarpoImpl
 import com.silverhetch.carpo.model.factory.TempCarpoFactory
-import com.silverhetch.clotho.log.SystemPrintLog
 import com.sun.javafx.collections.ObservableListWrapper
-import javafx.beans.value.ChangeListener
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.control.ListCell
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseEvent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.VBox
+import javafx.stage.DirectoryChooser
+import java.io.File
 import java.net.URL
 import java.util.*
-import java.io.File
-import javafx.stage.DirectoryChooser
-import org.apache.commons.logging.impl.LogFactoryImpl
 
 
 /**
  * Controls drop zone view.
  */
-class DropZone : Initializable {
+class MainView : Initializable {
     @FXML
     private lateinit var dropZone: VBox
     @FXML
     private lateinit var fileList: JFXListView<CFile>
     @FXML
     private lateinit var currentPath: JFXTextField
+    @FXML
+    private lateinit var fileInfoController: FileInfoView
 
-    private var carpo: Carpo = TempCarpoFactory().fetch()
+    private var carpo: Carpo = CarpoImpl(File(System.getProperty("user.dir")))
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
@@ -56,9 +54,7 @@ class DropZone : Initializable {
             }
         }
         fileList.setOnMouseClicked {
-            if (it.clickCount > 2) {
-                TODO("shows dialog to modify file information")
-            }
+            fileInfoController.loadCFile(fileList.selectionModel.selectedItem)
         }
         dropZone.setOnDragOver {
             if (it.dragboard.hasContent(DataFormat.FILES)) {
