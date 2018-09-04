@@ -7,6 +7,11 @@ import java.io.File
  */
 interface Carpo {
     /**
+     * Work space File
+     */
+    fun workspace(): File
+
+    /**
      * List all of file that managed by Carpo.
      */
     fun all(): List<CFile>

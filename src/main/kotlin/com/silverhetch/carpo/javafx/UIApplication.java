@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.javafx;
 
+import com.sun.javafx.css.StyleManager;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,10 @@ public class UIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+        StyleManager.getInstance().addUserAgentStylesheet(
+                getClass().getResource("/ui/css/General.css").toURI().toString()
+        );
         final Parent parent = FXMLLoader.load(
                 getClass().getResource("/ui/DropZone.fxml"),
                 ResourceBundle.getBundle("ui/i18n/default")
