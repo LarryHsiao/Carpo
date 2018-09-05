@@ -36,9 +36,6 @@ jacocoTestReport {
 apply plugin: 'org.sonarqube'
 sonarqube {
     properties {
-        property "sonar.host.url", "https://silverhetch.com:9100"
-        property "sonar.projectName", "Carpo"
-        property "sonar.projectKey", "CARPO"
         property "sonar.projectVersion", "${version}"
 
         property 'sonar.sources', 'src/main/kotlin'
