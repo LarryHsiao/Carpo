@@ -1,7 +1,7 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListView
-import com.silverhetch.carpo.model.CFile
+import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -31,9 +31,9 @@ class FileInfoView : Initializable {
         fileInfo.text = cfile.title()
         with(tagList.items) {
             clear()
-            cfile.tags().let { tags ->
+            cfile.tags().all().let { tags ->
                 addAll(Array(tags.size) {
-                    tags[it]
+                    tags[it].title()
                 })
             }
         }

@@ -1,5 +1,6 @@
-package com.silverhetch.carpo.model
+package com.silverhetch.carpo
 
+import com.silverhetch.carpo.file.CFile
 import java.io.File
 
 /**

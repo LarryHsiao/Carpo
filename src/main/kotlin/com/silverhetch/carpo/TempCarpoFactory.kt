@@ -1,8 +1,7 @@
-package com.silverhetch.carpo.model.factory
+package com.silverhetch.carpo
 
-import com.silverhetch.carpo.model.Carpo
-import com.silverhetch.carpo.model.CarpoImpl
 import com.silverhetch.clotho.Source
+import com.silverhetch.clotho.database.sqlite.InMemoryConn
 import java.io.File
 import java.nio.file.Files
 

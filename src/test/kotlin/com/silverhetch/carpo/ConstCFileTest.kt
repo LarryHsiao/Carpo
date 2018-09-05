@@ -1,4 +1,4 @@
-package com.silverhetch.carpo.model
+package com.silverhetch.carpo
 
 import org.junit.Assert.*
 import org.junit.Test
@@ -11,10 +11,10 @@ class ConstCFileTest {
         ConstCFile(
             Files.createTempDirectory("prefix").toFile()
         ).let {
-            it.addTag("Tag01")
+            it.tags().addTag("Tag01")
             assertEquals(
                 "Tag01",
-                it.tags()[0]
+                it.tags().all()[0]
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.silverhetch.carpo.model.database
+package com.silverhetch.carpo.database.connection
 
 import com.silverhetch.clotho.Source
 import java.sql.Connection

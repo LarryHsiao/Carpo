@@ -3,10 +3,9 @@ package com.silverhetch.carpo.javafx
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
-import com.silverhetch.carpo.model.CFile
-import com.silverhetch.carpo.model.Carpo
-import com.silverhetch.carpo.model.CarpoImpl
-import com.silverhetch.carpo.model.factory.TempCarpoFactory
+import com.silverhetch.carpo.Carpo
+import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -35,6 +34,7 @@ class MainView : Initializable {
     private lateinit var fileInfoController: FileInfoView
 
     private var carpo: Carpo = CarpoImpl(File(System.getProperty("user.dir")))
+
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
