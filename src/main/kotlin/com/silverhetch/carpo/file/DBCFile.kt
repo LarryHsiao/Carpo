@@ -4,7 +4,7 @@ import com.silverhetch.carpo.tag.Tags
 import com.silverhetch.carpo.tag.DBFileTags
 import java.sql.Connection
 
-class DBCFile(private val dbConn: Connection, private val id: Int, private val name: String) : CFile {
+class DBCFile(private val dbConn: Connection, private val id: Long, private val name: String) : CFile {
     override fun title(): String {
         return name
     }
@@ -14,6 +14,8 @@ class DBCFile(private val dbConn: Connection, private val id: Int, private val n
     }
 
     override fun remove() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        dbConn.createStatement().use {
+            it.execute("delete from files where files.id = '$id';")
+        }
     }
 }

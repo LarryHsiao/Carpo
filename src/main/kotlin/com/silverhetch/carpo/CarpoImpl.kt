@@ -1,42 +1,56 @@
 package com.silverhetch.carpo
 
-import com.silverhetch.carpo.database.connection.CarpoDbConn
-import com.silverhetch.carpo.file.*
-import com.silverhetch.clotho.database.sqlite.SQLiteConn
+import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.file.DBFiles
+import com.silverhetch.carpo.file.Files
+import com.silverhetch.carpo.file.WorkspaceCFile
 import java.io.File
-import java.sql.Connection
 
-class CarpoImpl(private val workspace: File) : Carpo {
-    private val dbConn: Connection = CarpoDbConn(
-        SQLiteConn(workspace.absolutePath)
-    ).fetch()
+class CarpoImpl(private val workspace: Workspace) : Carpo {
     private val dbFiles: Files
 
     init {
-        this.dbFiles = DBFiles(dbConn)
+        this.dbFiles = DBFiles(workspace.sqlConn())
     }
 
-    override fun workspace(): File {
+    override fun workspace(): Workspace {
         return workspace
     }
 
-    override fun all(): List<CFile> {
-        dbFiles.all().let { dbFiles ->
-            workspace.listFiles()?.also { fileArray ->
-                return MutableList(fileArray.size) {
-                    TODO()
+    override fun all(): Map<String, CFile> {
+        val dbFileMap = dbFiles.all()
+        workspace.files().also { jfiles ->
+            HashMap<String, CFile>().let { result ->
+                jfiles.forEach { jFile ->
+                    result[jFile.name] = WorkspaceCFile(
+                        workspace,
+                        if (dbFileMap.containsKey(jFile.name)) {
+                            dbFileMap[jFile.name]!!
+                        } else {
+                            dbFiles.add(jFile.name)
+                        }
+                    )
                 }
+                return result
             }
         }
-        return listOf()
+        return mapOf()
     }
 
     override fun addFile(file: File) {
-        file.renameTo(File(workspace, file.name))
+        file.renameTo(File(workspace.rootJFile(), file.name))
         dbFiles.add(file.name)
     }
 
-    override fun byTag(tag: String): List<CFile> {
-        TODO()
+    override fun byTag(tag: String): Map<String, CFile> {
+        return dbFiles.byTag(tag).filter {
+            File(workspace.rootJFile(), it.key).exists()
+        }.also { dbMap ->
+            return HashMap<String, CFile>().also { result ->
+                dbMap.forEach { key, value ->
+                    result[key] = WorkspaceCFile(workspace, value)
+                }
+            }
+        }
     }
 }

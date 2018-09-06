@@ -1,11 +1,11 @@
 create table if not exists files (
   id   integer primary key autoincrement,
-  name text not null
+  name text not null unique
 );
 
 create table if not exists tags (
   id   integer primary key autoincrement,
-  name text not null
+  name text not null unique
 );
 
 create table if not exists file_tag (

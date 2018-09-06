@@ -3,7 +3,7 @@ package com.silverhetch.carpo.tag
 import com.silverhetch.carpo.tag.factory.TagListFactory
 import java.sql.Connection
 
-class DBFileTags(private val dbConn: Connection, private val id: Int) : Tags {
+class DBFileTags(private val dbConn: Connection, private val id: Long) : Tags {
     override fun all(): List<Tag> {
         dbConn.createStatement().use { statement ->
             statement.executeQuery(

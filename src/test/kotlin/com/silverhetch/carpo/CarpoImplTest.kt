@@ -11,9 +11,9 @@ class CarpoImplTest {
         assertEquals(
             0,
             CarpoImpl(
-                File(
+                CarpoWorkspace(File(
                     Files.createTempDirectory("prefix").toUri()
-                )
+                ))
             ).all().size
         )
     }
@@ -21,8 +21,10 @@ class CarpoImplTest {
     @Test
     fun newFile() {
         CarpoImpl(
-            File(
-                Files.createTempDirectory("tempFile").toUri()
+            CarpoWorkspace(
+                File(
+                    Files.createTempDirectory("tempFile").toUri()
+                )
             )
         ).let {
             it.addFile(File.createTempFile("this is tempFile", ""))

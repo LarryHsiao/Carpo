@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.CarpoWorkspace
 import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
@@ -33,7 +34,11 @@ class MainView : Initializable {
     @FXML
     private lateinit var fileInfoController: FileInfoView
 
-    private var carpo: Carpo = CarpoImpl(File(System.getProperty("user.dir")))
+    private var carpo: Carpo = CarpoImpl(
+        CarpoWorkspace(
+            File(System.getProperty("user.dir"))
+        )
+    )
 
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
@@ -48,7 +53,6 @@ class MainView : Initializable {
                         if (item != null) {
                             text = item.title()
                         }
-
                     }
                 }
             }
@@ -82,19 +86,21 @@ class MainView : Initializable {
         val defaultDirectory = File(System.getProperty("user.dir"))
         chooser.initialDirectory = defaultDirectory
         chooser.showDialog((event.source as Node).scene.window)?.also {
-            carpo = CarpoImpl(it)
+            carpo = CarpoImpl(
+                CarpoWorkspace(
+                    it
+                )
+            )
             updateUI()
         }
     }
 
     private fun updateUI() {
-        currentPath.text = carpo.workspace().absolutePath
+        currentPath.text = carpo.workspace().rootJFile().absolutePath
         with(fileList.items) {
-            carpo.all().let { list ->
+            carpo.all().values.let { collections ->
                 clear()
-                addAll(Array(list.size) {
-                    list[it]
-                })
+                addAll(collections)
             }
         }
     }

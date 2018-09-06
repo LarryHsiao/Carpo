@@ -21,14 +21,16 @@ class CarpoDbConn(private val conn: Source<Connection>) : Source<Connection> {
                 statement.execute("""
                     create table if not exists tags (
                       id   integer primary key autoincrement,
-                      name text not null
+                      name text not null,
+                      unique (name)
                     );
                     """
                 )
                 statement.execute("""
                    create table if not exists files (
                       id   integer primary key autoincrement,
-                      name text not null
+                      name text not null,
+                      unique (name)
                     );
                 """)
             }

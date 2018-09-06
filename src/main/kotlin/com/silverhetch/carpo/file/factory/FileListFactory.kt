@@ -6,16 +6,15 @@ import com.silverhetch.clotho.Source
 import java.sql.Connection
 import java.sql.ResultSet
 
-class FileListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<List<CFile>> {
-    override fun fetch(): List<CFile> {
-        ArrayList<CFile>().let { result ->
+class FileListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<Map<String, CFile>> {
+    override fun fetch(): Map<String, CFile> {
+        HashMap<String, CFile>().let { result ->
             while (it.next()) {
-                result.add(
-                    DBCFile(
-                        dbConn,
-                        it.getInt(it.findColumn("id")),
-                        it.getString(it.findColumn("name"))
-                    )
+                val name = it.getString(it.findColumn("name"))
+                result[name] = DBCFile(
+                    dbConn,
+                    it.getLong(it.findColumn("id")),
+                    name
                 )
             }
             return result
