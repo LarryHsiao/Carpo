@@ -5,6 +5,7 @@ import com.silverhetch.clotho.database.SingleConn
 import com.silverhetch.clotho.database.sqlite.SQLiteConn
 import java.io.File
 import java.io.FileFilter
+import java.nio.file.NotDirectoryException
 import java.sql.Connection
 
 class CarpoWorkspace(private val root: File) : Workspace {
@@ -13,9 +14,12 @@ class CarpoWorkspace(private val root: File) : Workspace {
     }
 
     override fun files(): Array<File> {
+        if (!root.isDirectory) {
+            throw NotDirectoryException("Worksspace only can be directory")
+        }
         return root.listFiles(FileFilter {
             it.name != DB_FILENAME
-        }) ?: arrayOf()
+        })
     }
 
     override fun sqlConn(): Connection {

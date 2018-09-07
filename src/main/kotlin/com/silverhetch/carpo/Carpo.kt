@@ -22,11 +22,11 @@ interface Carpo {
     /**
      * List all of file that has given tag.
      */
-    fun byTag(tag: String): Map<String,CFile>
+    fun byTag(tag: String): Map<String, CFile>
 
     /**
      * Move given file into Carpo`s workspace.
      */
-    fun addFile(file: File)
+    fun addFile(file: File): CFile
 
 }

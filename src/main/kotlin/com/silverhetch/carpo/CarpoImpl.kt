@@ -6,6 +6,9 @@ import com.silverhetch.carpo.file.Files
 import com.silverhetch.carpo.file.WorkspaceCFile
 import java.io.File
 
+/**
+ * Main logic implementation of Carpo.
+ */
 class CarpoImpl(private val workspace: Workspace) : Carpo {
     private val dbFiles: Files
 
@@ -37,9 +40,9 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         return mapOf()
     }
 
-    override fun addFile(file: File) {
+    override fun addFile(file: File) :CFile{
         file.renameTo(File(workspace.rootJFile(), file.name))
-        dbFiles.add(file.name)
+        return dbFiles.add(file.name)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {

@@ -20,7 +20,20 @@ class DBCFileTest {
         ).tags().let {
             /** @see [SampleDataConn] */
             assertEquals(1, it.all().size)
-            assertEquals("tag2", it.all()[0].title())
+            assertEquals("tag2", it.all()["tag2"]!!.title())
+        }
+    }
+
+    @Test
+    fun remove() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            it.byTag("tag")["filename"]!!.remove()
+            assertEquals(0, it.byTag("tag1").size)
         }
     }
 }

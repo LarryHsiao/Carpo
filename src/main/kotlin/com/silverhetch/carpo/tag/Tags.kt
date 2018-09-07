@@ -7,10 +7,10 @@ interface Tags {
     /**
      * All the tags.
      */
-    fun all(): List<Tag>
+    fun all(): Map<String, Tag>
 
     /**
      * New tags.
      */
-    fun addTag(name: String)
+    fun addTag(name: String): Tag
 }

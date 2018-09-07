@@ -6,18 +6,19 @@ import com.silverhetch.clotho.Source
 import java.sql.Connection
 import java.sql.ResultSet
 
-class TagListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<List<Tag>> {
-    override fun fetch(): List<Tag> {
-        ArrayList<Tag>().let { result ->
+class TagListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<Map<String, Tag>> {
+    override fun fetch(): Map<String, Tag> {
+        HashMap<String, Tag>().let { result ->
             while (it.next()) {
-                result.add(
+                val name = it.getString(
+                    it.findColumn("name")
+                )
+                result[name] =
                     DBTag(
                         dbConn,
-                        it.getString(
-                            it.findColumn("name")
-                        )
+                        it.getLong(it.findColumn("id")),
+                        name
                     )
-                )
             }
             return result
         }

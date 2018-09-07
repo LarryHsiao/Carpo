@@ -32,9 +32,9 @@ class FileInfoView : Initializable {
         with(tagList.items) {
             clear()
             cfile.tags().all().let { tags ->
-                addAll(Array(tags.size) {
-                    tags[it].title()
-                })
+                tags.values.forEach { tag ->
+                    add(tag.title())
+                }
             }
         }
     }
