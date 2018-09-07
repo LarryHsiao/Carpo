@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?><?import javafx.scene.control.ListView?><?import com.jfoenix.controls.JFXListView?><?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?><?import javafx.scene.control.ListView?><?import com.jfoenix.controls.JFXListView?><?import javafx.scene.control.Label?><?import javafx.scene.layout.HBox?><?import com.jfoenix.controls.JFXTextField?><?import com.jfoenix.controls.JFXButton?>
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
-    fx:controller="com.silverhetch.carpo.javafx.FileInfoView"
-    prefHeight="400.0"
-    prefWidth="600.0">
+    fx:controller="com.silverhetch.carpo.javafx.FileInfoView">
+    <Label fx:id="fileInfo" maxWidth="Infinity"/>
 
-    <Label fx:id="fileInfo" />
+    <HBox style="-fx-padding: 16 0 16 0">
+        <JFXTextField HBox.hgrow="ALWAYS"
+
+            maxWidth="Infinity"
+            fx:id="tagName" />
+        <JFXButton text="%General.create"
+            onMouseClicked="#createTag"
+        />
+    </HBox>
 
     <JFXListView VBox.vgrow="ALWAYS"
+        maxWidth="Infinity"
         fx:id="tagList" />
 </VBox>

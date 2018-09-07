@@ -37,7 +37,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
     private fun newFileTagLink(tag: Tag) {
         dbConn.createStatement().use { statement ->
             statement.execute("""
-                            insert into file_tag(file_id,tag_id)
+                            insert or ignore into file_tag(file_id,tag_id)
                             values ($fileId, ${tag.id()})
                          """
             )

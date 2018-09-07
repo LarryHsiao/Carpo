@@ -6,21 +6,21 @@
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <VBox fx:id="dropZone"
         prefHeight="350.0"
-        prefWidth="350.0">
-        <HBox>
+        prefWidth="200.0">
+        <HBox style="-fx-padding: 0 0 16 0">
             <JFXTextField fx:id="currentPath"
                 maxWidth="Infinity"
+                editable="false"
                 HBox.hgrow="ALWAYS" />
             <JFXButton onMouseClicked="#changePath"
                 text="%DropZone.changePath" />
         </HBox>
         <JFXListView fx:id="fileList"
-            VBox.vgrow="ALWAYS"
-            AnchorPane.bottomAnchor="0"
-            AnchorPane.leftAnchor="0"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.topAnchor="0" />
+            VBox.vgrow="ALWAYS" />
     </VBox>
     <fx:include source="FileInfo.fxml"
+        HBox.hgrow="ALWAYS"
+        prefWidth="300"
+        style="-fx-padding: 0 0 0 16"
         fx:id="fileInfo" />
 </HBox>
