@@ -14,8 +14,9 @@ repositories {
 dependencies {
     testCompile "junit:junit:4.12"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "com.silverhetch:clotho:1.0.5118111"
+    compile "com.silverhetch:clotho:1.0.5119966"
     compile 'de.codecentric.centerdevice:javafxsvg:1.3.0'
+    compile 'com.jfoenix:jfoenix:8.0.7'
 }
 
 compileKotlin {
@@ -35,9 +36,6 @@ jacocoTestReport {
 apply plugin: 'org.sonarqube'
 sonarqube {
     properties {
-        property "sonar.host.url", "https://silverhetch.com:9100"
-        property "sonar.projectName", "Carpo"
-        property "sonar.projectKey", "CARPO"
         property "sonar.projectVersion", "${version}"
 
         property 'sonar.sources', 'src/main/kotlin'
