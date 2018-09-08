@@ -25,6 +25,11 @@ interface Carpo {
     fun byTag(tag: String): Map<String, CFile>
 
     /**
+     * List all of files that has given keyword
+     */
+    fun byKeyword(keyword: String): Map<String, CFile>
+
+    /**
      * Move given file into Carpo`s workspace.
      */
     fun addFile(file: File): CFile

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextArea?><?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.*?><?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?>
 <HBox xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <VBox fx:id="dropZone"
         prefHeight="350.0"
-        prefWidth="200.0">
+        prefWidth="250.0">
         <HBox style="-fx-padding: 0 0 16 0">
             <JFXTextField fx:id="currentPath"
                 maxWidth="Infinity"
@@ -15,12 +15,21 @@
             <JFXButton onMouseClicked="#changePath"
                 text="%DropZone.changePath" />
         </HBox>
+        <HBox style="-fx-padding: 0 0 16 0">
+            <JFXTextField fx:id="searchKey"
+                maxWidth="Infinity"
+                onKeyPressed="#searchKeyFieldKeyPressed"
+                HBox.hgrow="ALWAYS" />
+            <JFXButton onMouseClicked="#searchByKey"
+                text="%General.search" />
+        </HBox>
+
         <JFXListView fx:id="fileList"
             VBox.vgrow="ALWAYS" />
     </VBox>
     <fx:include source="FileInfo.fxml"
         HBox.hgrow="ALWAYS"
-        prefWidth="300"
+        prefWidth="600"
         style="-fx-padding: 0 0 0 16"
         fx:id="fileInfo" />
 </HBox>

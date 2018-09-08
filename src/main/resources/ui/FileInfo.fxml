@@ -4,16 +4,16 @@
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="com.silverhetch.carpo.javafx.FileInfoView">
-    <Label fx:id="fileInfo" maxWidth="Infinity"/>
+    <Label fx:id="fileInfo"
+        maxWidth="Infinity" />
 
     <HBox style="-fx-padding: 16 0 16 0">
         <JFXTextField HBox.hgrow="ALWAYS"
-
+            onKeyPressed="#tagNameKey"
             maxWidth="Infinity"
             fx:id="tagName" />
         <JFXButton text="%General.create"
-            onMouseClicked="#createTag"
-        />
+            onMouseClicked="#createTag" />
     </HBox>
 
     <JFXListView VBox.vgrow="ALWAYS"
