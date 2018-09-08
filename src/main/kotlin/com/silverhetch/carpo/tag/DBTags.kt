@@ -4,6 +4,9 @@ import com.silverhetch.carpo.tag.factory.TagListFactory
 import java.sql.Connection
 import java.sql.SQLException
 
+/**
+ * Database implementation of [Tags].
+ */
 class DBTags(private val dbConn: Connection) : Tags {
     override fun all(): Map<String, Tag> {
         dbConn.createStatement().use { statement ->

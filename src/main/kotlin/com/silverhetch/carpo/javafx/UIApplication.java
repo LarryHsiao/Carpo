@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.util.ResourceBundle;
 
 /**
- * UI implementation of [Carpo]
+ * UI Application implemented with JavaFx.
  */
 public class UIApplication extends Application {
     public static void main(String[] args) {

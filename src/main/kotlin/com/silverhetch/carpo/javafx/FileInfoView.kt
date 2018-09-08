@@ -13,6 +13,9 @@ import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * View representing info of given file.
+ */
 class FileInfoView : Initializable {
     @FXML
     private lateinit var tagList: JFXListView<String>

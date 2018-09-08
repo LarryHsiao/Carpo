@@ -114,7 +114,8 @@ class MainView : Initializable {
         }
     }
 
-    fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
+    @FXML
+    private fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
         if (keyEvent.code == KeyCode.ENTER) {
             searchByKey()
         }

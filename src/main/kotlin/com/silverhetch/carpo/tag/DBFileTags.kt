@@ -3,6 +3,9 @@ package com.silverhetch.carpo.tag
 import com.silverhetch.carpo.tag.factory.TagListFactory
 import java.sql.Connection
 
+/**
+ * Database implementation of [Tags] which a [com.silverhetch.carpo.file.CFile] have.
+ */
 class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tags {
     private val dbTags = DBTags(dbConn)
 
