@@ -6,6 +6,9 @@ import com.silverhetch.clotho.Source
 import java.sql.Connection
 import java.sql.ResultSet
 
+/**
+ * An Factory build Tag map with query result.
+ */
 class TagListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<Map<String, Tag>> {
     override fun fetch(): Map<String, Tag> {
         HashMap<String, Tag>().let { result ->

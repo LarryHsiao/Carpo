@@ -27,11 +27,7 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
                 jfiles.forEach { jFile ->
                     result[jFile.name] = WorkspaceCFile(
                         workspace,
-                        if (dbFileMap.containsKey(jFile.name)) {
-                            dbFileMap[jFile.name]!!
-                        } else {
-                            dbFiles.add(jFile.name)
-                        }
+                        dbFileMap[jFile.name] ?: dbFiles.add(jFile.name)
                     )
                 }
                 return result

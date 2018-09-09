@@ -26,11 +26,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
 
     override fun addTag(name: String): Tag {
         dbTags.all().let { existTags ->
-            return if (existTags.containsKey(name)) {
-                existTags[name]!!
-            } else {
-                dbTags.addTag(name)
-            }.also {
+            return existTags[name] ?: dbTags.addTag(name).also {
                 newFileTagLink(it)
             }
         }

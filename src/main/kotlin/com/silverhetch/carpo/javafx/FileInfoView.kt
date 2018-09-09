@@ -30,6 +30,9 @@ class FileInfoView : Initializable {
         tagList.items = ObservableListWrapper<String>(ArrayList<String>())
     }
 
+    /**
+     * Load the views with given [CFile].
+     */
     fun loadCFile(newFile: CFile) {
         this.cfile = newFile
         updateUI()
