@@ -37,8 +37,8 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
     }
 
     override fun addFile(file: File): CFile {
-        file.renameTo(File(workspace.rootJFile(), file.name))
-        return dbFiles.add(file.name)
+        file.copyRecursively(File(File(workspace.rootJFile(), file.name), file.name))
+        return all()[file.name] ?: dbFiles.add(file.name)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {

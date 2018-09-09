@@ -13,7 +13,13 @@ class FileExecutable(private val uri: String) : CExecutable {
         if (Desktop.isDesktopSupported()) {
             Thread {
                 try {
-                    Desktop.getDesktop().open(File(URI.create(uri)))
+                    File(URI.create(uri)).also { targetFile ->
+                        if (targetFile.isDirectory && targetFile.listFiles().size == 1){
+                            Desktop.getDesktop().open(targetFile.listFiles()[0])
+                        }else {
+                            Desktop.getDesktop().open(targetFile)
+                        }
+                    }
                 } catch (e: IOException) {
                     callback.onFailed()
                 }

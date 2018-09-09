@@ -43,7 +43,16 @@ class MainView : Initializable {
 
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(System.getProperty("user.dir"))
+            File(System.getProperty("user.home") + "/Playground").also {
+                if (it.exists().not()) {
+                    it.mkdir()
+                }
+                File(it, "Sample file").also { sampleFile ->
+                    if (sampleFile.exists().not()) {
+                        sampleFile.createNewFile()
+                    }
+                }
+            }
         )
     )
 
@@ -73,7 +82,7 @@ class MainView : Initializable {
                 fileList.selectionModel.selectedItem?.also { selected ->
                     selected.executable().launch(object : CExecutable.Callback {
                         override fun onFailed() {
-                            bundle?.also {bundle->
+                            bundle?.also { bundle ->
                                 showInfo(bundle.getString("MainView.OpenFileFailed"))
                             }
                         }
