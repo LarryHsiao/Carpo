@@ -43,7 +43,7 @@ class MainView : Initializable {
 
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(System.getProperty("user.dir") + "/../PlayGround")
+            File(System.getProperty("user.dir"))
         )
     )
 
