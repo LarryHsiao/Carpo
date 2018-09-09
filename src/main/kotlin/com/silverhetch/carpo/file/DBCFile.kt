@@ -1,7 +1,7 @@
 package com.silverhetch.carpo.file
 
-import com.silverhetch.carpo.tag.Tags
 import com.silverhetch.carpo.tag.DBFileTags
+import com.silverhetch.carpo.tag.Tags
 import java.sql.Connection
 
 /**
@@ -20,5 +20,9 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private val 
         dbConn.createStatement().use {
             it.execute("delete from files where files.id = '$id';")
         }
+    }
+
+    override fun executable(): CExecutable {
+        throw UnsupportedOperationException("Should create decorators for this very launch method")
     }
 }
