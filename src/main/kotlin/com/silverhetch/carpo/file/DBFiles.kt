@@ -4,6 +4,9 @@ import com.silverhetch.carpo.file.factory.FileListFactory
 import java.sql.Connection
 import java.sql.SQLException
 
+/**
+ * A implementation of [Files]
+ */
 class DBFiles(private val dbConn: Connection) : Files {
     override fun all(): Map<String, CFile> {
         dbConn.createStatement().use { statement ->

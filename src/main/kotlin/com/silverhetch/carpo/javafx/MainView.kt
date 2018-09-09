@@ -11,9 +11,7 @@ import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.input.DataFormat
-import javafx.scene.input.MouseEvent
-import javafx.scene.input.TransferMode
+import javafx.scene.input.*
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import java.io.File
@@ -31,6 +29,8 @@ class MainView : Initializable {
     private lateinit var fileList: JFXListView<CFile>
     @FXML
     private lateinit var currentPath: JFXTextField
+    @FXML
+    private lateinit var searchKey: JFXTextField
     @FXML
     private lateinit var fileInfoController: FileInfoView
 
@@ -62,7 +62,7 @@ class MainView : Initializable {
         }
         dropZone.setOnDragOver {
             if (it.dragboard.hasContent(DataFormat.FILES)) {
-                it.acceptTransferModes(*TransferMode.COPY_OR_MOVE)
+                it.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE)
             }
             it.consume()
         }
@@ -71,12 +71,12 @@ class MainView : Initializable {
                 event.dragboard.files.forEach { file ->
                     carpo.addFile(file)
                 }
-                updateUI()
+                reloadUI()
             }
             event.isDropCompleted = true
             event.consume()
         }
-        updateUI()
+        reloadUI()
     }
 
     @FXML
@@ -85,23 +85,43 @@ class MainView : Initializable {
         chooser.title = "JavaFX Projects"
         val defaultDirectory = File(System.getProperty("user.dir"))
         chooser.initialDirectory = defaultDirectory
-        chooser.showDialog((event.source as Node).scene.window)?.also {
-            carpo = CarpoImpl(
-                CarpoWorkspace(
-                    it
-                )
-            )
-            updateUI()
+        event.source.let { source ->
+            if (source is Node){
+                chooser.showDialog((source.scene.window))?.also {
+                    carpo = CarpoImpl(
+                        CarpoWorkspace(
+                            it
+                        )
+                    )
+                    reloadUI()
+                }
+            }
         }
     }
 
-    private fun updateUI() {
+    @FXML
+    private fun searchByKey() {
+        updateFileList(carpo.byKeyword(searchKey.text))
+    }
+
+    private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
+        updateFileList(carpo.all())
+    }
+
+    private fun updateFileList(maps: Map<String, CFile>) {
         with(fileList.items) {
-            carpo.all().values.let { collections ->
+            maps.values.let { collections ->
                 clear()
                 addAll(collections)
             }
+        }
+    }
+
+    @FXML
+    private fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
+        if (keyEvent.code == KeyCode.ENTER) {
+            searchByKey()
         }
     }
 }

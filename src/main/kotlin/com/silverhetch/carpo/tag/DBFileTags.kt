@@ -3,6 +3,9 @@ package com.silverhetch.carpo.tag
 import com.silverhetch.carpo.tag.factory.TagListFactory
 import java.sql.Connection
 
+/**
+ * Database implementation of [Tags] which a [com.silverhetch.carpo.file.CFile] have.
+ */
 class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tags {
     private val dbTags = DBTags(dbConn)
 
@@ -23,11 +26,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
 
     override fun addTag(name: String): Tag {
         dbTags.all().let { existTags ->
-            return if (existTags.containsKey(name)) {
-                existTags[name]!!
-            } else {
-                dbTags.addTag(name)
-            }.also {
+            return existTags[name] ?: dbTags.addTag(name).also {
                 newFileTagLink(it)
             }
         }
@@ -37,7 +36,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
     private fun newFileTagLink(tag: Tag) {
         dbConn.createStatement().use { statement ->
             statement.execute("""
-                            insert into file_tag(file_id,tag_id)
+                            insert or ignore into file_tag(file_id,tag_id)
                             values ($fileId, ${tag.id()})
                          """
             )

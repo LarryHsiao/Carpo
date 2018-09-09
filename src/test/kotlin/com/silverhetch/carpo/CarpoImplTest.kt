@@ -83,4 +83,40 @@ class CarpoImplTest {
             )
         }
     }
+
+    @Test
+    fun searchByKeyword_file() {
+        CarpoImpl(
+            CarpoWorkspace(
+                Files.createTempDirectory("prefix").toFile()
+            )
+        ).let {
+            /**Sample data*/
+            val newFile = File.createTempFile("prefix", "")
+            it.addFile(newFile)
+
+            assertEquals(
+                newFile.name,
+                it.byKeyword("prefix")[newFile.name]!!.title()
+            )
+        }
+    }
+
+    @Test
+    fun searchByKeyword_tag() {
+        CarpoImpl(
+            CarpoWorkspace(
+                Files.createTempDirectory("prefix").toFile()
+            )
+        ).let {
+            /**Sample data*/
+            val newFile = File.createTempFile("prefix", "")
+            it.addFile(newFile).tags().addTag("Sample Tag")
+
+            assertEquals(
+                newFile.name,
+                it.byKeyword("Sample Tag")[newFile.name]!!.title()
+            )
+        }
+    }
 }

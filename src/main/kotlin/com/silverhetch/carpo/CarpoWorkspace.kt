@@ -8,6 +8,9 @@ import java.io.FileFilter
 import java.nio.file.NotDirectoryException
 import java.sql.Connection
 
+/**
+ * Carpo`s implementation of [Workspace]
+ */
 class CarpoWorkspace(private val root: File) : Workspace {
     companion object {
         private const val DB_FILENAME = "carpo.db"

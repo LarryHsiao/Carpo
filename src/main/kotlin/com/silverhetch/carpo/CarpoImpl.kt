@@ -27,11 +27,7 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
                 jfiles.forEach { jFile ->
                     result[jFile.name] = WorkspaceCFile(
                         workspace,
-                        if (dbFileMap.containsKey(jFile.name)) {
-                            dbFileMap[jFile.name]!!
-                        } else {
-                            dbFiles.add(jFile.name)
-                        }
+                        dbFileMap[jFile.name] ?: dbFiles.add(jFile.name)
                     )
                 }
                 return result
@@ -40,7 +36,7 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         return mapOf()
     }
 
-    override fun addFile(file: File) :CFile{
+    override fun addFile(file: File): CFile {
         file.renameTo(File(workspace.rootJFile(), file.name))
         return dbFiles.add(file.name)
     }
@@ -54,6 +50,14 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
                     result[key] = WorkspaceCFile(workspace, value)
                 }
             }
+        }
+    }
+
+    override fun byKeyword(keyword: String): Map<String, CFile> {
+        return all().filter {
+            it.key.toLowerCase().contains(keyword.toLowerCase())
+        }.toMutableMap().also {
+            it.putAll(byTag(keyword))
         }
     }
 }
