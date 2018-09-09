@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?>
 <HBox xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="rootPane"
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <VBox fx:id="dropZone"
         prefHeight="350.0"

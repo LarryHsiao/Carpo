@@ -5,7 +5,7 @@ import com.silverhetch.carpo.tag.Tags
 import java.io.File
 
 /**
- * [CFile] that implemented with database and file system.
+ * Decorator that operates changes to file system.
  */
 class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFile) : CFile {
     override fun title(): String {
@@ -17,7 +17,15 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun remove() {
-        File(workspace.rootJFile(), dbcFile.title()).delete()
+        jdkFile().delete()
         dbcFile.remove()
+    }
+
+    override fun executable(): CExecutable {
+        return FileExecutable(jdkFile().toURI().toString())
+    }
+
+    private fun jdkFile(): File {
+        return File(workspace.rootJFile(), dbcFile.title())
     }
 }

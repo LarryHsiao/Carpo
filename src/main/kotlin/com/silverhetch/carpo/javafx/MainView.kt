@@ -2,16 +2,19 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.JFXSnackbar
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.CarpoWorkspace
+import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.input.*
+import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import java.io.File
@@ -24,6 +27,8 @@ import java.util.*
  */
 class MainView : Initializable {
     @FXML
+    private lateinit var rootPane: HBox
+    @FXML
     private lateinit var dropZone: VBox
     @FXML
     private lateinit var fileList: JFXListView<CFile>
@@ -34,14 +39,16 @@ class MainView : Initializable {
     @FXML
     private lateinit var fileInfoController: FileInfoView
 
+    private lateinit var snackbar: JFXSnackbar
+
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(System.getProperty("user.dir"))
+            File(System.getProperty("user.dir") + "/../PlayGround")
         )
     )
 
 
-    override fun initialize(p0: URL?, p1: ResourceBundle?) {
+    override fun initialize(p0: URL?, bundle: ResourceBundle?) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
@@ -58,8 +65,20 @@ class MainView : Initializable {
             }
         }
         fileList.setOnMouseClicked {
-            fileList.selectionModel.selectedItem?.also { selected->
-                fileInfoController.loadCFile(selected)
+            if (it.clickCount == 1) {
+                fileList.selectionModel.selectedItem?.also { selected ->
+                    fileInfoController.loadCFile(selected)
+                }
+            } else if (it.clickCount == 2) {
+                fileList.selectionModel.selectedItem?.also { selected ->
+                    selected.executable().launch(object : CExecutable.Callback {
+                        override fun onFailed() {
+                            bundle?.also {bundle->
+                                showInfo(bundle.getString("MainView.OpenFileFailed"))
+                            }
+                        }
+                    })
+                }
             }
         }
         dropZone.setOnDragOver {
@@ -88,7 +107,7 @@ class MainView : Initializable {
         val defaultDirectory = File(System.getProperty("user.dir"))
         chooser.initialDirectory = defaultDirectory
         event.source.let { source ->
-            if (source is Node){
+            if (source is Node) {
                 chooser.showDialog((source.scene.window))?.also {
                     carpo = CarpoImpl(
                         CarpoWorkspace(
@@ -125,5 +144,12 @@ class MainView : Initializable {
         if (keyEvent.code == KeyCode.ENTER) {
             searchByKey()
         }
+    }
+
+    private fun showInfo(message: String) {
+        if (!::snackbar.isInitialized) {
+            snackbar = JFXSnackbar(rootPane)
+        }
+        snackbar.enqueue(JFXSnackbar.SnackbarEvent(message))
     }
 }

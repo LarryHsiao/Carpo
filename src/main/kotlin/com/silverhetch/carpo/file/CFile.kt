@@ -20,4 +20,9 @@ interface CFile {
      * Remove this tag.
      */
     fun remove()
+
+    /**
+     * @return [CExecutable] object for handling the execution.
+     */
+    fun executable(): CExecutable
 }

@@ -36,4 +36,25 @@ class DBCFileTest {
             assertEquals(0, it.byTag("tag1").size)
         }
     }
+
+    @Test
+    fun doNotSupportExecutable() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.executable().launch(object : CExecutable.Callback {
+                    override fun onFailed() {
+                        fail()
+                    }
+                })
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
 }

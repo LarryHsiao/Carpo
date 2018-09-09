@@ -3,6 +3,7 @@ package com.silverhetch.carpo.file
 import com.silverhetch.carpo.CarpoWorkspace
 import com.silverhetch.carpo.database.connection.CarpoDbConn
 import com.silverhetch.carpo.database.connection.SampleDataConn
+import com.silverhetch.carpo.file.phantom.PhantomCFile
 import com.silverhetch.clotho.database.sqlite.InMemoryConn
 import org.junit.Assert
 import org.junit.Test
