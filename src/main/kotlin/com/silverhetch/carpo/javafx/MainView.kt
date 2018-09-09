@@ -58,7 +58,9 @@ class MainView : Initializable {
             }
         }
         fileList.setOnMouseClicked {
-            fileInfoController.loadCFile(fileList.selectionModel.selectedItem)
+            fileList.selectionModel.selectedItem?.also { selected->
+                fileInfoController.loadCFile(selected)
+            }
         }
         dropZone.setOnDragOver {
             if (it.dragboard.hasContent(DataFormat.FILES)) {
