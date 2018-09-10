@@ -37,4 +37,20 @@ class MainViewTest : ApplicationTest() {
             from(lookup("#tagList")).queryListView<String>()
         ).hasListCell("AutoTag")
     }
+
+    @Test
+    fun existTagToFile() {
+        val existTagName = UUID.randomUUID().toString()
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        clickOn(lookup("#tagName").query<JFXTextField>())
+        write(existTagName).push(KeyCode.ENTER)
+
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
+        clickOn(lookup("#tagName").query<JFXTextField>())
+        write(existTagName).push(KeyCode.ENTER)
+
+        assertThat(
+            from(lookup("#tagList")).queryListView<String>()
+        ).hasListCell(existTagName)
+    }
 }

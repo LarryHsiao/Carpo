@@ -4,6 +4,7 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.DBFiles
 import com.silverhetch.carpo.file.Files
 import com.silverhetch.carpo.file.WorkspaceCFile
+import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**
@@ -47,7 +48,7 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         }
 
         files.forEach { file ->
-            file.copyRecursively(File(fileRoot, file.name))
+            workspace.insertionPipe().through(file, File(fileRoot, file.name))
         }
         return all()[fileRoot.name] ?: dbFiles.add(fileRoot.name)
     }

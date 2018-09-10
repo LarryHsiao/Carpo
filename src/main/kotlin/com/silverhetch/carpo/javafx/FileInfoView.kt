@@ -40,6 +40,7 @@ class FileInfoView : Initializable {
 
     private fun updateUI() {
         fileInfo.text = cfile.title()
+        tagName.text = ""
         with(tagList.items) {
             clear()
             cfile.tags().all().let { tags ->

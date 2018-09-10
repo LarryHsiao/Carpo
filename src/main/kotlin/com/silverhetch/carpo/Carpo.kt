@@ -1,6 +1,7 @@
 package com.silverhetch.carpo
 
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**

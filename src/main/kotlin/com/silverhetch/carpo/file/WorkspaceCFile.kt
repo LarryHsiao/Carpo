@@ -1,6 +1,6 @@
 package com.silverhetch.carpo.file
 
-import com.silverhetch.carpo.Workspace
+import com.silverhetch.carpo.workspace.Workspace
 import com.silverhetch.carpo.tag.Tags
 import java.io.File
 
@@ -23,6 +23,12 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
 
     override fun executable(): CExecutable {
         return FileExecutable(jdkFile().toURI().toString())
+    }
+
+    override fun addFile(file: List<File>) {
+        file.forEach {
+            workspace.insertionPipe().through(it, File(jdkFile(), it.name))
+        }
     }
 
     private fun jdkFile(): File {

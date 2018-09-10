@@ -2,6 +2,7 @@ package com.silverhetch.carpo.file
 
 import com.silverhetch.carpo.tag.DBFileTags
 import com.silverhetch.carpo.tag.Tags
+import java.io.File
 import java.sql.Connection
 
 /**
@@ -24,5 +25,9 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private val 
 
     override fun executable(): CExecutable {
         throw UnsupportedOperationException("Should create decorators for this very launch method")
+    }
+
+    override fun addFile( file: List<File>) {
+        throw UnsupportedOperationException("Should create decorators to support this function")
     }
 }

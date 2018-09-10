@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXSnackbar
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
-import com.silverhetch.carpo.CarpoWorkspace
+import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
@@ -61,6 +61,21 @@ class MainView : Initializable {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
+
+                init {
+                    setOnDragEntered {
+                        fileList.selectionModel.select(item)
+                        it.consume()
+                    }
+
+                    setOnDragDropped {
+                        if (it.dragboard.hasFiles()) {
+                            fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
+                            it.consume()
+                        }
+                    }
+                }
+
                 override fun updateItem(item: CFile?, empty: Boolean) {
                     super.updateItem(item, empty)
                     if (empty) {
@@ -90,6 +105,7 @@ class MainView : Initializable {
                 }
             }
         }
+
         dropZone.setOnDragOver {
             if (it.dragboard.hasContent(DataFormat.FILES)) {
                 it.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE)
