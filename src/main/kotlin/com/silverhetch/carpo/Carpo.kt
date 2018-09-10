@@ -32,6 +32,6 @@ interface Carpo {
     /**
      * Move given file into Carpo`s workspace.
      */
-    fun addFile(file: File): CFile
+    fun addFile(files: List<File>): CFile
 
 }
