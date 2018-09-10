@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.file
 
 import com.silverhetch.carpo.tag.Tags
+import java.io.File
 
 /**
  * Represents a Carpo file.
@@ -17,7 +18,7 @@ interface CFile {
     fun tags(): Tags
 
     /**
-     * Remove this tag.
+     * Remove this [CFile].
      */
     fun remove()
 
@@ -25,4 +26,9 @@ interface CFile {
      * @return [CExecutable] object for handling the execution.
      */
     fun executable(): CExecutable
+
+    /**
+     * Add files into this [CFile]
+     */
+    fun addFile( file: List<File>)
 }

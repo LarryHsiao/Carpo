@@ -1,4 +1,4 @@
-package com.silverhetch.carpo
+package com.silverhetch.carpo.workspace
 
 import java.io.File
 import java.sql.Connection
@@ -21,4 +21,14 @@ interface Workspace {
      * The sql connection in this workspace.
      */
     fun sqlConn(): Connection
+
+    /**
+     * @return A [FilePipe] for inserting file into this workspace.
+     */
+    fun insertionPipe(): FilePipe
+
+
+    interface FilePipe {
+        fun through(source: File, target: File)
+    }
 }
