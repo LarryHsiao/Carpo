@@ -27,7 +27,7 @@ class CarpoImplTest {
                 )
             )
         ).let {
-            it.addFile(File.createTempFile("this is tempFile", ""))
+            it.addFile(listOf(File.createTempFile("this is tempFile", "")))
             assertEquals(1, it.all().size)
         }
     }
@@ -57,7 +57,7 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Tag")
 
             assertEquals(
                 newFile.name,
@@ -75,7 +75,7 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Tag")
 
             assertEquals(
                 newFile.name,
@@ -93,7 +93,7 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile)
+            it.addFile(listOf(newFile))
 
             assertEquals(
                 newFile.name,
@@ -111,12 +111,28 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Sample Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Sample Tag")
 
             assertEquals(
                 newFile.name,
                 it.byKeyword("Sample Tag")[newFile.name]!!.title()
             )
+        }
+    }
+
+    @Test
+    fun addFile_throwIfEmpty() {
+        CarpoImpl(
+            CarpoWorkspace(
+                Files.createTempDirectory("prefix").toFile()
+            )
+        ).let {
+            try{
+                it.addFile(listOf())
+                fail()
+            }catch (e: IllegalArgumentException){
+                assertTrue(true)
+            }
         }
     }
 }
