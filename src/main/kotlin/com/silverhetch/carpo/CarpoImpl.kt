@@ -36,9 +36,20 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         return mapOf()
     }
 
-    override fun addFile(file: File): CFile {
-        file.copyRecursively(File(File(workspace.rootJFile(), file.name), file.name))
-        return all()[file.name] ?: dbFiles.add(file.name)
+    override fun addFile(files: List<File>): CFile {
+        if (files.isEmpty()) {
+            throw IllegalArgumentException("The files should be at least one.")
+        }
+        val fileRoot = File(workspace.rootJFile(), files[0].name).also {
+            if (!it.exists()) {
+                it.mkdir()
+            }
+        }
+
+        files.forEach { file ->
+            file.copyRecursively(File(fileRoot, file.name))
+        }
+        return all()[fileRoot.name] ?: dbFiles.add(fileRoot.name)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {
