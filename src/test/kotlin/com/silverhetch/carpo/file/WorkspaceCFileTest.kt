@@ -27,6 +27,23 @@ class WorkspaceCFileTest {
     }
 
     @Test
+    fun fileControl_deleteFileGroup() {
+        Files.createTempDirectory("prefix").toFile().also { root ->
+            Files.createTempDirectory(root.toPath(),"prifx").toFile().let { groupRoot ->
+                File.createTempFile("prefix","", groupRoot)
+                File.createTempFile("prefix","",groupRoot)
+                WorkspaceCFile(
+                    CarpoWorkspace(
+                        root
+                    ),
+                    PhantomCFile(groupRoot.name)
+                ).remove()
+                Assert.assertFalse(groupRoot.exists())
+            }
+        }
+    }
+
+    @Test
     fun cFileDelegate() {
         WorkspaceCFile(
             CarpoWorkspace(
