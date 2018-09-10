@@ -110,7 +110,7 @@ class MainView : Initializable {
     @FXML
     private fun changePath(event: MouseEvent) {
         val chooser = DirectoryChooser()
-        chooser.title = "JavaFX Projects"
+        chooser.title = ""
         val defaultDirectory = File(System.getProperty("user.dir"))
         chooser.initialDirectory = defaultDirectory
         event.source.let { source ->

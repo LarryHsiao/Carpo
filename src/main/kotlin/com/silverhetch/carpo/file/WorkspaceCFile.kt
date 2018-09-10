@@ -17,7 +17,7 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun remove() {
-        jdkFile().delete()
+        jdkFile().deleteRecursively()
         dbcFile.remove()
     }
 
