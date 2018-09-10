@@ -2,6 +2,7 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
+import com.silverhetch.carpo.file.CFile
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Parent
@@ -9,6 +10,7 @@ import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
+import org.junit.Assert
 import org.junit.Test
 import org.testfx.assertions.api.Assertions.assertThat
 import org.testfx.framework.junit.ApplicationTest
@@ -29,13 +31,14 @@ class MainViewTest : ApplicationTest() {
 
     @Test
     fun newTagToFile() {
+        val newTagName = UUID.randomUUID().toString()
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
-        write("AutoTag").push(KeyCode.ENTER)
+        write(newTagName).push(KeyCode.ENTER)
 
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
-        ).hasListCell("AutoTag")
+        ).hasListCell(newTagName)
     }
 
     @Test
@@ -52,5 +55,29 @@ class MainViewTest : ApplicationTest() {
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
         ).hasListCell(existTagName)
+    }
+
+
+    @Test
+    fun searchWithTagName() {
+        val newTagName = UUID.randomUUID().toString()
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        clickOn(lookup("#tagName").query<JFXTextField>())
+        write(newTagName).push(KeyCode.ENTER)
+
+        clickOn(lookup("#searchKey").query<JFXTextField>())
+        write(newTagName).push(KeyCode.ENTER)
+
+        from(lookup("#fileList")).queryListView<CFile>().also {
+            Assert.assertEquals(
+                1,
+                it.items.size
+            )
+            Assert.assertEquals(
+                newTagName,
+                it.items[0].tags().all()[newTagName]!!.title()
+            )
+        }
+
     }
 }
