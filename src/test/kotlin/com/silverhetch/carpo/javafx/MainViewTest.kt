@@ -8,7 +8,6 @@ import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyCodeCombination
 import javafx.stage.Stage
 import org.junit.Assert
 import org.junit.Test
@@ -79,5 +78,29 @@ class MainViewTest : ApplicationTest() {
             )
         }
 
+    }
+
+    @Test
+    fun renameFile_checkWithSearch() {
+        val newFileName = UUID.randomUUID().toString()
+        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        sleep(200)
+        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        clickOn(lookup("#rename").query<Node>())
+        write(newFileName).push(KeyCode.ENTER)
+
+        clickOn(lookup("#searchKey").query<JFXTextField>())
+        write(newFileName).push(KeyCode.ENTER)
+
+        from(lookup("#fileList")).queryListView<CFile>().also {
+            Assert.assertEquals(
+                1,
+                it.items.size
+            )
+            Assert.assertEquals(
+                newFileName,
+                it.items[0].title()
+            )
+        }
     }
 }

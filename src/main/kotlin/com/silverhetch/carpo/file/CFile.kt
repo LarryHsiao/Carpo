@@ -23,6 +23,11 @@ interface CFile {
     fun remove()
 
     /**
+     * Rename this [CFile]
+     */
+    fun rename(newName:String)
+
+    /**
      * @return [CExecutable] object for handling the execution.
      */
     fun executable(): CExecutable
@@ -30,5 +35,5 @@ interface CFile {
     /**
      * Add files into this [CFile]
      */
-    fun addFile( file: List<File>)
+    fun addFile(file: List<File>)
 }
