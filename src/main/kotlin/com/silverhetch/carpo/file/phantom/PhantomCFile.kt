@@ -18,6 +18,10 @@ class PhantomCFile(private val title: String = "Phantom") : CFile {
         return PhantomTags()
     }
 
+    override fun rename(newName: String) {
+        // leave empty in phantom class
+    }
+
     override fun remove() {
         // leave empty in phantom class
     }

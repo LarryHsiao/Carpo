@@ -21,6 +21,11 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
         dbcFile.remove()
     }
 
+    override fun rename(newName: String) {
+        jdkFile().renameTo(File(workspace.rootJFile(), newName))
+        dbcFile.rename(newName)
+    }
+
     override fun executable(): CExecutable {
         return FileExecutable(jdkFile().toURI().toString())
     }

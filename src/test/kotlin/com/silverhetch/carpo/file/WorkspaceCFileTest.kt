@@ -12,7 +12,7 @@ import java.nio.file.Files
 
 class WorkspaceCFileTest {
     @Test
-    fun fileControl() {
+    fun fileRemove() {
         Files.createTempDirectory("prefix").toFile().also { root ->
             File.createTempFile("prifx", "", root).let { file ->
                 WorkspaceCFile(
@@ -22,6 +22,22 @@ class WorkspaceCFileTest {
                     PhantomCFile(file.name)
                 ).remove()
                 Assert.assertFalse(file.exists())
+            }
+        }
+    }
+
+
+    @Test
+    fun fileRename() {
+        Files.createTempDirectory("prefix").toFile().also { root ->
+            File.createTempFile("prifx", "", root).let { file ->
+                WorkspaceCFile(
+                    CarpoWorkspace(
+                        root
+                    ),
+                    PhantomCFile(file.name)
+                ).rename("newName")
+                Assert.assertTrue(File(root, "newName").exists())
             }
         }
     }

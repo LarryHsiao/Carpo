@@ -57,4 +57,18 @@ class DBCFileTest {
             }
         }
     }
+
+    @Test
+    fun rename() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            it.all()["filename"]!!.rename("The new Name")
+
+            assertNull(it.all()["filename"])
+        }
+    }
 }

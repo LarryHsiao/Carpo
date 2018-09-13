@@ -13,6 +13,9 @@ import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
+import javafx.scene.control.ContextMenu
+import javafx.scene.control.MenuItem
+import javafx.scene.control.TextInputDialog
 import javafx.scene.input.*
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -72,6 +75,26 @@ class MainView : Initializable {
                         if (it.dragboard.hasFiles()) {
                             fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
                             it.consume()
+                        }
+                    }
+
+                    setOnContextMenuRequested { _ ->
+                        contextMenu = ContextMenu().apply {
+                            items.addAll(
+                                MenuItem(bundle!!.getString("General.rename")).apply {
+                                    id = "rename"
+                                    setOnAction {
+                                        TextInputDialog().apply {
+                                            title = bundle.getString("General.rename")
+                                            showAndWait()
+                                            if (result.isNullOrBlank().not()) {
+                                                item.rename(result)
+                                                updateItem(item,false)
+                                            }
+                                        }
+                                    }
+                                }
+                            )
                         }
                     }
                 }
