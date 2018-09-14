@@ -77,6 +77,7 @@ class MainView : Initializable {
                     setOnDragDropped {
                         if (it.dragboard.hasFiles()) {
                             fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
+                            updateItem(item, false)
                             it.consume()
                         }
                     }
