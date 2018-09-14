@@ -87,7 +87,9 @@ class MainViewTest : ApplicationTest() {
     fun renameFile_checkWithSearch() {
         val newFileName = UUID.randomUUID().toString()
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        sleep(100)
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        sleep(100)
         clickOn(lookup("#rename").query<Node>())
         write(newFileName).push(KeyCode.ENTER)
 
