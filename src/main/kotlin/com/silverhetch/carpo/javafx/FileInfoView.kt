@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.javafx
 
+import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
@@ -7,6 +8,8 @@ import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Label
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import java.net.URL
@@ -28,6 +31,27 @@ class FileInfoView : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         tagList.items = ObservableListWrapper<String>(ArrayList<String>())
+        tagList.setCellFactory {
+            object : JFXListCell<String>() {
+                override fun updateItem(item: String?, empty: Boolean) {
+                    super.updateItem(item, empty)
+                    if (empty) {
+                        text = ""
+                        graphic = null
+                    } else {
+                        text = item
+                        graphic = ImageView(
+                            Image(
+                                javaClass.getResource("/ui/icon/tag.svg").toURI().toString(),
+                                32.0,
+                                32.0,
+                                true,
+                                true)
+                        )
+                    }
+                }
+            }
+        }
     }
 
     /**
