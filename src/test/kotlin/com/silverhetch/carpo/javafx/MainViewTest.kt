@@ -13,7 +13,10 @@ import org.junit.Assert
 import org.junit.Test
 import org.testfx.assertions.api.Assertions.assertThat
 import org.testfx.framework.junit.ApplicationTest
+import org.testfx.util.WaitForAsyncUtils
 import java.util.*
+import java.util.concurrent.Callable
+import java.util.concurrent.TimeUnit
 
 class MainViewTest : ApplicationTest() {
     private lateinit var parent: Parent
@@ -84,7 +87,6 @@ class MainViewTest : ApplicationTest() {
     fun renameFile_checkWithSearch() {
         val newFileName = UUID.randomUUID().toString()
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        sleep(200)
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#rename").query<Node>())
         write(newFileName).push(KeyCode.ENTER)
