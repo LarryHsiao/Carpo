@@ -13,6 +13,10 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private var 
         return name
     }
 
+    override fun thumbnailUrl(): String {
+        throw UnsupportedOperationException("Should create decorators to support this function")
+    }
+
     override fun tags(): Tags {
         return DBFileTags(dbConn, id)
     }

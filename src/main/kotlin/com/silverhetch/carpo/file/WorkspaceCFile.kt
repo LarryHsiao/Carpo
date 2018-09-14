@@ -2,6 +2,7 @@ package com.silverhetch.carpo.file
 
 import com.silverhetch.carpo.workspace.Workspace
 import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.util.FileImageUrl
 import java.io.File
 
 /**
@@ -10,6 +11,10 @@ import java.io.File
 class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFile) : CFile {
     override fun title(): String {
         return dbcFile.title()
+    }
+
+    override fun thumbnailUrl(): String {
+        return FileImageUrl(jdkFile(), javaClass.getResource("/ui/icon/file.svg").toString()).fetch()
     }
 
     override fun tags(): Tags {

@@ -17,6 +17,7 @@ class PhantomCFileTest {
             })
             it.tags().addTag("abc")
             it.title()
+            it.thumbnailUrl()
             it.addFile(listOf(
                 File.createTempFile("Prefix", "")
             ))

@@ -13,6 +13,11 @@ interface CFile {
     fun title(): String
 
     /**
+     * Thumbnail url
+     */
+    fun thumbnailUrl(): String
+
+    /**
      * [Tags] instance that attached to this [CFile]
      */
     fun tags(): Tags
@@ -25,7 +30,7 @@ interface CFile {
     /**
      * Rename this [CFile]
      */
-    fun rename(newName:String)
+    fun rename(newName: String)
 
     /**
      * @return [CExecutable] object for handling the execution.

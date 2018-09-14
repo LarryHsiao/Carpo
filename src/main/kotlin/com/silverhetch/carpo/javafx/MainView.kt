@@ -16,6 +16,9 @@ import javafx.scene.Node
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.TextInputDialog
+import javafx.scene.effect.ColorAdjust
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.*
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -103,9 +106,11 @@ class MainView : Initializable {
                     super.updateItem(item, empty)
                     if (empty) {
                         text = ""
+                        graphic = null
                     } else {
                         if (item != null) {
                             text = item.title()
+                            graphic = ImageView(Image(item.thumbnailUrl(), 36.0, 36.0, true, true))
                         }
                     }
                 }
