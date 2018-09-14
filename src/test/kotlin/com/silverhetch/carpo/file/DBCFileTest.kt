@@ -58,6 +58,43 @@ class DBCFileTest {
         }
     }
 
+
+
+    @Test
+    fun doNotSupportThumbnailUrl() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.thumbnailUrl()
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
+
+    @Test
+    fun doNotSupportAddFile() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.addFile(listOf())
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
     @Test
     fun rename() {
         DBFiles(SampleDataConn(
