@@ -89,7 +89,7 @@ class MainView : Initializable {
                                             showAndWait()
                                             if (result.isNullOrBlank().not()) {
                                                 item.rename(result)
-                                                updateItem(item,false)
+                                                updateItem(item, false)
                                             }
                                         }
                                     }
@@ -111,12 +111,13 @@ class MainView : Initializable {
                 }
             }
         }
+        fileList.selectionModel.selectedItemProperty().addListener { _, _, selected ->
+            selected?.also {
+                fileInfoController.loadCFile(selected)
+            }
+        }
         fileList.setOnMouseClicked {
-            if (it.clickCount == 1) {
-                fileList.selectionModel.selectedItem?.also { selected ->
-                    fileInfoController.loadCFile(selected)
-                }
-            } else if (it.clickCount == 2) {
+            if (it.clickCount == 2 && it.button == MouseButton.PRIMARY) {
                 fileList.selectionModel.selectedItem?.also { selected ->
                     selected.executable().launch(object : CExecutable.Callback {
                         override fun onFailed() {
