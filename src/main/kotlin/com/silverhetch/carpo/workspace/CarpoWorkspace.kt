@@ -43,7 +43,7 @@ class CarpoWorkspace(private val root: File) : Workspace {
 
     private class CopyFilePipe : Workspace.FilePipe{
         override fun through(source: File, target: File) {
-            source.copyRecursively(target)
+            source.renameTo(target)
         }
     }
 }
