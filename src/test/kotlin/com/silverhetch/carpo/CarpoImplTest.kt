@@ -100,6 +100,27 @@ class CarpoImplTest {
     }
 
     @Test
+    fun allFile_singleDirectory() {
+        Files.createTempDirectory("prefix").toFile().let { root ->
+            CarpoImpl(
+                CarpoWorkspace(
+                    root
+                )
+            ).let {
+                val newDirectory = Files.createTempDirectory("prefix").toFile()
+                File.createTempFile("temp1", "", newDirectory)
+                File.createTempFile("temp2", "", newDirectory)
+                it.addFile(listOf(newDirectory))
+
+                assertEquals(
+                    2,
+                    File(root, newDirectory.name).listFiles().size
+                )
+            }
+        }
+    }
+
+    @Test
     fun searchByKeyword_file() {
         CarpoImpl(
             CarpoWorkspace(
@@ -142,10 +163,10 @@ class CarpoImplTest {
                 Files.createTempDirectory("prefix").toFile()
             )
         ).let {
-            try{
+            try {
                 it.addFile(listOf())
                 fail()
-            }catch (e: IllegalArgumentException){
+            } catch (e: IllegalArgumentException) {
                 assertTrue(true)
             }
         }

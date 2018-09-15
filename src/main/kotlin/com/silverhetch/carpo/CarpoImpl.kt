@@ -41,14 +41,18 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         if (files.isEmpty()) {
             throw IllegalArgumentException("The files should be at least one.")
         }
-        val fileRoot = File(workspace.rootJFile(), files[0].name).also {
-            if (!it.exists()) {
-                it.mkdir()
-            }
-        }
+        val fileRoot = File(workspace.rootJFile(), files[0].name)
 
-        files.forEach { file ->
-            workspace.insertionPipe().through(file, File(fileRoot, file.name))
+        if (files.size == 1 && files[0].isDirectory) {
+            workspace.insertionPipe().through(files[0], File(workspace.rootJFile(), files[0].name))
+        } else {
+            if (!fileRoot.exists()) {
+                fileRoot.mkdir()
+            }
+
+            files.forEach { file ->
+                workspace.insertionPipe().through(file, File(fileRoot, file.name))
+            }
         }
         return all()[fileRoot.name] ?: dbFiles.add(fileRoot.name)
     }
