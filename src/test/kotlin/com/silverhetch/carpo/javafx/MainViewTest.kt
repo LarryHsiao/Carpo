@@ -38,6 +38,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
+        sleep(100)
 
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
@@ -50,10 +51,12 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
+        sleep(100)
 
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
+        sleep(100)
 
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
