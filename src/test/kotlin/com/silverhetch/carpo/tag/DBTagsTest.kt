@@ -37,4 +37,21 @@ class DBTagsTest {
             }
         )
     }
+
+    @Test
+    fun addTagSingleQuote() {
+        assertEquals(
+            3,
+            DBTags(
+                SampleDataConn(
+                    CarpoDbConn(
+                        InMemoryConn()
+                    )
+                ).fetch()
+            ).let {
+                it.addTag("Sample'")
+                it.all().size
+            }
+        )
+    }
 }

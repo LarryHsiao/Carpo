@@ -20,10 +20,11 @@ class DBFiles(private val dbConn: Connection) : Files {
     }
 
     override fun add(fileName: String): CFile {
-        dbConn.createStatement().use { statement ->
-            statement.executeUpdate("""
-               insert into files(name) values ('$fileName');
-            """)
+        dbConn.prepareStatement("""
+            insert into files(name) values (?);
+        """).use { statement ->
+            statement.setString(1, fileName)
+            statement.executeUpdate()
             statement.generatedKeys.use {
                 if (it.next()) {
                     return DBCFile(
@@ -39,14 +40,15 @@ class DBFiles(private val dbConn: Connection) : Files {
     }
 
     override fun byTag(tagName: String): Map<String, CFile> {
-        dbConn.createStatement().use { statement ->
-            statement.executeQuery("""
+        dbConn.prepareStatement("""
                 select files.*
                 from files
                 join tags, file_tag
-                where LOWER(tags.name) like LOWER('%$tagName%') and tags.id = file_tag.tag_id and files.id = file_tag.file_id
+                where LOWER(tags.name) like LOWER(?) and tags.id = file_tag.tag_id and files.id = file_tag.file_id
                 ;
-            """).use {
+            """).use { statement ->
+            statement.setString(1, "%$tagName%")
+            statement.executeQuery().use {
                 return FileListFactory(dbConn, it).fetch()
             }
         }
