@@ -14,16 +14,19 @@ import org.junit.Ignore
 import org.junit.Test
 import org.testfx.assertions.api.Assertions.assertThat
 import org.testfx.framework.junit.ApplicationTest
-import org.testfx.util.WaitForAsyncUtils
+import java.io.File
 import java.util.*
-import java.util.concurrent.Callable
-import java.util.concurrent.TimeUnit
 
 class MainViewTest : ApplicationTest() {
     private lateinit var parent: Parent
 
     override fun start(stage: Stage) {
         super.start(stage)
+        File(System.getProperty("user.home") + "/Playground").let {
+            if (it.exists()) {
+                it.deleteRecursively()
+            }
+        }
         parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/ui/Main.fxml"),
             ResourceBundle.getBundle("ui/i18n/default")
@@ -38,7 +41,6 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
-        sleep(100)
 
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
@@ -51,12 +53,10 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
-        sleep(100)
 
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
-        sleep(100)
 
         assertThat(
             from(lookup("#tagList")).queryListView<String>()
