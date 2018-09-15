@@ -44,7 +44,7 @@ class DBFiles(private val dbConn: Connection) : Files {
                 select files.*
                 from files
                 join tags, file_tag
-                where tags.name = '$tagName' and tags.id = file_tag.tag_id and files.id = file_tag.file_id
+                where LOWER(tags.name) like LOWER('%$tagName%') and tags.id = file_tag.tag_id and files.id = file_tag.file_id
                 ;
             """).use {
                 return FileListFactory(dbConn, it).fetch()
