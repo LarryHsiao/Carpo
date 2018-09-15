@@ -10,6 +10,7 @@ import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
+import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
@@ -128,7 +129,9 @@ class MainView : Initializable {
                     selected.executable().launch(object : CExecutable.Callback {
                         override fun onFailed() {
                             bundle?.also { bundle ->
-                                showInfo(bundle.getString("MainView.OpenFileFailed"))
+                                Platform.runLater {
+                                    showInfo(bundle.getString("MainView.OpenFileFailed"))
+                                }
                             }
                         }
                     })
