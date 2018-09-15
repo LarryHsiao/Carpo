@@ -25,6 +25,23 @@ class DBCFileTest {
     }
 
     @Test
+    fun byTagSingleQuote_checkWithSearch() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            it.all()["filename"]!!.tags().addTag("Quote'")
+            assertEquals(
+                "filename",
+                it.byTag("Quote'")["filename"]!!.title()
+            )
+        }
+    }
+
+
+    @Test
     fun remove() {
         DBFiles(SampleDataConn(
             CarpoDbConn(

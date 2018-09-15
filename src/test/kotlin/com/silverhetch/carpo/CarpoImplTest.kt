@@ -34,6 +34,20 @@ class CarpoImplTest {
     }
 
     @Test
+    fun newFileSingleQuote() {
+        CarpoImpl(
+            CarpoWorkspace(
+                File(
+                    Files.createTempDirectory("tempFile").toUri()
+                )
+            )
+        ).let {
+            it.addFile(listOf(File.createTempFile("this is tempFile'", "")))
+            assertEquals(1, it.all().size)
+        }
+    }
+
+    @Test
     fun workspace() {
         CarpoWorkspace(
             File(
