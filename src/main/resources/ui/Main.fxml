@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?><?import javafx.scene.control.Tab?>
 <HBox xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:id="rootPane"
@@ -25,8 +25,15 @@
                 text="%General.search" />
         </HBox>
 
-        <JFXListView fx:id="fileList"
-            VBox.vgrow="ALWAYS" />
+        <JFXTabPane VBox.vgrow="ALWAYS">
+            <Tab text="%MainView.tabFileList">
+                <fx:include fx:id="fileList"
+                    source="FileList.fxml" />
+            </Tab>
+            <Tab text="%MainView.tabTagList">
+
+            </Tab>
+        </JFXTabPane>
     </VBox>
     <fx:include source="FileInfo.fxml"
         HBox.hgrow="ALWAYS"

@@ -14,9 +14,9 @@ class FileExecutable(private val uri: String) : CExecutable {
             Thread {
                 try {
                     File(URI.create(uri)).also { targetFile ->
-                        if (targetFile.isDirectory && targetFile.listFiles().size == 1){
+                        if (targetFile.isDirectory && targetFile.listFiles().size == 1) {
                             Desktop.getDesktop().open(targetFile.listFiles()[0])
-                        }else {
+                        } else {
                             Desktop.getDesktop().open(targetFile)
                         }
                     }

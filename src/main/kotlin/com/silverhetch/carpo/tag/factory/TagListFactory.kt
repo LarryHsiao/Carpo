@@ -1,7 +1,7 @@
 package com.silverhetch.carpo.tag.factory
 
-import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.DBTag
+import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.clotho.Source
 import java.sql.Connection
 import java.sql.ResultSet
