@@ -7,7 +7,6 @@ import com.silverhetch.carpo.file.CFile
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
@@ -23,7 +22,7 @@ class FileInfoView : Initializable {
     @FXML
     private lateinit var tagList: JFXListView<String>
     @FXML
-    private lateinit var fileInfo: Label
+    private lateinit var fileName: JFXTextField
     @FXML
     private lateinit var tagName: JFXTextField
 
@@ -63,7 +62,7 @@ class FileInfoView : Initializable {
     }
 
     private fun updateUI() {
-        fileInfo.text = cfile.title()
+        fileName.text = cfile.title()
         tagName.text = ""
         with(tagList.items) {
             clear()
