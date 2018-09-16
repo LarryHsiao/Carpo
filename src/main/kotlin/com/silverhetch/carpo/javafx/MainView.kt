@@ -1,26 +1,14 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXSnackbar
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.workspace.CarpoWorkspace
-import com.silverhetch.carpo.file.CExecutable
-import com.silverhetch.carpo.file.CFile
-import com.silverhetch.carpo.file.comparetor.FileNameComparator
-import com.silverhetch.clotho.utility.comparator.StringComparator
-import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.MenuItem
-import javafx.scene.control.TextInputDialog
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
 import javafx.scene.input.*
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -39,14 +27,14 @@ class MainView : Initializable {
     @FXML
     private lateinit var dropZone: VBox
     @FXML
-    private lateinit var fileList: JFXListView<CFile>
-    @FXML
     private lateinit var currentPath: JFXTextField
     @FXML
     private lateinit var searchKey: JFXTextField
     @FXML
+    private lateinit var fileListController: FileListView
+    @FXML
     private lateinit var fileInfoController: FileInfoView
-
+    @FXML
     private lateinit var snackbar: JFXSnackbar
 
     private var carpo: Carpo = CarpoImpl(
@@ -66,81 +54,15 @@ class MainView : Initializable {
 
 
     override fun initialize(p0: URL?, bundle: ResourceBundle?) {
-        fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
-        fileList.setCellFactory { _ ->
-            object : JFXListCell<CFile>() {
-
-                init {
-                    setOnDragEntered {
-                        fileList.selectionModel.select(item)
-                        it.consume()
-                    }
-
-                    setOnDragDropped {
-                        if (it.dragboard.hasFiles()) {
-                            fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
-                            updateItem(item, false)
-                            it.consume()
-                        }
-                    }
-
-                    setOnContextMenuRequested { _ ->
-                        contextMenu = ContextMenu().apply {
-                            items.addAll(
-                                MenuItem(bundle!!.getString("General.rename")).apply {
-                                    id = "rename"
-                                    setOnAction {
-                                        TextInputDialog().apply {
-                                            this.headerText = bundle.getString("General.rename.hint")
-                                            title = bundle.getString("General.rename")
-                                            showAndWait()
-                                            if (result.isNullOrBlank().not()) {
-                                                item.rename(result)
-                                                updateItem(item, false)
-                                            }
-                                        }
-                                    }
-                                }
-                            )
-                        }
-                    }
-                }
-
-                override fun updateItem(item: CFile?, empty: Boolean) {
-                    super.updateItem(item, empty)
-                    if (empty) {
-                        text = ""
-                        graphic = null
-                    } else {
-                        if (item != null) {
-                            text = item.title()
-                            graphic = ImageView(Image(item.thumbnailUrl(), 36.0, 36.0, true, true))
-                        }
-                    }
+        snackbar = JFXSnackbar(rootPane)
+        fileListController.setup(snackbar)
+        fileListController.selectionModel().selectedItemProperty().addListener { _, _, selected ->
+            selected.also {
+                selected?.also { selected ->
+                    fileInfoController.loadCFile(selected)
                 }
             }
         }
-        fileList.selectionModel.selectedItemProperty().addListener { _, _, selected ->
-            selected?.also {
-                fileInfoController.loadCFile(selected)
-            }
-        }
-        fileList.setOnMouseClicked {
-            if (it.clickCount == 2 && it.button == MouseButton.PRIMARY) {
-                fileList.selectionModel.selectedItem?.also { selected ->
-                    selected.executable().launch(object : CExecutable.Callback {
-                        override fun onFailed() {
-                            bundle?.also { bundle ->
-                                Platform.runLater {
-                                    showInfo(bundle.getString("MainView.OpenFileFailed"))
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-        }
-
         dropZone.setOnDragOver {
             if (it.dragboard.hasContent(DataFormat.FILES)) {
                 it.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE)
@@ -150,8 +72,7 @@ class MainView : Initializable {
         dropZone.setOnDragDropped { event ->
             if (event.dragboard.hasContent(DataFormat.FILES)) {
                 carpo.addFile(event.dragboard.files).also {
-                    fileList.items.add(it)
-                    fileList.selectionModel.select(it)
+                    fileListController.appendCFile(it)
                 }
             }
             event.isDropCompleted = true
@@ -182,27 +103,12 @@ class MainView : Initializable {
 
     @FXML
     private fun searchByKey() {
-        updateFileList(carpo.byKeyword(searchKey.text))
+        fileListController.loadList(carpo.byKeyword(searchKey.text))
     }
 
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
-        updateFileList(carpo.all())
-    }
-
-    private fun updateFileList(maps: Map<String, CFile>) {
-        with(fileList.items) {
-            maps.values.let { collections ->
-                clear()
-                addAll(
-                    collections.sortedWith(
-                        FileNameComparator(
-                            StringComparator()
-                        )
-                    )
-                )
-            }
-        }
+        fileListController.loadList(carpo.all())
     }
 
     @FXML
@@ -213,9 +119,8 @@ class MainView : Initializable {
     }
 
     private fun showInfo(message: String) {
-        if (!::snackbar.isInitialized) {
-            snackbar = JFXSnackbar(rootPane)
+        Platform.runLater {
+            snackbar.enqueue(JFXSnackbar.SnackbarEvent(message))
         }
-        snackbar.enqueue(JFXSnackbar.SnackbarEvent(message))
     }
 }
