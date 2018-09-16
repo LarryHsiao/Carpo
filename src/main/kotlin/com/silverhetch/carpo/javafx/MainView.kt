@@ -90,6 +90,7 @@ class MainView : Initializable {
                                     id = "rename"
                                     setOnAction {
                                         TextInputDialog().apply {
+                                            this.headerText = bundle.getString("General.rename.hint")
                                             title = bundle.getString("General.rename")
                                             showAndWait()
                                             if (result.isNullOrBlank().not()) {
