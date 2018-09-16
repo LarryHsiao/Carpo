@@ -9,6 +9,8 @@ import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.file.comparetor.FileNameComparator
+import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
 import javafx.fxml.FXML
@@ -17,7 +19,6 @@ import javafx.scene.Node
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.TextInputDialog
-import javafx.scene.effect.ColorAdjust
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.*
@@ -193,7 +194,13 @@ class MainView : Initializable {
         with(fileList.items) {
             maps.values.let { collections ->
                 clear()
-                addAll(collections)
+                addAll(
+                    collections.sortedWith(
+                        FileNameComparator(
+                            StringComparator()
+                        )
+                    )
+                )
             }
         }
     }
