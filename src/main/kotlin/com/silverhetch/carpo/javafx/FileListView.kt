@@ -8,6 +8,7 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
+import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.ContextMenu
@@ -88,7 +89,9 @@ class FileListView : Initializable {
                         override fun onFailed() {
                             bundle?.also { bundle ->
                                 if (::infoBar.isInitialized) {
-                                    infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
+                                    Platform.runLater {
+                                        infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
+                                    }
                                 }
                             }
                         }
