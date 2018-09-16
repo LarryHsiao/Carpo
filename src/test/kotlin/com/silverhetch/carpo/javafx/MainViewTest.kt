@@ -3,16 +3,16 @@ package com.silverhetch.carpo.javafx
 import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.tag.Tag
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.stage.Stage
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Ignore
 import org.junit.Test
-import org.testfx.assertions.api.Assertions.assertThat
 import org.testfx.framework.junit.ApplicationTest
 import java.io.File
 import java.util.*
@@ -41,12 +41,23 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
+        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+            assertEquals(
+                newTagName,
+                tagList.items[0].title()
+            )
+            assertEquals(
+                1,
+                tagList.items.size
+            )
+        }
 
-        assertThat(
-            from(lookup("#tagList")).queryListView<String>()
-        ).hasListCell(newTagName)
     }
 
+    /**
+     * When: Insert same name tag twice.
+     * Expected: Should have only one tag exist.
+     */
     @Test
     fun existTagToFile() {
         val existTagName = UUID.randomUUID().toString()
@@ -58,9 +69,16 @@ class MainViewTest : ApplicationTest() {
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
 
-        assertThat(
-            from(lookup("#tagList")).queryListView<String>()
-        ).hasListCell(existTagName)
+        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+            assertEquals(
+                existTagName,
+                tagList.items[0].title()
+            )
+            assertEquals(
+                1,
+                tagList.items.size
+            )
+        }
     }
 
 
@@ -75,11 +93,11 @@ class MainViewTest : ApplicationTest() {
         write(newTagName).push(KeyCode.ENTER)
 
         from(lookup("#fileList")).queryListView<CFile>().also {
-            Assert.assertEquals(
+            assertEquals(
                 1,
                 it.items.size
             )
-            Assert.assertEquals(
+            assertEquals(
                 newTagName,
                 it.items[0].tags().all()[newTagName]!!.title()
             )
@@ -100,11 +118,11 @@ class MainViewTest : ApplicationTest() {
         write(newFileName).push(KeyCode.ENTER)
 
         from(lookup("#fileList")).queryListView<CFile>().also {
-            Assert.assertEquals(
+            assertEquals(
                 1,
                 it.items.size
             )
-            Assert.assertEquals(
+            assertEquals(
                 newFileName,
                 it.items[0].title()
             )
