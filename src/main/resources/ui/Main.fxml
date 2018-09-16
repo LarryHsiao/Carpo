@@ -7,7 +7,7 @@
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <VBox fx:id="dropZone"
         prefHeight="350.0"
-        prefWidth="250.0">
+        prefWidth="768.0">
         <HBox style="-fx-padding: 0 0 16 0">
             <JFXTextField fx:id="currentPath"
                 maxWidth="Infinity"
@@ -30,7 +30,7 @@
     </VBox>
     <fx:include source="FileInfo.fxml"
         HBox.hgrow="ALWAYS"
-        prefWidth="600"
+        prefWidth="450"
         style="-fx-padding: 0 0 0 16"
         fx:id="fileInfo" />
 </HBox>
