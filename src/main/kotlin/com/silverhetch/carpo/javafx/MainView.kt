@@ -147,8 +147,10 @@ class MainView : Initializable {
         }
         dropZone.setOnDragDropped { event ->
             if (event.dragboard.hasContent(DataFormat.FILES)) {
-                carpo.addFile(event.dragboard.files)
-                reloadUI()
+                carpo.addFile(event.dragboard.files).also {
+                    fileList.items.add(it)
+                    fileList.selectionModel.select(it)
+                }
             }
             event.isDropCompleted = true
             event.consume()
