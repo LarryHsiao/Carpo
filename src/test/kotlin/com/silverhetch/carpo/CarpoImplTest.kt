@@ -1,5 +1,6 @@
 package com.silverhetch.carpo
 
+import com.silverhetch.carpo.workspace.CarpoWorkspace
 import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
@@ -27,7 +28,21 @@ class CarpoImplTest {
                 )
             )
         ).let {
-            it.addFile(File.createTempFile("this is tempFile", ""))
+            it.addFile(listOf(File.createTempFile("this is tempFile", "")))
+            assertEquals(1, it.all().size)
+        }
+    }
+
+    @Test
+    fun newFileSingleQuote() {
+        CarpoImpl(
+            CarpoWorkspace(
+                File(
+                    Files.createTempDirectory("tempFile").toUri()
+                )
+            )
+        ).let {
+            it.addFile(listOf(File.createTempFile("this is tempFile'", "")))
             assertEquals(1, it.all().size)
         }
     }
@@ -57,7 +72,7 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Tag")
 
             assertEquals(
                 newFile.name,
@@ -75,12 +90,33 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Tag")
 
             assertEquals(
                 newFile.name,
                 it.all()[newFile.name]!!.title()
             )
+        }
+    }
+
+    @Test
+    fun allFile_singleDirectory() {
+        Files.createTempDirectory("prefix").toFile().let { root ->
+            CarpoImpl(
+                CarpoWorkspace(
+                    root
+                )
+            ).let {
+                val newDirectory = Files.createTempDirectory("prefix").toFile()
+                File.createTempFile("temp1", "", newDirectory)
+                File.createTempFile("temp2", "", newDirectory)
+                it.addFile(listOf(newDirectory))
+
+                assertEquals(
+                    2,
+                    File(root, newDirectory.name).listFiles().size
+                )
+            }
         }
     }
 
@@ -93,7 +129,7 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile)
+            it.addFile(listOf(newFile))
 
             assertEquals(
                 newFile.name,
@@ -111,12 +147,28 @@ class CarpoImplTest {
         ).let {
             /**Sample data*/
             val newFile = File.createTempFile("prefix", "")
-            it.addFile(newFile).tags().addTag("Sample Tag")
+            it.addFile(listOf(newFile)).tags().addTag("Sample Tag")
 
             assertEquals(
                 newFile.name,
                 it.byKeyword("Sample Tag")[newFile.name]!!.title()
             )
+        }
+    }
+
+    @Test
+    fun addFile_throwIfEmpty() {
+        CarpoImpl(
+            CarpoWorkspace(
+                Files.createTempDirectory("prefix").toFile()
+            )
+        ).let {
+            try {
+                it.addFile(listOf())
+                fail()
+            } catch (e: IllegalArgumentException) {
+                assertTrue(true)
+            }
         }
     }
 }

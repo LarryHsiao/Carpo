@@ -4,6 +4,9 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.DBFiles
 import com.silverhetch.carpo.file.Files
 import com.silverhetch.carpo.file.WorkspaceCFile
+import com.silverhetch.carpo.tag.DBTags
+import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**
@@ -36,9 +39,28 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
         return mapOf()
     }
 
-    override fun addFile(file: File): CFile {
-        file.renameTo(File(workspace.rootJFile(), file.name))
-        return dbFiles.add(file.name)
+    override fun tags(): Tags {
+        return DBTags(workspace.sqlConn())
+    }
+
+    override fun addFile(files: List<File>): CFile {
+        if (files.isEmpty()) {
+            throw IllegalArgumentException("The files should be at least one.")
+        }
+        val fileRoot = File(workspace.rootJFile(), files[0].name)
+
+        if (files.size == 1 && files[0].isDirectory) {
+            workspace.insertionPipe().through(files[0], File(workspace.rootJFile(), files[0].name))
+        } else {
+            if (!fileRoot.exists()) {
+                fileRoot.mkdir()
+            }
+
+            files.forEach { file ->
+                workspace.insertionPipe().through(file, File(fileRoot, file.name))
+            }
+        }
+        return all()[fileRoot.name] ?: dbFiles.add(fileRoot.name)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {

@@ -22,12 +22,11 @@ class DBTags(private val dbConn: Connection) : Tags {
     }
 
     override fun addTag(name: String): Tag {
-        dbConn.createStatement().use { statement ->
-            statement.execute(
-                """
-                    insert into tags(name) values ('$name')
-                """
-            )
+        dbConn.prepareStatement("""
+            insert into tags(name) values (?)
+        """).use { statement ->
+            statement.setString(1, name)
+            statement.executeUpdate()
             statement.generatedKeys.use {
                 if (it.next()) {
                     return DBTag(

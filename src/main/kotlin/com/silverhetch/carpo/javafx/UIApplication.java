@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -21,6 +22,9 @@ public class UIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.getIcons().add(
+                new Image(getClass().getResource("/ui/icon/alpha-c-box.svg").toString())
+        );
         setUserAgentStylesheet(Application.STYLESHEET_MODENA);
         StyleManager.getInstance().addUserAgentStylesheet(
                 getClass().getResource("/ui/css/General.css").toURI().toString()

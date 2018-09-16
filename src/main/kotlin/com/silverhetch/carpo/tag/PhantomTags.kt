@@ -8,7 +8,7 @@ class PhantomTags : Tags {
         return mapOf()
     }
 
-    override fun addTag(name: String):Tag {
+    override fun addTag(name: String): Tag {
         return PhantomTag()
     }
 }
