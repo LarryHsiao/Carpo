@@ -22,20 +22,14 @@ import java.util.*
  * Controls drop zone view.
  */
 class MainView : Initializable {
-    @FXML
-    private lateinit var rootPane: HBox
-    @FXML
-    private lateinit var dropZone: VBox
-    @FXML
-    private lateinit var currentPath: JFXTextField
-    @FXML
-    private lateinit var searchKey: JFXTextField
-    @FXML
-    private lateinit var fileListController: FileListView
-    @FXML
-    private lateinit var fileInfoController: FileInfoView
-    @FXML
-    private lateinit var snackbar: JFXSnackbar
+    @FXML private lateinit var rootPane: HBox
+    @FXML private lateinit var dropZone: VBox
+    @FXML private lateinit var currentPath: JFXTextField
+    @FXML private lateinit var searchKey: JFXTextField
+    @FXML private lateinit var tagListController: TagListView
+    @FXML private lateinit var fileListController: FileListView
+    @FXML private lateinit var fileInfoController: FileInfoView
+    @FXML private lateinit var snackbar: JFXSnackbar
 
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
@@ -109,18 +103,13 @@ class MainView : Initializable {
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
         fileListController.loadList(carpo.all())
+        tagListController.loadTags(carpo.tags().all())
     }
 
     @FXML
     private fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
         if (keyEvent.code == KeyCode.ENTER) {
             searchByKey()
-        }
-    }
-
-    private fun showInfo(message: String) {
-        Platform.runLater {
-            snackbar.enqueue(JFXSnackbar.SnackbarEvent(message))
         }
     }
 }

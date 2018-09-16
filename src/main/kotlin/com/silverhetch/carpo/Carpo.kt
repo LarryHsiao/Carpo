@@ -1,6 +1,7 @@
 package com.silverhetch.carpo
 
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.tag.Tags
 import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
@@ -19,6 +20,11 @@ interface Carpo {
      * @return map key: The file title, map value: the [CFile] instance.
      */
     fun all(): Map<String, CFile>
+
+    /**
+     * All records of [Tags] object in Carpo
+     */
+    fun tags(): Tags
 
     /**
      * List all of file that has given tag.
