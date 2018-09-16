@@ -17,7 +17,8 @@
             onMouseClicked="#createTag" />
     </HBox>
 
-    <JFXListView VBox.vgrow="ALWAYS"
+    <fx:include VBox.vgrow="ALWAYS"
+        source="TagList.fxml"
         maxWidth="Infinity"
         fx:id="tagList" />
 </VBox>

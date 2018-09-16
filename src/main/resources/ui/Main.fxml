@@ -31,7 +31,8 @@
                     source="FileList.fxml" />
             </Tab>
             <Tab text="%MainView.tabTagList">
-
+                <fx:include source="TagList.fxml"
+                    fx:id="tagList" />
             </Tab>
         </JFXTabPane>
     </VBox>
