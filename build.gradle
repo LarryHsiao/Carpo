@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'org.sonarqube' version '2.6.2'
+    id "no.tornado.fxlauncher" version "1.0.20"
 }
 
 apply plugin: 'application'
@@ -16,7 +17,7 @@ sourceSets {
 }
 
 group 'com.silverhetch'
-version '1.0.' + "${(int) (new Date().getTime() / 300000)}"
+version '1.0.SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -62,4 +63,12 @@ sonarqube {
         property "sonar.junit.reportPaths", "${project.buildDir}/test-results/test"
     }
 
+}
+
+fxlauncher {
+    applicationVendor 'SilverHetch'
+    applicationUrl 'https://silverhetch.com:12000'
+    applicationMainClass 'com.silverhetch.carpo.javafx.UIApplication'
+    acceptDowngrade false
+    deployTarget 'larryhsiao@silverhetch.com:CarpoDeployment'
 }
