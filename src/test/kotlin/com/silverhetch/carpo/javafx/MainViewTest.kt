@@ -11,6 +11,7 @@ import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.stage.Stage
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
@@ -37,18 +38,22 @@ class MainViewTest : ApplicationTest() {
 
     @Test
     fun newTagToFile() {
-        val newTagName = "new Tag"+ UUID.randomUUID().toString().substring(0,7)
+        val newTagName = "new Tag" + UUID.randomUUID().toString().substring(0, 7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
         from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
-            assertEquals(
-                newTagName,
-                tagList.items[0].title()
-            )
-            assertEquals(
-                1,
-                tagList.items.size
+            assertTrue(
+                tagList.items.let { list ->
+                    var exist = false
+                    for (tag in list) {
+                        if (tag.title() == newTagName) {
+                            exist = true
+                            break
+                        }
+                    }
+                    exist
+                }
             )
         }
 
@@ -60,7 +65,7 @@ class MainViewTest : ApplicationTest() {
      */
     @Test
     fun existTagToFile() {
-        val existTagName = "exist tag" + UUID.randomUUID().toString().substring(0,7)
+        val existTagName = "exist tag" + UUID.randomUUID().toString().substring(0, 7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
@@ -71,12 +76,16 @@ class MainViewTest : ApplicationTest() {
 
         from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
             assertEquals(
-                existTagName,
-                tagList.items[0].title()
-            )
-            assertEquals(
                 1,
-                tagList.items.size
+                tagList.items.let { list ->
+                    var exist = 0
+                    for (tag in list) {
+                        if (tag.title() == existTagName) {
+                            exist++
+                        }
+                    }
+                    exist
+                }
             )
         }
     }
@@ -84,7 +93,7 @@ class MainViewTest : ApplicationTest() {
 
     @Test
     fun searchWithTagName() {
-        val newTagName = "search with tag name "+ UUID.randomUUID().toString().substring(0,7)
+        val newTagName = "search with tag name " + UUID.randomUUID().toString().substring(0, 7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
