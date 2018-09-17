@@ -48,7 +48,6 @@ class MainView : Initializable {
         )
     )
 
-
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
         snackbar = JFXSnackbar(rootPane)
         fileListController.setup(snackbar)
@@ -87,6 +86,10 @@ class MainView : Initializable {
             }
 
         })
+        listTabPane.selectionModel.selectedIndexProperty().addListener { _, _, _ ->
+            searchKey.text = ""
+            reloadUI()
+        }
         reloadUI()
     }
 
@@ -109,6 +112,7 @@ class MainView : Initializable {
             }
         }
     }
+
 
     @FXML
     private fun searchByKey() {
