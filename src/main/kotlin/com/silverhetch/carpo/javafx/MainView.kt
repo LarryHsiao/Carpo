@@ -18,6 +18,10 @@ import javafx.stage.DirectoryChooser
 import java.io.File
 import java.net.URL
 import java.util.*
+import javafx.scene.Scene
+import javafx.stage.Stage
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
 
 
 /**
@@ -76,10 +80,18 @@ class MainView : Initializable {
         }
         tagListController.setEvents(object : TagListView.Events {
             override fun onTagDoubleClicked(tag: Tag) {
-                searchKey.text = tag.title()
-                searchByKey()
-                listTabPane.selectionModel.selectFirst() // which is fileList
 
+                val stage = Stage()
+                stage.title = tag.title()
+                stage.scene = Scene(
+                    FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let{
+                        it.resources = bundle
+                        it.load<Parent>().also { parent->
+                            it.getController<TagOverviewView>().loadTag(tag)
+                        }
+                    }
+                )
+                stage.show()
             }
 
             override fun onTagSelected(tag: Tag) {

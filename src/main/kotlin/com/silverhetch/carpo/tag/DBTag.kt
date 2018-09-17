@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.tag
 
+import com.silverhetch.carpo.file.Files
 import java.sql.Connection
 
 /**
@@ -12,5 +13,9 @@ class DBTag(private val db: Connection, private val id: Long, private val name: 
 
     override fun title(): String {
         return name
+    }
+
+    override fun files(): Files {
+        TODO()
     }
 }
