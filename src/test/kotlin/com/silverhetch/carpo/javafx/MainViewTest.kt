@@ -37,7 +37,7 @@ class MainViewTest : ApplicationTest() {
 
     @Test
     fun newTagToFile() {
-        val newTagName = UUID.randomUUID().toString()
+        val newTagName = "new Tag"+ UUID.randomUUID().toString().substring(0,7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
@@ -60,7 +60,7 @@ class MainViewTest : ApplicationTest() {
      */
     @Test
     fun existTagToFile() {
-        val existTagName = UUID.randomUUID().toString()
+        val existTagName = "exist tag" + UUID.randomUUID().toString().substring(0,7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
@@ -84,7 +84,7 @@ class MainViewTest : ApplicationTest() {
 
     @Test
     fun searchWithTagName() {
-        val newTagName = UUID.randomUUID().toString()
+        val newTagName = "search with tag name "+ UUID.randomUUID().toString().substring(0,7)
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
