@@ -90,7 +90,7 @@ class FileListView : Initializable {
                 fileList.selectionModel.selectedItem?.also { selected ->
                     selected.executable().launch(object : CExecutable.Callback {
                         override fun onFailed() {
-                            bundle?.also { bundle ->
+                            bundle.also { bundle ->
                                 if (::infoBar.isInitialized) {
                                     Platform.runLater {
                                         infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))

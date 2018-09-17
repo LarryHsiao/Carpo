@@ -7,6 +7,7 @@ import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
+import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
@@ -35,7 +36,7 @@ class MainView : Initializable {
 
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(System.getProperty("user.home") + "/Playground").also {
+            DefaultWorkspaceFile().fetch().also {
                 if (it.exists().not()) {
                     it.mkdir()
                 }
@@ -84,7 +85,6 @@ class MainView : Initializable {
             override fun onTagSelected(tag: Tag) {
                 // do nothing for  now
             }
-
         })
         listTabPane.selectionModel.selectedIndexProperty().addListener { _, _, _ ->
             searchKey.text = ""
