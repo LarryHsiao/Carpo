@@ -1,11 +1,12 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXSnackbar
+import com.jfoenix.controls.JFXTabPane
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
-import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
@@ -26,6 +27,7 @@ class MainView : Initializable {
     @FXML private lateinit var dropZone: VBox
     @FXML private lateinit var currentPath: JFXTextField
     @FXML private lateinit var searchKey: JFXTextField
+    @FXML private lateinit var listTabPane: JFXTabPane
     @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
@@ -72,6 +74,19 @@ class MainView : Initializable {
             event.isDropCompleted = true
             event.consume()
         }
+        tagListController.setEvents(object : TagListView.Events {
+            override fun onTagDoubleClicked(tag: Tag) {
+                searchKey.text = tag.title()
+                searchByKey()
+                listTabPane.selectionModel.selectFirst() // which is fileList
+
+            }
+
+            override fun onTagSelected(tag: Tag) {
+                // do nothing for  now
+            }
+
+        })
         reloadUI()
     }
 
@@ -97,8 +112,7 @@ class MainView : Initializable {
 
     @FXML
     private fun searchByKey() {
-        tagListController.loadTags(carpo.tags().byName(searchKey.text
-        ))
+        tagListController.loadTags(carpo.tags().byName(searchKey.text))
         fileListController.loadList(carpo.byKeyword(searchKey.text))
     }
 
