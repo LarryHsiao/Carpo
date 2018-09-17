@@ -21,13 +21,16 @@ import javafx.scene.input.MouseButton
 import java.net.URL
 import java.util.*
 
+/**
+ * Represent list with given [CFile]
+ */
 class FileListView : Initializable {
     @FXML
     private lateinit var fileList: JFXListView<CFile>
     @FXML
     private lateinit var infoBar: JFXSnackbar
 
-    override fun initialize(location: URL?, bundle: ResourceBundle?) {
+    override fun initialize(location: URL?, bundle: ResourceBundle) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
@@ -49,7 +52,7 @@ class FileListView : Initializable {
                     setOnContextMenuRequested { _ ->
                         contextMenu = ContextMenu().apply {
                             items.addAll(
-                                MenuItem(bundle!!.getString("General.rename")).apply {
+                                MenuItem(bundle.getString("General.rename")).apply {
                                     id = "rename"
                                     setOnAction {
                                         TextInputDialog().apply {

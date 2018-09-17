@@ -27,8 +27,14 @@ interface Workspace {
      */
     fun insertionPipe(): FilePipe
 
-
+    /**
+     * A pipe that outsource file should be through with.
+     */
     interface FilePipe {
+        /**
+         * @param source the outsource file.
+         * @param target the target file in workspace tree.
+         */
         fun through(source: File, target: File)
     }
 }
