@@ -6,4 +6,4 @@ branches:
   only:
     - master
 build_script:
-  - gradlew build
+  - gradlew build --info
