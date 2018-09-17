@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?><?import javafx.scene.layout.*?><?import javafx.scene.control.Tab?>
 <HBox xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="rootPane"
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <VBox fx:id="dropZone"
         prefHeight="350.0"
-        prefWidth="250.0">
+        prefWidth="768.0">
         <HBox style="-fx-padding: 0 0 16 0">
             <JFXTextField fx:id="currentPath"
                 maxWidth="Infinity"
@@ -24,12 +25,20 @@
                 text="%General.search" />
         </HBox>
 
-        <JFXListView fx:id="fileList"
-            VBox.vgrow="ALWAYS" />
+        <JFXTabPane VBox.vgrow="ALWAYS">
+            <Tab text="%MainView.tabFileList">
+                <fx:include fx:id="fileList"
+                    source="FileList.fxml" />
+            </Tab>
+            <Tab text="%MainView.tabTagList">
+                <fx:include source="TagList.fxml"
+                    fx:id="tagList" />
+            </Tab>
+        </JFXTabPane>
     </VBox>
     <fx:include source="FileInfo.fxml"
         HBox.hgrow="ALWAYS"
-        prefWidth="600"
+        prefWidth="450"
         style="-fx-padding: 0 0 0 16"
         fx:id="fileInfo" />
 </HBox>

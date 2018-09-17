@@ -22,12 +22,11 @@ class DBTags(private val dbConn: Connection) : Tags {
     }
 
     override fun addTag(name: String): Tag {
-        dbConn.createStatement().use { statement ->
-            statement.execute(
-                """
-                    insert into tags(name) values ('$name')
-                """
-            )
+        dbConn.prepareStatement("""
+            insert into tags(name) values (?)
+        """).use { statement ->
+            statement.setString(1, name)
+            statement.executeUpdate()
             statement.generatedKeys.use {
                 if (it.next()) {
                     return DBTag(
@@ -38,6 +37,19 @@ class DBTags(private val dbConn: Connection) : Tags {
                 } else {
                     throw SQLException("insert new tag failed")
                 }
+            }
+        }
+    }
+
+    override fun byName(name: String): Map<String, Tag> {
+        dbConn.prepareStatement("""
+                    select *
+                    from tags
+                    where name like LOWER(?);
+                  """).use { statement ->
+            statement.setString(1, "%$name%")
+            statement.executeQuery().use {
+                return TagListFactory(dbConn, it).fetch()
             }
         }
     }

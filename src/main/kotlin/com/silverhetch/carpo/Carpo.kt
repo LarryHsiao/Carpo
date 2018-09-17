@@ -1,6 +1,8 @@
 package com.silverhetch.carpo
 
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**
@@ -20,6 +22,11 @@ interface Carpo {
     fun all(): Map<String, CFile>
 
     /**
+     * All records of [Tags] object in Carpo
+     */
+    fun tags(): Tags
+
+    /**
      * List all of file that has given tag.
      */
     fun byTag(tag: String): Map<String, CFile>
@@ -32,6 +39,6 @@ interface Carpo {
     /**
      * Move given file into Carpo`s workspace.
      */
-    fun addFile(file: File): CFile
+    fun addFile(files: List<File>): CFile
 
 }

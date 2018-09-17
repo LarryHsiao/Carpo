@@ -3,7 +3,7 @@ package com.silverhetch.carpo.tag
 import com.silverhetch.carpo.database.connection.CarpoDbConn
 import com.silverhetch.carpo.database.connection.SampleDataConn
 import com.silverhetch.clotho.database.sqlite.InMemoryConn
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class DBTagsTest {
@@ -34,6 +34,40 @@ class DBTagsTest {
             ).let {
                 it.addTag("Sample")
                 it.all().size
+            }
+        )
+    }
+
+    @Test
+    fun addTagSingleQuote() {
+        assertEquals(
+            3,
+            DBTags(
+                SampleDataConn(
+                    CarpoDbConn(
+                        InMemoryConn()
+                    )
+                ).fetch()
+            ).let {
+                it.addTag("Sample'")
+                it.all().size
+            }
+        )
+    }
+
+    @Test
+    fun byTagTest() {
+        assertEquals(
+            1,
+            DBTags(
+                SampleDataConn(
+                    CarpoDbConn(
+                        InMemoryConn()
+                    )
+                ).fetch()
+            ).let {
+                it.addTag("newTag'")
+                it.byName("newTag").size
             }
         )
     }

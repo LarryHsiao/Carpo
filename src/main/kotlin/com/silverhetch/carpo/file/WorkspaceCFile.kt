@@ -1,15 +1,20 @@
 package com.silverhetch.carpo.file
 
-import com.silverhetch.carpo.Workspace
 import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.util.FileImageUrl
+import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**
- * [CFile] that implemented with database and file system.
+ * Decorator that operates changes to file system.
  */
 class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFile) : CFile {
     override fun title(): String {
         return dbcFile.title()
+    }
+
+    override fun thumbnailUrl(): String {
+        return FileImageUrl(jdkFile(), javaClass.getResource("/ui/icon/file.svg").toString()).fetch()
     }
 
     override fun tags(): Tags {
@@ -17,7 +22,26 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun remove() {
-        File(workspace.rootJFile(), dbcFile.title()).delete()
+        jdkFile().deleteRecursively()
         dbcFile.remove()
+    }
+
+    override fun rename(newName: String) {
+        jdkFile().renameTo(File(workspace.rootJFile(), newName))
+        dbcFile.rename(newName)
+    }
+
+    override fun executable(): CExecutable {
+        return FileExecutable(jdkFile().toURI().toString())
+    }
+
+    override fun addFile(file: List<File>) {
+        file.forEach {
+            workspace.insertionPipe().through(it, File(jdkFile(), it.name))
+        }
+    }
+
+    private fun jdkFile(): File {
+        return File(workspace.rootJFile(), dbcFile.title())
     }
 }

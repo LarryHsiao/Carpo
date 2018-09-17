@@ -22,6 +22,9 @@ from file_tag;
 select *
 from files;
 
+-- Update file name which id =1
+update files set name='newName' where id=1;
+
 -- Sample data
 insert into files(name) values ('filename');
 insert into files(name) values ('filename2');

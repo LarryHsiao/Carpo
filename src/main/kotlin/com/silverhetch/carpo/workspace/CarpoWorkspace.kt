@@ -1,4 +1,4 @@
-package com.silverhetch.carpo
+package com.silverhetch.carpo.workspace
 
 import com.silverhetch.carpo.database.connection.CarpoDbConn
 import com.silverhetch.clotho.database.SingleConn
@@ -35,5 +35,15 @@ class CarpoWorkspace(private val root: File) : Workspace {
 
     override fun rootJFile(): File {
         return root
+    }
+
+    override fun insertionPipe(): Workspace.FilePipe {
+        return CopyFilePipe()
+    }
+
+    private class CopyFilePipe : Workspace.FilePipe {
+        override fun through(source: File, target: File) {
+            source.renameTo(target)
+        }
     }
 }

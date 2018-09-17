@@ -25,6 +25,23 @@ class DBCFileTest {
     }
 
     @Test
+    fun byTagSingleQuote_checkWithSearch() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            it.all()["filename"]!!.tags().addTag("Quote'")
+            assertEquals(
+                "filename",
+                it.byTag("Quote'")["filename"]!!.title()
+            )
+        }
+    }
+
+
+    @Test
     fun remove() {
         DBFiles(SampleDataConn(
             CarpoDbConn(
@@ -34,6 +51,78 @@ class DBCFileTest {
             /** @see [SampleDataConn] */
             it.byTag("tag")["filename"]!!.remove()
             assertEquals(0, it.byTag("tag1").size)
+        }
+    }
+
+    @Test
+    fun doNotSupportExecutable() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.executable().launch(object : CExecutable.Callback {
+                    override fun onFailed() {
+                        fail()
+                    }
+                })
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
+
+
+    @Test
+    fun doNotSupportThumbnailUrl() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.thumbnailUrl()
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
+
+    @Test
+    fun doNotSupportAddFile() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.addFile(listOf())
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
+    @Test
+    fun rename() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            it.all()["filename"]!!.rename("The new Name")
+
+            assertNull(it.all()["filename"])
         }
     }
 }
