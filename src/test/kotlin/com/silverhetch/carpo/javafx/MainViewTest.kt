@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
+import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Parent
@@ -19,16 +20,15 @@ import java.io.File
 import java.util.*
 
 class MainViewTest : ApplicationTest() {
-    private lateinit var parent: Parent
 
     override fun start(stage: Stage) {
         super.start(stage)
-        File(System.getProperty("user.home") + "/Playground").let {
+        DefaultWorkspaceFile().fetch().let {
             if (it.exists()) {
                 it.deleteRecursively()
             }
         }
-        parent = FXMLLoader.load<Parent>(
+        val parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/ui/Main.fxml"),
             ResourceBundle.getBundle("ui/i18n/default")
         )
