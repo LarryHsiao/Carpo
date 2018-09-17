@@ -14,11 +14,14 @@ import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Represent list with given [Tag].
+ */
 class TagListView : Initializable {
     @FXML
     private lateinit var tagList: JFXListView<Tag>
 
-    override fun initialize(location: URL?, resources: ResourceBundle?) {
+    override fun initialize(location: URL?, resources: ResourceBundle) {
         tagList.items = ObservableListWrapper<Tag>(ArrayList<Tag>())
         tagList.setCellFactory {
             object : JFXListCell<Tag>() {

@@ -47,7 +47,7 @@ class MainView : Initializable {
     )
 
 
-    override fun initialize(p0: URL?, bundle: ResourceBundle?) {
+    override fun initialize(p0: URL?, bundle: ResourceBundle) {
         snackbar = JFXSnackbar(rootPane)
         fileListController.setup(snackbar)
         fileListController.selectionModel().selectedItemProperty().addListener { _, _, selected ->
