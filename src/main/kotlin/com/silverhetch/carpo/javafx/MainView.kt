@@ -86,10 +86,6 @@ class MainView : Initializable {
                 // do nothing for  now
             }
         })
-        listTabPane.selectionModel.selectedIndexProperty().addListener { _, _, _ ->
-            searchKey.text = ""
-            reloadUI()
-        }
         reloadUI()
     }
 
