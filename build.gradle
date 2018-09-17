@@ -62,7 +62,6 @@ sonarqube {
         property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
         property "sonar.junit.reportPaths", "${project.buildDir}/test-results/test"
     }
-
 }
 
 fxlauncher {
