@@ -11,4 +11,8 @@ class PhantomTags : Tags {
     override fun addTag(name: String): Tag {
         return PhantomTag()
     }
+
+    override fun byName(name: String): Map<String, Tag> {
+        return mapOf()
+    }
 }

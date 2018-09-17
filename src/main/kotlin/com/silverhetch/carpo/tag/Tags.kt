@@ -13,4 +13,9 @@ interface Tags {
      * New tags.
      */
     fun addTag(name: String): Tag
+
+    /**
+     * Search tags by name.
+     */
+    fun byName(name: String): Map<String, Tag>
 }

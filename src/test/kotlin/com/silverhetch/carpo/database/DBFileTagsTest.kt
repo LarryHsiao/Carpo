@@ -35,4 +35,39 @@ class DBFileTagsTest {
             ).all().size
         )
     }
+
+
+    @Test
+    fun addTag() {
+        assertEquals(
+            2,// according to sample data filename2 has one tag, this case plus 1
+            DBFileTags(
+                SampleDataConn(
+                    CarpoDbConn(
+                        InMemoryConn()
+                    )
+                ).fetch(), 2
+            ).let {
+                it.addTag("NewTag22")
+                it.all().size
+            }
+        )
+    }
+
+    @Test
+    fun searchTag() {
+        assertEquals(
+            1,
+            DBFileTags(
+                SampleDataConn(
+                    CarpoDbConn(
+                        InMemoryConn()
+                    )
+                ).fetch(), 2
+            ).let {
+                it.addTag("NewTag22")
+                it.byName("NewTag22").size
+            }
+        )
+    }
 }
