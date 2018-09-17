@@ -1,5 +1,7 @@
 package com.silverhetch.carpo.tag
 
+import com.silverhetch.carpo.file.Files
+
 /**
  * Represent an tag
  */
@@ -13,4 +15,9 @@ interface Tag {
      * Title of this tag.
      */
     fun title(): String
+
+    /**
+     * [Files] hasthis [Tag]
+     */
+    fun files(): Files
 }
