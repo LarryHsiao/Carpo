@@ -24,13 +24,26 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
         }
     }
 
+    override fun byName(name: String): Map<String, Tag> {
+        dbConn.prepareStatement("""
+                  select tags.*
+                  from tags
+                  join files as file, file_tag
+                  where file.id = '$fileId' and tags.id = file_tag.tag_id and file.id = file_tag.file_id AND tags.name like LOWER(?);
+                """).use { statement ->
+            statement.setString(1, "%$name%")
+            statement.executeQuery().use {
+                return TagListFactory(dbConn, it).fetch()
+            }
+        }
+    }
+
     override fun addTag(name: String): Tag {
         dbTags.all().let { existTags ->
             return (existTags[name] ?: dbTags.addTag(name)).also {
                 newFileTagLink(it)
             }
         }
-
     }
 
     private fun newFileTagLink(tag: Tag) {

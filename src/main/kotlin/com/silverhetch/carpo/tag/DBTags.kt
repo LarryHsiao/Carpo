@@ -40,4 +40,17 @@ class DBTags(private val dbConn: Connection) : Tags {
             }
         }
     }
+
+    override fun byName(name: String): Map<String, Tag> {
+        dbConn.prepareStatement("""
+                    select *
+                    from tags
+                    where name like LOWER(?);
+                  """).use { statement ->
+            statement.setString(1, "%$name%")
+            statement.executeQuery().use {
+                return TagListFactory(dbConn, it).fetch()
+            }
+        }
+    }
 }
