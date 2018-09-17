@@ -97,6 +97,8 @@ class MainView : Initializable {
 
     @FXML
     private fun searchByKey() {
+        tagListController.loadTags(carpo.tags().byName(searchKey.text
+        ))
         fileListController.loadList(carpo.byKeyword(searchKey.text))
     }
 
