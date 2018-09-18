@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
+import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
@@ -50,11 +52,10 @@ class FileListView : Initializable {
                     }
 
                     setOnContextMenuRequested { _ ->
-                        contextMenu = ContextMenu().apply {
-                            items.addAll(
-                                MenuItem(bundle.getString("General.rename")).apply {
-                                    id = "rename"
-                                    setOnAction {
+                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
+                            override fun onItemClicked(id: String) {
+                                when (id) {
+                                    "rename" -> {
                                         TextInputDialog().apply {
                                             this.headerText = bundle.getString("General.rename.hint")
                                             title = bundle.getString("General.rename")
@@ -65,9 +66,13 @@ class FileListView : Initializable {
                                             }
                                         }
                                     }
+                                    "delete" -> {
+                                        item.remove()
+                                        listView.items.remove(item)
+                                    }
                                 }
-                            )
-                        }
+                            }
+                        },bundle).fetch()
                     }
                 }
 

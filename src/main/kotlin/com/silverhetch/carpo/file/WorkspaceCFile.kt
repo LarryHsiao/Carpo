@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.file
 
 import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.tag.WorkspaceTags
 import com.silverhetch.carpo.util.FileImageUrl
 import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
@@ -18,7 +19,7 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun tags(): Tags {
-        return dbcFile.tags()
+        return WorkspaceTags(workspace, dbcFile.tags())
     }
 
     override fun remove() {
