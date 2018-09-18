@@ -1,5 +1,7 @@
 package com.silverhetch.carpo.file
 
+import java.io.File
+
 /**
  * Represent files
  */
@@ -17,5 +19,5 @@ interface Files {
     /**
      * New file with given name.
      */
-    fun add(fileName: String): CFile
+    fun add(file: File): CFile
 }

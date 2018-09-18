@@ -15,7 +15,7 @@ class PhantomCFile(private val title: String = "Phantom") : CFile {
     }
 
     override fun thumbnailUrl(): String {
-        return ""
+        return "https://google.com"
     }
 
     override fun tags(): Tags {

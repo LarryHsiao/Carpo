@@ -25,7 +25,7 @@
                 text="%General.search" />
         </HBox>
 
-        <JFXTabPane VBox.vgrow="ALWAYS">
+        <JFXTabPane VBox.vgrow="ALWAYS" fx:id="listTabPane">
             <Tab text="%MainView.tabFileList">
                 <fx:include fx:id="fileList"
                     source="FileList.fxml" />

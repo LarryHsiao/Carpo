@@ -39,3 +39,14 @@ select tags.name
 from tags
 join files as file, file_tag
 where file.name = 'filename2' and tags.id = file_tag.tag_id and file.id = file_tag.file_id;
+
+-- Use case: Find all file that has tag which id=1
+SELECT files.* from file_tag
+left join files on file_tag.file_id=files.id
+where file_tag.tag_id=2;
+
+-- Use case: Find all file that has tag which id=1 with tag name
+SELECT files.* from file_tag
+left join files on file_tag.file_id=files.id
+left join tags on file_tag.tag_id=tags.id
+where file_tag.tag_id=2 and tags.name like '%tag%';

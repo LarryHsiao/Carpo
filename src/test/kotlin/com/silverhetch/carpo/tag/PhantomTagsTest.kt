@@ -8,6 +8,7 @@ class PhantomTagsTest {
     fun simple() {
         PhantomTags().also {
             assertEquals(0, it.all().size)
+            assertEquals(0, it.byName("").size)
         }
     }
 }
