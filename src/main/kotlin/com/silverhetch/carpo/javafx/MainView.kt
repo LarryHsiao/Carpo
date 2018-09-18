@@ -67,26 +67,6 @@ class MainView : Initializable, DraggingBehavior.Events {
                 }
             }
         }
-        tagListController.setEvents(object : TagListView.Events {
-            override fun onTagDoubleClicked(tag: Tag) {
-
-                val stage = Stage()
-                stage.title = tag.title()
-                stage.scene = Scene(
-                    FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let {
-                        it.resources = bundle
-                        it.load<Parent>().also { parent ->
-                            it.getController<TagOverviewView>().loadTag(tag)
-                        }
-                    }
-                )
-                stage.show()
-            }
-
-            override fun onTagSelected(tag: Tag) {
-                // do nothing for  now
-            }
-        })
         reloadUI()
     }
 
