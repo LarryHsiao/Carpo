@@ -1,6 +1,6 @@
 package com.silverhetch.carpo.tag
 
-import com.silverhetch.carpo.tag.factory.TagListFactory
+import com.silverhetch.carpo.tag.factory.DBTagMapFactory
 import java.sql.Connection
 
 /**
@@ -19,7 +19,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
                 where file.id = '$fileId' and tags.id = file_tag.tag_id and file.id = file_tag.file_id;
                   """
             ).use {
-                return TagListFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).fetch()
             }
         }
     }
@@ -33,7 +33,7 @@ class DBFileTags(private val dbConn: Connection, private val fileId: Long) : Tag
                 """).use { statement ->
             statement.setString(1, "%$name%")
             statement.executeQuery().use {
-                return TagListFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).fetch()
             }
         }
     }

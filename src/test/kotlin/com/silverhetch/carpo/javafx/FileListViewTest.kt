@@ -7,12 +7,9 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.testfx.assertions.api.Assertions.assertThat
 import org.testfx.framework.junit.ApplicationTest
-import java.io.File
 import java.util.*
 
 class FileListViewTest : ApplicationTest() {
@@ -27,11 +24,9 @@ class FileListViewTest : ApplicationTest() {
         }
         FXMLLoader().let {
             it.resources = ResourceBundle.getBundle("ui/i18n/default")
-            val parent = it.load<Parent>(
-                javaClass.getResource("/ui/FileList.fxml").openStream()
-            )
+            it.location = javaClass.getResource("/ui/FileList.fxml")
+            stage.scene = Scene(it.load())
             fileListView = it.getController<FileListView>()
-            stage.scene = Scene(parent)
             stage.show()
         }
     }

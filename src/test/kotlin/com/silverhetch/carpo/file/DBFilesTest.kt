@@ -4,6 +4,7 @@ import com.silverhetch.carpo.database.connection.CarpoDbConn
 import com.silverhetch.clotho.database.sqlite.InMemoryConn
 import org.junit.Assert.*
 import org.junit.Test
+import java.nio.file.Files
 
 class DBFilesTest {
     @Test
@@ -20,14 +21,15 @@ class DBFilesTest {
 
     @Test
     fun addFile() {
+        val newFile = Files.createTempFile("", "").toFile()
         DBFiles(
             CarpoDbConn(
                 InMemoryConn()
             ).fetch()
         ).let {
-            it.add("Name")
+            it.add(newFile)
             assertEquals(1, it.all().size)
-            assertEquals("Name", it.all()["Name"]!!.title())
+            assertEquals(newFile.name, it.all()[newFile.name]!!.title())
         }
     }
 

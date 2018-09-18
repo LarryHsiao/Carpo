@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTabPane
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.javafx.utility.DraggingBehavior
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
@@ -27,7 +28,7 @@ import javafx.scene.Parent
 /**
  * Controls drop zone view.
  */
-class MainView : Initializable {
+class MainView : Initializable, DraggingBehavior.Events {
     @FXML private lateinit var rootPane: HBox
     @FXML private lateinit var dropZone: VBox
     @FXML private lateinit var currentPath: JFXTextField
@@ -37,6 +38,7 @@ class MainView : Initializable {
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var snackbar: JFXSnackbar
+    private val dropBehavior = DraggingBehavior(this)
 
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
@@ -55,6 +57,8 @@ class MainView : Initializable {
 
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
         snackbar = JFXSnackbar(rootPane)
+        dropZone.onDragOver = dropBehavior
+        dropZone.onDragDropped = dropBehavior
         fileListController.setup(snackbar)
         fileListController.selectionModel().selectedItemProperty().addListener { _, _, selected ->
             selected.also {
@@ -63,30 +67,15 @@ class MainView : Initializable {
                 }
             }
         }
-        dropZone.setOnDragOver {
-            if (it.dragboard.hasContent(DataFormat.FILES)) {
-                it.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE)
-            }
-            it.consume()
-        }
-        dropZone.setOnDragDropped { event ->
-            if (event.dragboard.hasContent(DataFormat.FILES)) {
-                carpo.addFile(event.dragboard.files).also {
-                    fileListController.appendCFile(it)
-                }
-            }
-            event.isDropCompleted = true
-            event.consume()
-        }
         tagListController.setEvents(object : TagListView.Events {
             override fun onTagDoubleClicked(tag: Tag) {
 
                 val stage = Stage()
                 stage.title = tag.title()
                 stage.scene = Scene(
-                    FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let{
+                    FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let {
                         it.resources = bundle
-                        it.load<Parent>().also { parent->
+                        it.load<Parent>().also { parent ->
                             it.getController<TagOverviewView>().loadTag(tag)
                         }
                     }
@@ -99,6 +88,12 @@ class MainView : Initializable {
             }
         })
         reloadUI()
+    }
+
+    override fun onDroppedFiles(files: List<File>) {
+        carpo.addFile(files).also {
+            fileListController.appendCFile(it)
+        }
     }
 
     @FXML
