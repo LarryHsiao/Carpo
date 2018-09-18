@@ -1,6 +1,6 @@
 package com.silverhetch.carpo.tag
 
-import com.silverhetch.carpo.tag.factory.TagListFactory
+import com.silverhetch.carpo.tag.factory.DBTagMapFactory
 import java.sql.Connection
 import java.sql.SQLException
 
@@ -16,7 +16,7 @@ class DBTags(private val dbConn: Connection) : Tags {
                     from tags;
                   """
             ).use {
-                return TagListFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).fetch()
             }
         }
     }
@@ -49,7 +49,7 @@ class DBTags(private val dbConn: Connection) : Tags {
                   """).use { statement ->
             statement.setString(1, "%$name%")
             statement.executeQuery().use {
-                return TagListFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).fetch()
             }
         }
     }

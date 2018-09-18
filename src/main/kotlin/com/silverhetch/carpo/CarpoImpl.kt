@@ -1,11 +1,9 @@
 package com.silverhetch.carpo
 
-import com.silverhetch.carpo.file.CFile
-import com.silverhetch.carpo.file.DBFiles
-import com.silverhetch.carpo.file.Files
-import com.silverhetch.carpo.file.WorkspaceCFile
+import com.silverhetch.carpo.file.*
 import com.silverhetch.carpo.tag.DBTags
 import com.silverhetch.carpo.tag.Tags
+import com.silverhetch.carpo.tag.WorkspaceTags
 import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
@@ -13,10 +11,10 @@ import java.io.File
  * Main logic implementation of Carpo.
  */
 class CarpoImpl(private val workspace: Workspace) : Carpo {
-    private val dbFiles: Files
+    private val workspaceFiles: Files
 
     init {
-        this.dbFiles = DBFiles(workspace.sqlConn())
+        this.workspaceFiles = WorkspaceFiles(workspace, DBFiles(workspace.sqlConn()))
     }
 
     override fun workspace(): Workspace {
@@ -24,34 +22,32 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
     }
 
     override fun all(): Map<String, CFile> {
-        val dbFileMap = dbFiles.all()
-        workspace.files().also { jfiles ->
-            HashMap<String, CFile>().let { result ->
-                jfiles.forEach { jFile ->
-                    result[jFile.name] = WorkspaceCFile(
-                        workspace,
-                        dbFileMap[jFile.name] ?: dbFiles.add(jFile.name)
-                    )
-                }
-                return result
-            }
-        }
-        return mapOf()
+        return workspaceFiles.all()
     }
 
     override fun tags(): Tags {
-        return DBTags(workspace.sqlConn())
+        return WorkspaceTags(
+            workspace,
+            DBTags(workspace.sqlConn())
+        )
     }
 
     override fun addFile(files: List<File>): CFile {
         if (files.isEmpty()) {
             throw IllegalArgumentException("The files should be at least one.")
         }
-        val fileRoot = File(workspace.rootJFile(), files[0].name)
+
+        val fileRoot = File(
+            java.nio.file.Files.createTempDirectory(files[0].parentFile.toPath(), ".carpo_temp").toFile().also {
+                it.deleteOnExit()
+            },
+            files[0].name
+        )
 
         if (files.size == 1 && files[0].isDirectory) {
-            workspace.insertionPipe().through(files[0], File(workspace.rootJFile(), files[0].name))
+            return workspaceFiles.add(files[0])
         } else {
+
             if (!fileRoot.exists()) {
                 fileRoot.mkdir()
             }
@@ -60,19 +56,11 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
                 workspace.insertionPipe().through(file, File(fileRoot, file.name))
             }
         }
-        return all()[fileRoot.name] ?: dbFiles.add(fileRoot.name)
+        return workspaceFiles.add(fileRoot)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {
-        return dbFiles.byTag(tag).filter {
-            File(workspace.rootJFile(), it.key).exists()
-        }.also { dbMap ->
-            return HashMap<String, CFile>().also { result ->
-                dbMap.forEach { key, value ->
-                    result[key] = WorkspaceCFile(workspace, value)
-                }
-            }
-        }
+        return workspaceFiles.byTag(tag)
     }
 
     override fun byKeyword(keyword: String): Map<String, CFile> {

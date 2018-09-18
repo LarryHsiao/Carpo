@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.file
 
-import com.silverhetch.carpo.file.factory.FileListFactory
+import com.silverhetch.carpo.file.factory.DBFileListFactory
+import java.io.File
 import java.sql.Connection
 import java.sql.SQLException
 
@@ -14,23 +15,23 @@ class DBFiles(private val dbConn: Connection) : Files {
                 select *
                 from files;
             """).use {
-                return FileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).fetch()
             }
         }
     }
 
-    override fun add(fileName: String): CFile {
+    override fun add(file: File): CFile {
         dbConn.prepareStatement("""
             insert into files(name) values (?);
         """).use { statement ->
-            statement.setString(1, fileName)
+            statement.setString(1, file.name)
             statement.executeUpdate()
             statement.generatedKeys.use {
                 if (it.next()) {
                     return DBCFile(
                         dbConn,
                         it.getLong(1),
-                        fileName
+                        file.name
                     )
                 } else {
                     throw SQLException("insertion failed")
@@ -49,7 +50,7 @@ class DBFiles(private val dbConn: Connection) : Files {
             """).use { statement ->
             statement.setString(1, "%$tagName%")
             statement.executeQuery().use {
-                return FileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).fetch()
             }
         }
     }

@@ -3,6 +3,9 @@
 <?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
+    fx:id="root"
+    prefWidth="640"
+    prefHeight="480"
     fx:controller="com.silverhetch.carpo.javafx.TagOverviewView">
 
     <JFXTextField fx:id="tagName"
