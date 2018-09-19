@@ -38,4 +38,20 @@ class DBTagTest {
             )
         }
     }
+
+    @Test
+    fun tagFiles() {
+        DBTag(
+            SampleDataConn(
+                CarpoDbConn(
+                    InMemoryConn()
+                )
+            ).fetch(), 2, "tag2"
+        ).let {
+            Assert.assertEquals(
+                2,
+                it.files().all().size
+            )
+        }
+    }
 }
