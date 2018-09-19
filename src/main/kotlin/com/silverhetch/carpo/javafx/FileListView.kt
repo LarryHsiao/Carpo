@@ -8,6 +8,7 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
 import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
@@ -56,11 +57,8 @@ class FileListView : Initializable {
                             override fun onItemClicked(id: String) {
                                 when (id) {
                                     "rename" -> {
-                                        TextInputDialog().apply {
-                                            this.headerText = bundle.getString("General.rename.hint")
-                                            title = bundle.getString("General.rename")
-                                            showAndWait()
-                                            if (result.isNullOrBlank().not()) {
+                                        RenameAction(bundle).fetch().let { result ->
+                                            if (result.isBlank().not()) {
                                                 item.rename(result)
                                                 updateItem(item, false)
                                             }
@@ -72,7 +70,7 @@ class FileListView : Initializable {
                                     }
                                 }
                             }
-                        },bundle).fetch()
+                        }, bundle).fetch()
                     }
                 }
 

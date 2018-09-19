@@ -50,3 +50,10 @@ SELECT files.* from file_tag
 left join files on file_tag.file_id=files.id
 left join tags on file_tag.tag_id=tags.id
 where file_tag.tag_id=2 and tags.name like '%tag%';
+
+-- Use case: Update a tag name.
+update tags
+set name=?
+where id=?;
+
+select * from tags;
