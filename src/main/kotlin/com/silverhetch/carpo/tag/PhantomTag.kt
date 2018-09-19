@@ -6,8 +6,7 @@ import com.silverhetch.carpo.file.phantom.PhantomFiles
 /**
  * Phantom class of [Tag]
  */
-class PhantomTag : Tag {
-    private var name = "Phantom"
+class PhantomTag(private var name: String = "Phantom") : Tag {
     override fun id(): Long {
         return -1
     }
