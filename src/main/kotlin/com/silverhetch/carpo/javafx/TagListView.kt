@@ -2,6 +2,9 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
+import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
 import com.silverhetch.clotho.utility.comparator.StringComparator
@@ -32,7 +35,24 @@ class TagListView : Initializable {
             object : JFXListCell<Tag>() {
                 init {
                     setOnContextMenuRequested { menu ->
-                        
+                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
+                            override fun onItemClicked(id: String) {
+                                when (id) {
+                                    "rename" -> {
+                                        RenameAction(resources).fetch().let { result ->
+                                            if (result.isEmpty().not()) {
+                                                item.rename(result)
+                                                updateItem(item, false)
+                                            }
+                                        }
+                                    }
+                                    "delete" -> {
+                                        item.remove()
+                                        tagList.items.remove(item)
+                                    }
+                                }
+                            }
+                        }, resources).fetch()
                     }
                 }
 
@@ -56,12 +76,12 @@ class TagListView : Initializable {
             }
         }
         tagList.setOnMouseClicked { mouseEvent ->
-            if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2 ){
+            if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2) {
                 tagList.selectionModel.selectedItem?.also { selected ->
                     val stage = Stage()
                     stage.title = selected.title()
                     stage.scene = Scene(
-                        FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let {loader->
+                        FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let { loader ->
                             loader.resources = resources
                             loader.load<Parent>().also { parent ->
                                 loader.getController<TagOverviewView>().loadTag(selected)

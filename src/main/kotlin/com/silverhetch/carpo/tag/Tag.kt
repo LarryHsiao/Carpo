@@ -17,7 +17,17 @@ interface Tag {
     fun title(): String
 
     /**
+     * Rename this tag with given name.
+     */
+    fun rename(newName: String)
+
+    /**
      * [Files] hasthis [Tag]
      */
     fun files(): Files
+
+    /**
+     * Remove this tag
+     */
+    fun remove()
 }

@@ -17,8 +17,9 @@ class ContextMenuFactory(private val map: Map<String, String>, private val event
             map.forEach { id, title ->
                 items.add(MenuItem(title).also { menuItem ->
                     menuItem.id = id
-                    setOnAction {
-                        events.onItemClicked(id)
+                    menuItem.setOnAction {
+                        events.onItemClicked(menuItem.id)
+                        it.consume()
                     }
                 })
             }

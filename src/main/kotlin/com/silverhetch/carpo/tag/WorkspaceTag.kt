@@ -21,4 +21,12 @@ class WorkspaceTag(private val workspace: Workspace, private val dbTag: Tag) : T
             DBTagFiles(workspace.sqlConn(), id())
         )
     }
+
+    override fun rename(newName: String) {
+        dbTag.rename(newName)
+    }
+
+    override fun remove() {
+        dbTag.remove()
+    }
 }
