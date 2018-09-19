@@ -13,7 +13,7 @@ class RenameAction(private val bundle: ResourceBundle) : Source<String> {
             this.headerText = bundle.getString("General.rename.hint")
             title = bundle.getString("General.rename")
             showAndWait() // block at this line.
-            return result
+            return result ?: ""
         }
     }
 }
