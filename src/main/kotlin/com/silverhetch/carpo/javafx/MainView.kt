@@ -6,23 +6,20 @@ import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.javafx.utility.DraggingBehavior
-import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.input.*
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import java.io.File
 import java.net.URL
 import java.util.*
-import javafx.scene.Scene
-import javafx.stage.Stage
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 
 
 /**
@@ -37,6 +34,7 @@ class MainView : Initializable, DraggingBehavior.Events {
     @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
+    @FXML private lateinit var tagManagementController: TagManagementView
     @FXML private lateinit var snackbar: JFXSnackbar
     private val dropBehavior = DraggingBehavior(this)
 
@@ -107,6 +105,7 @@ class MainView : Initializable, DraggingBehavior.Events {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
         fileListController.loadList(carpo.all())
         tagListController.loadTags(carpo.tags().all())
+        tagManagementController.loadTags(carpo.tags())
     }
 
     @FXML
