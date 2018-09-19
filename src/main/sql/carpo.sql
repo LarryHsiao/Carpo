@@ -55,5 +55,3 @@ where file_tag.tag_id=2 and tags.name like '%tag%';
 update tags
 set name=?
 where id=?;
-
-select * from tags;
