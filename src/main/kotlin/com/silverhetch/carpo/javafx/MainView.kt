@@ -13,10 +13,14 @@ import com.sun.javafx.css.StyleManager
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.application.Application
 import javafx.application.Platform
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
+import javafx.scene.Parent
 import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.input.DragEvent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
@@ -37,7 +41,7 @@ class MainView : Initializable {
     @FXML private lateinit var dropZone: VBox
     @FXML private lateinit var currentPath: JFXTextField
     @FXML private lateinit var searchKey: JFXTextField
-    @FXML private lateinit var listTabPane: JFXTabPane
+    @FXML private lateinit var blankZone: ImageView
     @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
@@ -75,12 +79,27 @@ class MainView : Initializable {
         snackbar = JFXSnackbar(rootPane)
 
         MultiDraging(
+            EventHandler {
+                when (it.eventType) {
+                    DragEvent.DRAG_OVER -> {
+                        blankZone.isManaged = true
+                        blankZone.isVisible = true
+                    }
+                    else -> {
+                        blankZone.isManaged = false
+                        blankZone.isVisible = false
+                    }
+                }
+            },
             JdkFileDraging { droppedFiles ->
                 carpo.addFile(droppedFiles).also {
                     fileListController.appendCFile(it)
                 }
             }
         ).let {
+            dropZone.onDragDone = it
+            dropZone.onDragDropped = it
+            dropZone.onDragExited = it
             dropZone.onDragOver = it
             dropZone.onDragDropped = it
         }
