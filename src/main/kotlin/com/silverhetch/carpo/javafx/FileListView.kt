@@ -9,15 +9,15 @@ import com.silverhetch.carpo.file.comparetor.FileNameComparator
 import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.RenameAction
+import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
+import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
+import com.silverhetch.carpo.javafx.utility.draging.TagDraging
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.MenuItem
 import javafx.scene.control.MultipleSelectionModel
-import javafx.scene.control.TextInputDialog
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
@@ -37,19 +37,25 @@ class FileListView : Initializable {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
-
                 init {
                     setOnDragEntered {
                         fileList.selectionModel.select(item)
                         it.consume()
                     }
 
-                    setOnDragDropped {
-                        if (it.dragboard.hasFiles()) {
-                            fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
+                    MultiDraging(
+                        JdkFileDraging {
+                            fileList.selectionModel.selectedItem.addFile(it)
                             updateItem(item, false)
-                            it.consume()
+                        },
+                        TagDraging {
+                            item.tags().addTag(it)
+                            fileList.selectionModel.clearSelection()
+                            fileList.selectionModel.select(item)
                         }
+                    ).let {
+                        onDragOver = it
+                        onDragDropped = it
                     }
 
                     setOnContextMenuRequested { _ ->

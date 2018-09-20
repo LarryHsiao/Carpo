@@ -7,6 +7,7 @@ import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
+import com.silverhetch.carpo.tag.factory.UriTagFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
@@ -16,11 +17,15 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.MouseButton.*
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
+import javafx.scene.input.MouseButton.PRIMARY
+import javafx.scene.input.TransferMode
 import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * Represent list with given [Tag].
@@ -54,6 +59,21 @@ class TagListView : Initializable {
                             }
                         }, resources).fetch()
                     }
+
+                    setOnDragDetected { dropEvent ->
+                        val dragboard = startDragAndDrop(TransferMode.MOVE, TransferMode.LINK)
+                        dragboard.setContent(ClipboardContent().also { content ->
+                            content[DataFormat.URL] = UriTagFactory.TagUri(item).fetch()
+                            dragboard.dragView = Image(
+                                javaClass.getResource("/ui/icon/tag.svg").toURI().toString(),
+                                32.0,
+                                32.0,
+                                true,
+                                true
+                            )
+                        })
+                        dropEvent.consume()
+                    }
                 }
 
                 override fun updateItem(item: Tag?, empty: Boolean) {
@@ -83,7 +103,7 @@ class TagListView : Initializable {
                     stage.scene = Scene(
                         FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let { loader ->
                             loader.resources = resources
-                            loader.load<Parent>().also { parent ->
+                            loader.load<Parent>().also { _ ->
                                 loader.getController<TagOverviewView>().loadTag(selected)
                             }
                         }
