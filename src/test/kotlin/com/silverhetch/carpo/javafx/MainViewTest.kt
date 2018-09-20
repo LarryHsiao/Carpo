@@ -16,7 +16,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
-import java.io.File
 import java.util.*
 
 class MainViewTest : ApplicationTest() {
@@ -42,7 +41,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
-        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertTrue(
                 tagList.items.let { list ->
                     var exist = false
@@ -74,7 +73,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
 
-        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertEquals(
                 1,
                 tagList.items.let { list ->

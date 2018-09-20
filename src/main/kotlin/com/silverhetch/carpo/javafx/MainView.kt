@@ -5,7 +5,8 @@ import com.jfoenix.controls.JFXTabPane
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
-import com.silverhetch.carpo.javafx.utility.DraggingBehavior
+import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
+import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.fxml.FXML
@@ -25,7 +26,7 @@ import java.util.*
 /**
  * Controls drop zone view.
  */
-class MainView : Initializable, DraggingBehavior.Events {
+class MainView : Initializable {
     @FXML private lateinit var rootPane: HBox
     @FXML private lateinit var dropZone: VBox
     @FXML private lateinit var currentPath: JFXTextField
@@ -36,8 +37,6 @@ class MainView : Initializable, DraggingBehavior.Events {
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
     @FXML private lateinit var snackbar: JFXSnackbar
-    private val dropBehavior = DraggingBehavior(this)
-
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
             DefaultWorkspaceFile().fetch().also {
@@ -55,8 +54,18 @@ class MainView : Initializable, DraggingBehavior.Events {
 
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
         snackbar = JFXSnackbar(rootPane)
-        dropZone.onDragOver = dropBehavior
-        dropZone.onDragDropped = dropBehavior
+
+        MultiDraging(
+            JdkFileDraging { droppedFiles ->
+                carpo.addFile(droppedFiles).also {
+                    fileListController.appendCFile(it)
+                }
+            }
+        ).let {
+            dropZone.onDragOver = it
+            dropZone.onDragDropped = it
+        }
+
         fileListController.setup(snackbar)
         fileListController.selectionModel().selectedItemProperty().addListener { _, _, selected ->
             selected.also {
@@ -66,12 +75,6 @@ class MainView : Initializable, DraggingBehavior.Events {
             }
         }
         reloadUI()
-    }
-
-    override fun onDroppedFiles(files: List<File>) {
-        carpo.addFile(files).also {
-            fileListController.appendCFile(it)
-        }
     }
 
     @FXML
