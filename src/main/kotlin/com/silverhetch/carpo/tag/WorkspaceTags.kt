@@ -4,7 +4,7 @@ import com.silverhetch.carpo.tag.factory.WorkspaceTagMapFactory
 import com.silverhetch.carpo.workspace.Workspace
 
 /**
- * Adapter that hybrid the file system and Database.
+ * Decorator that hybridize the file system and Database.
  */
 class WorkspaceTags(private val workspace: Workspace, private val dbTags: Tags) : Tags {
     override fun all(): Map<String, Tag> {
