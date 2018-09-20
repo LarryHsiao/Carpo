@@ -144,6 +144,7 @@ class FileListView : Initializable {
     fun appendCFile(cFile: CFile) {
         fileList.items.add(cFile)
         fileList.selectionModel.select(cFile)
+        fileList.scrollTo(cFile)
     }
 
     /**

@@ -14,7 +14,6 @@ class JdkFileDraging(private val droppedFile: (files: List<File>) -> Unit) : Eve
             DRAG_OVER -> {
                 if (event.dragboard.hasContent(DataFormat.FILES)) {
                     event.acceptTransferModes(TransferMode.MOVE)
-                    event.consume()
                 }
             }
             DRAG_DROPPED -> {
