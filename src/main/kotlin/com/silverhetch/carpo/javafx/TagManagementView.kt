@@ -7,6 +7,9 @@ import javafx.fxml.Initializable
 import java.net.URL
 import java.util.*
 
+/**
+ * Tag management with given [Tags]
+ */
 class TagManagementView : Initializable {
     @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var searchField: JFXTextField
@@ -19,6 +22,9 @@ class TagManagementView : Initializable {
         }
     }
 
+    /**
+     * Load the given [Tags]
+     */
     fun loadTags(tags: Tags) {
         this.tags = tags
         tagListController.loadTags(tags.all())

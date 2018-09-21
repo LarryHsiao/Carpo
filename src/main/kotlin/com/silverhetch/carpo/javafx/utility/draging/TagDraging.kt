@@ -7,6 +7,9 @@ import javafx.scene.input.DragEvent.DRAG_DROPPED
 import javafx.scene.input.DragEvent.DRAG_OVER
 import javafx.scene.input.TransferMode.LINK
 
+/**
+ * Handling [DragEvent] that have [Tag] url in dragboard.
+ */
 class TagDraging(private val dropped: (tagName: String) -> Unit) : EventHandler<DragEvent> {
     override fun handle(event: DragEvent) {
         when (event.eventType) {
