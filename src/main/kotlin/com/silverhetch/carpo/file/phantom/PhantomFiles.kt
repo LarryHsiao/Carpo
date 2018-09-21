@@ -4,6 +4,9 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.Files
 import java.io.File
 
+/**
+ * Phantom class of [Files]
+ */
 class PhantomFiles : Files {
     override fun all(): Map<String, CFile> {
         return mapOf()

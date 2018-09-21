@@ -44,13 +44,8 @@ class DBTagFiles(private val dbConn: Connection, private val tagId: Long) : File
             statement.generatedKeys.use { resultSet ->
                 if (resultSet.next()) {
                     resultSet.getLong(1).let { newFileId ->
-                        return DBCFile(
-                            dbConn,
-                            newFileId,
-                            file.name
-                        ).also {
-                            attachTagById(newFileId)
-                        }
+                        attachTagById(newFileId)
+                        return DBCFile(dbConn, newFileId, file.name)
                     }
                 } else {
                     throw SQLException("Insertion failed")
