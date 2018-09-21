@@ -3,6 +3,7 @@ package com.silverhetch.carpo.javafx
 import com.silverhetch.carpo.file.phantom.PhantomCFile
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.stage.Stage
@@ -32,7 +33,9 @@ class FileListViewTest : ApplicationTest() {
 
     @Test
     fun appendFile() {
-        fileListView.appendCFile(PhantomCFile())
+        Platform.runLater {
+            fileListView.appendCFile(PhantomCFile())
+        }
 
         assertEquals(
             1,
