@@ -33,6 +33,7 @@ dependencies {
     compile 'de.codecentric.centerdevice:javafxsvg:1.3.0'
     compile 'com.jfoenix:jfoenix:8.0.7'
     compile 'org.takes:takes:1.11.3'
+    compile 'com.google.code.gson:gson:2.8.5'
 }
 
 compileKotlin {

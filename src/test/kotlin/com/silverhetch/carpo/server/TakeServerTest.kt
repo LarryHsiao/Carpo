@@ -1,5 +1,8 @@
 package com.silverhetch.carpo.server
 
+import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.workspace.CarpoWorkspace
+import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import com.silverhetch.clotho.connection.Get
 import com.silverhetch.clotho.connection.TargetImpl
 import org.junit.Assert.*
@@ -8,7 +11,11 @@ import org.junit.Test
 class TakeServerTest {
     @Test
     fun simple() {
-        TakeServer().let { server ->
+        TakeServer(CarpoImpl(
+            CarpoWorkspace(
+                DefaultWorkspaceFile().fetch()
+            )
+        )).let { server ->
             server.start()
             Thread.sleep(500)
 
@@ -24,7 +31,11 @@ class TakeServerTest {
 
     @Test
     fun shutdown() {
-        TakeServer().let {
+        TakeServer(CarpoImpl(
+            CarpoWorkspace(
+                DefaultWorkspaceFile().fetch()
+            )
+        )).let {
             it.start()
             Thread.sleep(500)
             it.shutdown()
