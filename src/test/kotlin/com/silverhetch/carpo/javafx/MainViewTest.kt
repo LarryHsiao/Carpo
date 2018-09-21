@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Parent
@@ -23,10 +24,13 @@ class MainViewTest : ApplicationTest() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        DefaultWorkspaceFile().fetch().let {
+        SvgImageLoaderFactory.install()
+        DefaultWorkspaceFile().fetch().let { it ->
             if (it.exists()) {
                 it.deleteRecursively()
             }
+            it.mkdir()
+            File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
         }
         val parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/ui/Main.fxml"),
@@ -42,7 +46,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(newTagName).push(KeyCode.ENTER)
-        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertTrue(
                 tagList.items.let { list ->
                     var exist = false
@@ -57,6 +61,34 @@ class MainViewTest : ApplicationTest() {
             )
         }
 
+    }
+
+    @Test
+    fun dragTagToAttach() {
+        val newTagName = "new Tag" + UUID.randomUUID().toString().substring(0, 7)
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        clickOn(lookup("#tagName").query<JFXTextField>())
+        write("PlaceHolder").push(KeyCode.ENTER)
+        write(newTagName).push(KeyCode.ENTER)
+
+        drag(from(lookup("#tagList").nth(2)).lookup(".list-cell").nth(1).query<JFXListView<String>>())
+
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
+
+        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
+            assertTrue(
+                tagList.items.let { list ->
+                    var exist = false
+                    for (tag in list) {
+                        if (tag.title() == newTagName) {
+                            exist = true
+                            break
+                        }
+                    }
+                    exist
+                }
+            )
+        }
     }
 
     /**
@@ -74,7 +106,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(lookup("#tagName").query<JFXTextField>())
         write(existTagName).push(KeyCode.ENTER)
 
-        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertEquals(
                 1,
                 tagList.items.let { list ->

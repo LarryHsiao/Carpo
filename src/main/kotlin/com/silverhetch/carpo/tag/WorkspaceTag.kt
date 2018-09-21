@@ -6,6 +6,9 @@ import com.silverhetch.carpo.file.WorkspaceFiles
 import com.silverhetch.carpo.file.WorkspaceTaggedFiles
 import com.silverhetch.carpo.workspace.Workspace
 
+/**
+ * Decorator that hybridize the workspace and database.
+ */
 class WorkspaceTag(private val workspace: Workspace, private val dbTag: Tag) : Tag {
     override fun id(): Long {
         return dbTag.id()
@@ -20,5 +23,13 @@ class WorkspaceTag(private val workspace: Workspace, private val dbTag: Tag) : T
             workspace,
             DBTagFiles(workspace.sqlConn(), id())
         )
+    }
+
+    override fun rename(newName: String) {
+        dbTag.rename(newName)
+    }
+
+    override fun remove() {
+        dbTag.remove()
     }
 }

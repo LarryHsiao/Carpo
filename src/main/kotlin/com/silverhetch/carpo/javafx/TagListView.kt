@@ -2,36 +2,80 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
+import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
+import com.silverhetch.carpo.tag.factory.UriTagFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.MouseButton.*
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
+import javafx.scene.input.MouseButton.PRIMARY
+import javafx.scene.input.TransferMode
+import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * Represent list with given [Tag].
  */
 class TagListView : Initializable {
-    interface Events {
-        fun onTagDoubleClicked(tag: Tag)
-        fun onTagSelected(tag: Tag)
-    }
-
     @FXML
     private lateinit var tagList: JFXListView<Tag>
-    private lateinit var events: Events
 
     override fun initialize(location: URL?, resources: ResourceBundle) {
         tagList.items = ObservableListWrapper<Tag>(ArrayList<Tag>())
         tagList.setCellFactory {
             object : JFXListCell<Tag>() {
+                init {
+                    setOnContextMenuRequested { menu ->
+                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
+                            override fun onItemClicked(id: String) {
+                                when (id) {
+                                    "rename" -> {
+                                        RenameAction(resources).fetch().let { result ->
+                                            if (result.isEmpty().not()) {
+                                                item.rename(result)
+                                                updateItem(item, false)
+                                            }
+                                        }
+                                    }
+                                    "delete" -> {
+                                        item.remove()
+                                        tagList.items.remove(item)
+                                    }
+                                }
+                            }
+                        }, resources).fetch()
+                    }
+
+                    setOnDragDetected { dropEvent ->
+                        val dragboard = startDragAndDrop(TransferMode.MOVE, TransferMode.LINK)
+                        dragboard.setContent(ClipboardContent().also { content ->
+                            content[DataFormat.URL] = UriTagFactory.TagUri(item).fetch()
+                            dragboard.dragView = Image(
+                                javaClass.getResource("/ui/icon/tag.svg").toURI().toString(),
+                                32.0,
+                                32.0,
+                                true,
+                                true
+                            )
+                        })
+                        dropEvent.consume()
+                    }
+                }
+
                 override fun updateItem(item: Tag?, empty: Boolean) {
                     super.updateItem(item, empty)
                     if (empty) {
@@ -51,27 +95,23 @@ class TagListView : Initializable {
                 }
             }
         }
-        tagList.selectionModel.selectedItemProperty().addListener { _, _, selected ->
-            if (::events.isInitialized) {
-                selected?.also {
-                    events.onTagSelected(it)
-                }
-            }
-        }
         tagList.setOnMouseClicked { mouseEvent ->
-            if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2 && ::events.isInitialized) {
-                tagList.selectionModel.selectedItem?.also {
-                    events.onTagDoubleClicked(it)
+            if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2) {
+                tagList.selectionModel.selectedItem?.also { selected ->
+                    val stage = Stage()
+                    stage.title = selected.title()
+                    stage.scene = Scene(
+                        FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let { loader ->
+                            loader.resources = resources
+                            loader.load<Parent>().also { _ ->
+                                loader.getController<TagOverviewView>().loadTag(selected)
+                            }
+                        }
+                    )
+                    stage.show()
                 }
             }
         }
-    }
-
-    /**
-     * The events listeners
-     */
-    fun setEvents(events: Events) {
-        this.events = events
     }
 
     /**

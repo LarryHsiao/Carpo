@@ -28,8 +28,9 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private var 
     }
 
     override fun rename(newName: String) {
-        dbConn.createStatement().use {
-            it.execute("update files set name='$newName' where id=$id;")
+        dbConn.prepareStatement("update files set name=? where id=$id;").use {
+            it.setString(1, newName)
+            it.executeUpdate()
         }
         name = newName
     }

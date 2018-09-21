@@ -3,8 +3,8 @@ package com.silverhetch.carpo.javafx
 import com.silverhetch.carpo.file.phantom.PhantomCFile
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import org.junit.Assert.assertEquals
@@ -33,12 +33,13 @@ class FileListViewTest : ApplicationTest() {
 
     @Test
     fun appendFile() {
-        fileListView.appendCFile(PhantomCFile())
+        Platform.runLater {
+            fileListView.appendCFile(PhantomCFile())
+        }
 
         assertEquals(
             1,
             from(lookup("#fileList")).queryListView<Tag>().items.size
         )
-
     }
 }

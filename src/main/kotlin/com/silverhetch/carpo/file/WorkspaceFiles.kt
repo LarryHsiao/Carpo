@@ -4,7 +4,7 @@ import com.silverhetch.carpo.workspace.Workspace
 import java.io.File
 
 /**
- * [Files] which hybrid the file system(Workspace) and SQLite database.
+ * [Files] which hybridize the file system(Workspace) and SQLite database.
  *
  * Filter strategy: Returns all the [CFile] instance only if the file is actually exist on File system.
  */

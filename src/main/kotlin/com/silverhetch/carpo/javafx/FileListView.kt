@@ -6,15 +6,18 @@ import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
+import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
+import com.silverhetch.carpo.javafx.utility.RenameAction
+import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
+import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
+import com.silverhetch.carpo.javafx.utility.draging.TagDraging
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.MenuItem
 import javafx.scene.control.MultipleSelectionModel
-import javafx.scene.control.TextInputDialog
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
@@ -34,40 +37,46 @@ class FileListView : Initializable {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
-
                 init {
                     setOnDragEntered {
                         fileList.selectionModel.select(item)
                         it.consume()
                     }
 
-                    setOnDragDropped {
-                        if (it.dragboard.hasFiles()) {
-                            fileList.selectionModel.selectedItem.addFile(it.dragboard.files)
+                    MultiDraging(
+                        JdkFileDraging {
+                            fileList.selectionModel.selectedItem.addFile(it)
                             updateItem(item, false)
-                            it.consume()
+                        },
+                        TagDraging {
+                            item.tags().addTag(it)
+                            fileList.selectionModel.clearSelection()
+                            fileList.selectionModel.select(item)
                         }
+                    ).let {
+                        onDragOver = it
+                        onDragDropped = it
                     }
 
                     setOnContextMenuRequested { _ ->
-                        contextMenu = ContextMenu().apply {
-                            items.addAll(
-                                MenuItem(bundle.getString("General.rename")).apply {
-                                    id = "rename"
-                                    setOnAction {
-                                        TextInputDialog().apply {
-                                            this.headerText = bundle.getString("General.rename.hint")
-                                            title = bundle.getString("General.rename")
-                                            showAndWait()
-                                            if (result.isNullOrBlank().not()) {
+                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
+                            override fun onItemClicked(id: String) {
+                                when (id) {
+                                    "rename" -> {
+                                        RenameAction(bundle).fetch().let { result ->
+                                            if (result.isBlank().not()) {
                                                 item.rename(result)
                                                 updateItem(item, false)
                                             }
                                         }
                                     }
+                                    "delete" -> {
+                                        item.remove()
+                                        listView.items.remove(item)
+                                    }
                                 }
-                            )
-                        }
+                            }
+                        }, bundle).fetch()
                     }
                 }
 
@@ -135,6 +144,7 @@ class FileListView : Initializable {
     fun appendCFile(cFile: CFile) {
         fileList.items.add(cFile)
         fileList.selectionModel.select(cFile)
+        fileList.scrollTo(cFile)
     }
 
     /**

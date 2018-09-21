@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.silverhetch.carpo.javafx.TagManagementView">
+
+    <AnchorPane style="-fx-padding: 0 0 16 0"
+        maxWidth="Infinity">
+        <JFXTextField fx:id="searchField"
+            AnchorPane.bottomAnchor="0"
+            AnchorPane.topAnchor="0"
+            AnchorPane.rightAnchor="0"
+            AnchorPane.leftAnchor="0" />
+    </AnchorPane>
+
+    <fx:include source="TagList.fxml"
+        fx:id="tagList"
+        VBox.vgrow="ALWAYS" />
+
+</VBox>
