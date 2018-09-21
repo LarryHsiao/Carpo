@@ -2,7 +2,6 @@ package com.silverhetch.carpo.tag
 
 import com.silverhetch.carpo.file.DBTagFiles
 import com.silverhetch.carpo.file.Files
-import com.silverhetch.carpo.file.WorkspaceFiles
 import com.silverhetch.carpo.file.WorkspaceTaggedFiles
 import com.silverhetch.carpo.workspace.Workspace
 
