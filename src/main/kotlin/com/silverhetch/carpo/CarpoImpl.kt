@@ -1,6 +1,9 @@
 package com.silverhetch.carpo
 
-import com.silverhetch.carpo.file.*
+import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.file.DBFiles
+import com.silverhetch.carpo.file.Files
+import com.silverhetch.carpo.file.WorkspaceFiles
 import com.silverhetch.carpo.tag.DBTags
 import com.silverhetch.carpo.tag.Tags
 import com.silverhetch.carpo.tag.WorkspaceTags
