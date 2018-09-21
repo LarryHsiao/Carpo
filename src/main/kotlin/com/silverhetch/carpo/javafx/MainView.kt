@@ -1,7 +1,6 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXSnackbar
-import com.jfoenix.controls.JFXTabPane
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
@@ -17,7 +16,6 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.Parent
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
@@ -80,6 +78,9 @@ class MainView : Initializable {
 
         MultiDraging(
             EventHandler {
+                if (it.dragboard.hasFiles().not()) {
+                    return@EventHandler
+                }
                 when (it.eventType) {
                     DragEvent.DRAG_OVER -> {
                         blankZone.isManaged = true
