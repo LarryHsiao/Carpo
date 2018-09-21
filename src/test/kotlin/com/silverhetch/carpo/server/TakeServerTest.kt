@@ -21,7 +21,7 @@ class TakeServerTest {
 
             assertEquals(
                 200,
-                Get(TargetImpl("http://localhost:8080")).request().code
+                Get(TargetImpl("http://localhost:8080/tags")).request().code
             )
             server.shutdown()
             Thread.sleep(1000)
