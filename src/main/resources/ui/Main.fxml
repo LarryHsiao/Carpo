@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?><?import javafx.scene.control.Tab?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?>
 <HBox xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:id="rootPane"
@@ -28,17 +28,9 @@
                 text="%General.search" />
         </HBox>
 
-        <JFXTabPane VBox.vgrow="ALWAYS"
-            fx:id="listTabPane">
-            <Tab text="%MainView.tabFileList">
-                <fx:include fx:id="fileList"
-                    source="FileList.fxml" />
-            </Tab>
-            <Tab text="%MainView.tabTagList">
-                <fx:include source="TagList.fxml"
-                    fx:id="tagList" />
-            </Tab>
-        </JFXTabPane>
+        <fx:include fx:id="fileList"
+            VBox.vgrow="ALWAYS"
+            source="FileList.fxml" />
 
         <StackPane>
             <ImageView StackPane.alignment="CENTER"
