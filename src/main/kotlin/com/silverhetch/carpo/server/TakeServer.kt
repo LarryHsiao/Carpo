@@ -11,8 +11,11 @@ class TakeServer(private val carpo: Carpo) : CarpoServer {
         Thread {
             FtBasic(
                 TkFork(
-                    TkGetTags(
+                    TkTags(
                         carpo.tags()
+                    ),
+                    TkFiles(
+                        carpo.all()
                     )
                 ), 8080
             ).start { exit }
