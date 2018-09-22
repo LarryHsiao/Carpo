@@ -40,7 +40,6 @@ class MainView : Initializable {
     @FXML private lateinit var currentPath: JFXTextField
     @FXML private lateinit var searchKey: JFXTextField
     @FXML private lateinit var blankZone: ImageView
-    @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
@@ -139,14 +138,12 @@ class MainView : Initializable {
 
     @FXML
     private fun searchByKey() {
-        tagListController.loadTags(carpo.tags().byName(searchKey.text))
         fileListController.loadList(carpo.byKeyword(searchKey.text))
     }
 
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
         fileListController.loadList(carpo.all())
-        tagListController.loadTags(carpo.tags().all())
         tagManagementController.loadTags(carpo.tags())
     }
 
