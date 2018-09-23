@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?><?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:id="root"
@@ -8,7 +8,7 @@
     prefHeight="480"
     fx:controller="com.silverhetch.carpo.javafx.TagOverviewView">
 
-    <JFXTextField fx:id="tagName"
+    <TextField fx:id="tagName"
         editable="false" />
 
     <fx:include source="FileList.fxml"

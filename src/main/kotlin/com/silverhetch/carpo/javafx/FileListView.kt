@@ -1,8 +1,5 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
-import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
@@ -14,9 +11,10 @@ import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.javafx.utility.draging.TagDraging
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
-import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import javafx.scene.control.MultipleSelectionModel
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -29,14 +27,12 @@ import java.util.*
  */
 class FileListView : Initializable {
     @FXML
-    private lateinit var fileList: JFXListView<CFile>
-    @FXML
-    private lateinit var infoBar: JFXSnackbar
+    private lateinit var fileList: ListView<CFile>
 
     override fun initialize(location: URL?, bundle: ResourceBundle) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.setCellFactory { _ ->
-            object : JFXListCell<CFile>() {
+            object : ListCell<CFile>() {
                 init {
                     setOnDragEntered {
                         fileList.selectionModel.select(item)
@@ -100,11 +96,7 @@ class FileListView : Initializable {
                     selected.executable().launch(object : CExecutable.Callback {
                         override fun onFailed() {
                             bundle.also { bundle ->
-                                if (::infoBar.isInitialized) {
-                                    Platform.runLater {
-                                        infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
-                                    }
-                                }
+                                TODO()
                             }
                         }
                     })
@@ -129,13 +121,6 @@ class FileListView : Initializable {
                 )
             }
         }
-    }
-
-    /**
-     * Convenient function to pass General purpose snackbar instance.
-     */
-    fun setup(infoBar: JFXSnackbar) {
-        this.infoBar = infoBar
     }
 
     /**

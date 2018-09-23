@@ -1,7 +1,7 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListView
-import com.jfoenix.controls.JFXTextField
+import com.jfoenix.controls.ListView
+import com.jfoenix.controls.TextField
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
@@ -43,8 +43,8 @@ class MainViewTest : ApplicationTest() {
     @Test
     fun newTagToFile() {
         val newTagName = "new Tag" + UUID.randomUUID().toString().substring(0, 7)
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        clickOn(lookup("#tagName").query<JFXTextField>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
+        clickOn(lookup("#tagName").query<TextField>())
         write(newTagName).push(KeyCode.ENTER)
         from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertTrue(
@@ -66,14 +66,14 @@ class MainViewTest : ApplicationTest() {
     @Test
     fun dragTagToAttach() {
         val newTagName = "new Tag" + UUID.randomUUID().toString().substring(0, 7)
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        clickOn(lookup("#tagName").query<JFXTextField>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
+        clickOn(lookup("#tagName").query<TextField>())
         write("PlaceHolder").push(KeyCode.ENTER)
         write(newTagName).push(KeyCode.ENTER)
 
-        drag(from(lookup("#tagList").nth(2)).lookup(".list-cell").nth(1).query<JFXListView<String>>())
+        drag(from(lookup("#tagList").nth(2)).lookup(".list-cell").nth(1).query<ListView<String>>())
 
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<ListView<String>>())
 
         from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
             assertTrue(
@@ -98,12 +98,12 @@ class MainViewTest : ApplicationTest() {
     @Test
     fun existTagToFile() {
         val existTagName = "exist tag" + UUID.randomUUID().toString().substring(0, 7)
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        clickOn(lookup("#tagName").query<JFXTextField>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
+        clickOn(lookup("#tagName").query<TextField>())
         write(existTagName).push(KeyCode.ENTER)
 
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<JFXListView<String>>())
-        clickOn(lookup("#tagName").query<JFXTextField>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<ListView<String>>())
+        clickOn(lookup("#tagName").query<TextField>())
         write(existTagName).push(KeyCode.ENTER)
 
         from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
@@ -126,11 +126,11 @@ class MainViewTest : ApplicationTest() {
     @Test
     fun searchWithTagName() {
         val newTagName = "search with tag name " + UUID.randomUUID().toString().substring(0, 7)
-        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        clickOn(lookup("#tagName").query<JFXTextField>())
+        clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
+        clickOn(lookup("#tagName").query<TextField>())
         write(newTagName).push(KeyCode.ENTER)
 
-        clickOn(lookup("#searchKey").query<JFXTextField>())
+        clickOn(lookup("#searchKey").query<TextField>())
         write(newTagName).push(KeyCode.ENTER)
 
         from(lookup("#fileList")).queryListView<CFile>().also {
@@ -150,12 +150,12 @@ class MainViewTest : ApplicationTest() {
     @Test
     fun renameFile_checkWithSearch() {
         val newFileName = UUID.randomUUID().toString()
-        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
+        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
+        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
         clickOn(lookup("#rename").query<Node>())
         write(newFileName).push(KeyCode.ENTER)
 
-        clickOn(lookup("#searchKey").query<JFXTextField>())
+        clickOn(lookup("#searchKey").query<TextField>())
         write(newFileName).push(KeyCode.ENTER)
 
         from(lookup("#fileList")).queryListView<CFile>().also {

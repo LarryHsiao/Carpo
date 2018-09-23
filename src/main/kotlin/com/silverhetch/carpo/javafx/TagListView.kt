@@ -1,7 +1,5 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
 import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.RenameAction
@@ -15,6 +13,8 @@ import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
@@ -32,12 +32,12 @@ import kotlin.collections.ArrayList
  */
 class TagListView : Initializable {
     @FXML
-    private lateinit var tagList: JFXListView<Tag>
+    private lateinit var tagList: ListView<Tag>
 
     override fun initialize(location: URL?, resources: ResourceBundle) {
         tagList.items = ObservableListWrapper<Tag>(ArrayList<Tag>())
         tagList.setCellFactory {
-            object : JFXListCell<Tag>() {
+            object : ListCell<Tag>() {
                 init {
                     setOnContextMenuRequested { menu ->
                         contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
