@@ -1,7 +1,5 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.ListView
-import com.jfoenix.controls.TextField
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
@@ -10,6 +8,8 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.control.ListView
+import javafx.scene.control.TextField
 import javafx.scene.input.KeyCode
 import javafx.stage.Stage
 import org.junit.Assert.assertEquals
@@ -46,7 +46,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<ListView<String>>())
         clickOn(lookup("#tagName").query<TextField>())
         write(newTagName).push(KeyCode.ENTER)
-        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
             assertTrue(
                 tagList.items.let { list ->
                     var exist = false
@@ -71,11 +71,11 @@ class MainViewTest : ApplicationTest() {
         write("PlaceHolder").push(KeyCode.ENTER)
         write(newTagName).push(KeyCode.ENTER)
 
-        drag(from(lookup("#tagList").nth(2)).lookup(".list-cell").nth(1).query<ListView<String>>())
+        drag(from(lookup("#tagList").nth(1)).lookup(".list-cell").nth(1).query<ListView<String>>())
 
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(1).query<ListView<String>>())
 
-        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
             assertTrue(
                 tagList.items.let { list ->
                     var exist = false
@@ -106,7 +106,7 @@ class MainViewTest : ApplicationTest() {
         clickOn(lookup("#tagName").query<TextField>())
         write(existTagName).push(KeyCode.ENTER)
 
-        from(lookup("#tagList").nth(2)).queryListView<Tag>().also { tagList ->
+        from(lookup("#tagList").nth(1)).queryListView<Tag>().also { tagList ->
             assertEquals(
                 1,
                 tagList.items.let { list ->
