@@ -1,6 +1,6 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXTextField
+import com.jfoenix.controls.TextField
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
@@ -44,7 +44,7 @@ class TagOverviewViewTest : ApplicationTest() {
 
         Assert.assertEquals(
             newTagName,
-            from(lookup("#tagName")).query<JFXTextField>().text
+            from(lookup("#tagName")).query<TextField>().text
         )
 
         Assert.assertEquals(
