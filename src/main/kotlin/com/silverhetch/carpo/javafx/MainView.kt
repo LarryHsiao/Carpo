@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
+import jfxtras.styles.jmetro8.JMetro
 import java.io.File
 import java.net.URL
 import java.util.*
@@ -66,6 +67,7 @@ class MainView : Initializable {
     }
 
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
+        JMetro(JMetro.Style.DARK).applyTheme(rootPane)
         Platform.runLater {
             (rootPane.scene.window as Stage).icons.add(
                 Image(javaClass.getResource("/ui/icon/alpha-c-box.svg").toString())
