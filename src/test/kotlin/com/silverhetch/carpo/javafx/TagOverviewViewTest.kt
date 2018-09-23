@@ -1,12 +1,12 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.TextField
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.TextField
 import javafx.stage.Stage
 import org.junit.Assert
 import org.junit.Test
