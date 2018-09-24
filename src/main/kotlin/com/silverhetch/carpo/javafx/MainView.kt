@@ -1,5 +1,7 @@
 package com.silverhetch.carpo.javafx
 
+import com.jfoenix.controls.JFXSnackbar
+import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
@@ -14,7 +16,6 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
@@ -25,7 +26,6 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
-import jfxtras.styles.jmetro8.JMetro
 import java.io.File
 import java.net.URL
 import java.util.*
@@ -37,12 +37,13 @@ import java.util.*
 class MainView : Initializable {
     @FXML private lateinit var rootPane: HBox
     @FXML private lateinit var dropZone: VBox
-    @FXML private lateinit var currentPath: TextField
-    @FXML private lateinit var searchKey: TextField
+    @FXML private lateinit var currentPath: JFXTextField
+    @FXML private lateinit var searchKey: JFXTextField
     @FXML private lateinit var blankZone: ImageView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
+    @FXML private lateinit var snackbar: JFXSnackbar
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
             DefaultWorkspaceFile().fetch().also {
@@ -67,12 +68,12 @@ class MainView : Initializable {
     }
 
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
-        JMetro(JMetro.Style.DARK).applyTheme(rootPane)
         Platform.runLater {
             (rootPane.scene.window as Stage).icons.add(
                 Image(javaClass.getResource("/ui/icon/alpha-c-box.svg").toString())
             )
         }
+        snackbar = JFXSnackbar(rootPane)
 
         MultiDraging(
             EventHandler {
@@ -103,6 +104,7 @@ class MainView : Initializable {
             dropZone.onDragDropped = it
         }
 
+        fileListController.setup(snackbar)
         fileListController.selectionModel().selectedItemProperty().addListener { _, _, selected ->
             selected.also {
                 selected?.also { selected ->

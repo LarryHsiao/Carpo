@@ -1,9 +1,9 @@
 package com.silverhetch.carpo.javafx
 
+import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.TextField
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import java.net.URL
@@ -14,8 +14,8 @@ import java.util.*
  */
 class FileInfoView : Initializable {
     @FXML private lateinit var tagListController: TagListView
-    @FXML private lateinit var fileName: TextField
-    @FXML private lateinit var tagName: TextField
+    @FXML private lateinit var fileName: JFXTextField
+    @FXML private lateinit var tagName: JFXTextField
 
     private lateinit var cfile: CFile
 
