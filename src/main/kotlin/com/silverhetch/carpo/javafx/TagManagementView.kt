@@ -1,9 +1,9 @@
 package com.silverhetch.carpo.javafx
 
+import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.tag.Tags
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.TextField
 import java.net.URL
 import java.util.*
 
@@ -12,7 +12,7 @@ import java.util.*
  */
 class TagManagementView : Initializable {
     @FXML private lateinit var tagListController: TagListView
-    @FXML private lateinit var searchField: TextField
+    @FXML private lateinit var searchField: JFXTextField
 
     private lateinit var tags: Tags
 
