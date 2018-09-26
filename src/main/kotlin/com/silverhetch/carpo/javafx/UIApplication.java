@@ -1,9 +1,12 @@
 package com.silverhetch.carpo.javafx;
 
+import com.jfoenix.controls.JFXDecorator;
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -18,11 +21,23 @@ public class UIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        SvgImageLoaderFactory.install();
         final Parent parent = FXMLLoader.load(
-                getClass().getResource("/ui/Main.fxml"),
-                ResourceBundle.getBundle("ui/i18n/default")
+                getClass().getResource("/Main.fxml"),
+                ResourceBundle.getBundle("i18n/default")
         );
-        stage.setScene(new Scene(parent));
+        stage.getIcons().add(new Image(getClass().getResource("/icon/alpha-c-box.svg").toString()));
+        Scene scene = new Scene(new JFXDecorator(stage, parent));
+        scene.getStylesheets().addAll(
+                getClass().getResource("/css/General.css").toExternalForm(),
+                getClass().getResource("/css/jfoenix-design.css").toExternalForm(),
+                getClass().getResource("/css/jfoenix-fonts.css").toExternalForm(),
+                getClass().getResource("/css/ToolBar.css").toExternalForm(),
+                getClass().getResource("/css/Decorator.css").toExternalForm(),
+                getClass().getResource("/css/ListView.css").toExternalForm(),
+                getClass().getResource("/css/Button.css").toExternalForm()
+        );
+        stage.setScene(scene);
         stage.show();
     }
 }

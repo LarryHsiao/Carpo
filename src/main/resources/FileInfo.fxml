@@ -14,6 +14,7 @@
             maxWidth="Infinity"
             fx:id="tagName" />
         <JFXButton text="%General.create"
+            styleClass="project-jfx-button-flat"
             onMouseClicked="#createTag" />
     </HBox>
 

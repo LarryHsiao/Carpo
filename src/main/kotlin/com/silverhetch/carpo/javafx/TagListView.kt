@@ -65,7 +65,7 @@ class TagListView : Initializable {
                         dragboard.setContent(ClipboardContent().also { content ->
                             content[DataFormat.URL] = UriTagFactory.TagUri(item).fetch()
                             dragboard.dragView = Image(
-                                javaClass.getResource("/ui/icon/tag.svg").toURI().toString(),
+                                javaClass.getResource("/icon/tag.svg").toURI().toString(),
                                 32.0,
                                 32.0,
                                 true,
@@ -85,7 +85,7 @@ class TagListView : Initializable {
                         text = item?.title() ?: ""
                         graphic = ImageView(
                             Image(
-                                javaClass.getResource("/ui/icon/tag.svg").toURI().toString(),
+                                javaClass.getResource("/icon/tag.svg").toURI().toString(),
                                 32.0,
                                 32.0,
                                 true,
@@ -101,7 +101,7 @@ class TagListView : Initializable {
                     val stage = Stage()
                     stage.title = selected.title()
                     stage.scene = Scene(
-                        FXMLLoader(javaClass.getResource("/ui/TagOverview.fxml")).let { loader ->
+                        FXMLLoader(javaClass.getResource("/TagOverview.fxml")).let { loader ->
                             loader.resources = resources
                             loader.load<Parent>().also { _ ->
                                 loader.getController<TagOverviewView>().loadTag(selected)

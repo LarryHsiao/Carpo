@@ -17,7 +17,7 @@ class GeneralContextMenuFactoryTest : ApplicationTest() {
             override fun onItemClicked(id: String) {
                 fail()
             }
-        }, ResourceBundle.getBundle("ui/i18n/default")).fetch().let { contextMenu ->
+        }, ResourceBundle.getBundle("i18n/default")).fetch().let { contextMenu ->
             checklist.forEach checkedItem@{ checkedId ->
                 contextMenu.items.forEach menuItem@{
                     if (it.id == checkedId) {

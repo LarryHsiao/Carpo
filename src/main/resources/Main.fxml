@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import com.jfoenix.controls.JFXToolbar?><?import javafx.scene.control.Label?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx/8.0.121"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.silverhetch.carpo.javafx.MainView">
+    <BorderPane>
+        <top>
+            <VBox spacing="20">
+                <JFXToolbar>
+                    <leftItems>
+                        <Label text="%General.appName" />
+                    </leftItems>
+                </JFXToolbar>
+            </VBox>
+
+        </top>
+        <center>
+            <HBox fx:id="rootPane">
+                <fx:include source="TagManagement.fxml"
+                    style="-fx-padding: 0 16 0 0"
+                    fx:id="tagManagement" />
+                <VBox fx:id="dropZone"
+                    prefHeight="350.0"
+                    prefWidth="768.0">
+                    <HBox style="-fx-padding: 0 0 16 0">
+                        <JFXTextField fx:id="currentPath"
+                            maxWidth="Infinity"
+                            editable="false"
+                            HBox.hgrow="ALWAYS" />
+                        <JFXButton onMouseClicked="#changePath"
+                            styleClass="project-jfx-button-flat"
+                            text="%DropZone.changePath" />
+                    </HBox>
+                    <HBox style="-fx-padding: 0 0 16 0">
+                        <JFXTextField fx:id="searchKey"
+                            maxWidth="Infinity"
+                            labelFloat="true"
+                            promptText="%General.search"
+                            HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <fx:include fx:id="fileList"
+                        VBox.vgrow="ALWAYS"
+                        source="FileList.fxml" />
+
+                    <StackPane>
+                        <ImageView StackPane.alignment="CENTER"
+                            fx:id="blankZone"
+                            managed="false"
+                            visible="false">
+                            <Image url="/icon/folder-plus.svg"
+                                requestedWidth="35"
+                                requestedHeight="35" />
+                        </ImageView>
+                    </StackPane>
+                </VBox>
+                <fx:include source="FileInfo.fxml"
+                    HBox.hgrow="ALWAYS"
+                    prefWidth="450"
+                    style="-fx-padding: 0 0 0 16"
+                    fx:id="fileInfo" />
+            </HBox>
+        </center>
+    </BorderPane>
+</StackPane>

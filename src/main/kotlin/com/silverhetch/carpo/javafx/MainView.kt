@@ -8,24 +8,16 @@ import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
-import com.sun.javafx.css.StyleManager
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
-import javafx.application.Application
-import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
-import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
-import javafx.stage.Stage
 import java.io.File
 import java.net.URL
 import java.util.*
@@ -59,20 +51,7 @@ class MainView : Initializable {
         )
     )
 
-    init {
-        Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA)
-        StyleManager.getInstance().addUserAgentStylesheet(
-            javaClass.getResource("/ui/css/General.css").toURI().toString()
-        )
-        SvgImageLoaderFactory.install()
-    }
-
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
-        Platform.runLater {
-            (rootPane.scene.window as Stage).icons.add(
-                Image(javaClass.getResource("/ui/icon/alpha-c-box.svg").toString())
-            )
-        }
         snackbar = JFXSnackbar(rootPane)
 
         MultiDraging(
@@ -112,6 +91,9 @@ class MainView : Initializable {
                 }
             }
         }
+        searchKey.textProperty().addListener { _, _, newValue ->
+            fileListController.loadList(carpo.byKeyword(searchKey.text))
+        }
         reloadUI()
     }
 
@@ -135,22 +117,9 @@ class MainView : Initializable {
         }
     }
 
-
-    @FXML
-    private fun searchByKey() {
-        fileListController.loadList(carpo.byKeyword(searchKey.text))
-    }
-
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
         fileListController.loadList(carpo.all())
         tagManagementController.loadTags(carpo.tags())
-    }
-
-    @FXML
-    private fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
-        if (keyEvent.code == KeyCode.ENTER) {
-            searchByKey()
-        }
     }
 }

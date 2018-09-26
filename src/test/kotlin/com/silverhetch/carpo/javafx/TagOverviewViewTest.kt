@@ -25,8 +25,8 @@ class TagOverviewViewTest : ApplicationTest() {
             it.mkdir()
         }
         FXMLLoader().let {
-            it.resources = ResourceBundle.getBundle("ui/i18n/default")
-            it.location = javaClass.getResource("/ui/TagOverview.fxml")
+            it.resources = ResourceBundle.getBundle("i18n/default")
+            it.location = javaClass.getResource("/TagOverview.fxml")
             stage.scene = Scene(it.load())
             tagOverview = it.getController<TagOverviewView>()
             stage.show()
