@@ -23,8 +23,8 @@ class FileListViewTest : ApplicationTest() {
             }
         }
         FXMLLoader().let {
-            it.resources = ResourceBundle.getBundle("ui/i18n/default")
-            it.location = javaClass.getResource("/ui/FileList.fxml")
+            it.resources = ResourceBundle.getBundle("i18n/default")
+            it.location = javaClass.getResource("/FileList.fxml")
             stage.scene = Scene(it.load())
             fileListView = it.getController<FileListView>()
             stage.show()

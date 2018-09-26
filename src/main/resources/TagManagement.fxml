@@ -9,6 +9,8 @@
         maxWidth="Infinity">
         <JFXTextField fx:id="searchField"
             AnchorPane.bottomAnchor="0"
+            labelFloat="true"
+            promptText="%General.search"
             AnchorPane.topAnchor="0"
             AnchorPane.rightAnchor="0"
             AnchorPane.leftAnchor="0" />

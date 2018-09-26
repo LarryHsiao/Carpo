@@ -33,8 +33,8 @@ class MainViewTest : ApplicationTest() {
             File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
         }
         val parent = FXMLLoader.load<Parent>(
-            javaClass.getResource("/ui/Main.fxml"),
-            ResourceBundle.getBundle("ui/i18n/default")
+            javaClass.getResource("/Main.fxml"),
+            ResourceBundle.getBundle("i18n/default")
         )
         stage.scene = Scene(parent)
         stage.show()
