@@ -28,16 +28,7 @@ public class UIApplication extends Application {
         );
         stage.getIcons().add(new Image(getClass().getResource("/icon/alpha-c-box.svg").toString()));
         Scene scene = new Scene(new JFXDecorator(stage, parent));
-        scene.getStylesheets().addAll(
-                getClass().getResource("/css/General.css").toExternalForm(),
-                getClass().getResource("/css/jfoenix-design.css").toExternalForm(),
-                getClass().getResource("/css/jfoenix-fonts.css").toExternalForm(),
-                getClass().getResource("/css/ToolBar.css").toExternalForm(),
-                getClass().getResource("/css/Decorator.css").toExternalForm(),
-                getClass().getResource("/css/ListView.css").toExternalForm(),
-                getClass().getResource("/css/Button.css").toExternalForm(),
-                getClass().getResource("/css/TextField.css").toExternalForm()
-        );
+        scene.getStylesheets().addAll(new Stylesheets().fetch());
         stage.setScene(scene);
         stage.show();
     }

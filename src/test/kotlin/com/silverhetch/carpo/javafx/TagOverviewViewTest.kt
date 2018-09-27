@@ -1,12 +1,14 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.javafx.tag.overview.TagOverviewView
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.Label
 import javafx.stage.Stage
 import org.junit.Assert
 import org.junit.Test
@@ -36,20 +38,22 @@ class TagOverviewViewTest : ApplicationTest() {
     @Test
     fun newTagWithNoAttachedFiles() {
         val newTagName = "NewTag" + UUID.randomUUID().toString().substring(0, 5)
-        tagOverview.loadTag(CarpoImpl(
-            CarpoWorkspace(
-                DefaultWorkspaceFile().fetch()
+        Platform.runLater {
+            tagOverview.loadTag(CarpoImpl(
+                CarpoWorkspace(
+                    DefaultWorkspaceFile().fetch()
+                )
+            ).tags().addTag(newTagName))
+
+            Assert.assertEquals(
+                newTagName,
+                from(lookup("#tagName")).query<Label>().text
             )
-        ).tags().addTag(newTagName))
 
-        Assert.assertEquals(
-            newTagName,
-            from(lookup("#tagName")).query<JFXTextField>().text
-        )
-
-        Assert.assertEquals(
-            0,
-            from(lookup("#fileList")).queryListView<Tag>().items.size
-        )
+            Assert.assertEquals(
+                0,
+                from(lookup("#fileList")).queryListView<Tag>().items.size
+            )
+        }
     }
 }

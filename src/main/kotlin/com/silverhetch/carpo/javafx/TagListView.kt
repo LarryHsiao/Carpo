@@ -2,6 +2,7 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
+import com.silverhetch.carpo.javafx.tag.overview.TagOverviewStage
 import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
 import com.silverhetch.carpo.javafx.utility.RenameAction
@@ -11,17 +12,13 @@ import com.silverhetch.carpo.tag.factory.UriTagFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
-import javafx.scene.Parent
-import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton.PRIMARY
 import javafx.scene.input.TransferMode
-import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
@@ -98,17 +95,7 @@ class TagListView : Initializable {
         tagList.setOnMouseClicked { mouseEvent ->
             if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2) {
                 tagList.selectionModel.selectedItem?.also { selected ->
-                    val stage = Stage()
-                    stage.title = selected.title()
-                    stage.scene = Scene(
-                        FXMLLoader(javaClass.getResource("/TagOverview.fxml")).let { loader ->
-                            loader.resources = resources
-                            loader.load<Parent>().also { _ ->
-                                loader.getController<TagOverviewView>().loadTag(selected)
-                            }
-                        }
-                    )
-                    stage.show()
+                    TagOverviewStage(resources, selected).fetch()
                 }
             }
         }
