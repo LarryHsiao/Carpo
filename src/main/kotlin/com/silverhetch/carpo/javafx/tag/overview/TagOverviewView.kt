@@ -1,17 +1,21 @@
-package com.silverhetch.carpo.javafx
+package com.silverhetch.carpo.javafx.tag.overview
 
-import com.jfoenix.controls.JFXTextField
+import com.silverhetch.carpo.javafx.FileListView
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.tag.Tag
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
+import javafx.scene.effect.ColorAdjust
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.layout.VBox
 import java.net.URL
 import java.util.*
 
 class TagOverviewView : Initializable {
     @FXML private lateinit var root: VBox
-    @FXML private lateinit var tagName: JFXTextField
+    @FXML private lateinit var tagName: Label
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var tag: Tag
 
@@ -25,6 +29,20 @@ class TagOverviewView : Initializable {
         }.let {
             root.onDragOver = it
             root.onDragDropped = it
+        }
+        tagName.graphic = ImageView(
+            Image(
+                javaClass.getResource("/icon/tag.svg").toURI().toString(),
+                24.0,
+                24.0,
+                true,
+                true
+            )
+        ).also { imageView ->
+            imageView.effect = ColorAdjust().also {
+                it.hue = 0.0
+                it.brightness = 1.0
+            }
         }
     }
 
