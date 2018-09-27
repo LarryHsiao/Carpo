@@ -14,6 +14,7 @@ import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
+import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -94,6 +95,17 @@ class MainView : Initializable {
         searchKey.textProperty().addListener { _, _, newValue ->
             fileListController.loadList(carpo.byKeyword(searchKey.text))
         }
+        searchKey.sceneProperty().addListener { observable, oldValue, newValue ->
+            newValue.setOnKeyPressed {
+                when (it.code) {
+                    KeyCode.F5 -> {
+                        reloadUI()
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
         reloadUI()
     }
 
@@ -119,7 +131,13 @@ class MainView : Initializable {
 
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
-        fileListController.loadList(carpo.all())
+        fileListController.loadList(
+            if (searchKey.text.isBlank()) {
+                carpo.all()
+            } else {
+                carpo.byKeyword(searchKey.text)
+            }
+        )
         tagManagementController.loadTags(carpo.tags())
     }
 }
