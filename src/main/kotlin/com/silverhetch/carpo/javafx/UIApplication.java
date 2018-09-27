@@ -35,7 +35,8 @@ public class UIApplication extends Application {
                 getClass().getResource("/css/ToolBar.css").toExternalForm(),
                 getClass().getResource("/css/Decorator.css").toExternalForm(),
                 getClass().getResource("/css/ListView.css").toExternalForm(),
-                getClass().getResource("/css/Button.css").toExternalForm()
+                getClass().getResource("/css/Button.css").toExternalForm(),
+                getClass().getResource("/css/TextField.css").toExternalForm()
         );
         stage.setScene(scene);
         stage.show();
