@@ -23,7 +23,7 @@
                 <VBox fx:id="dropZone"
                     prefHeight="350.0"
                     prefWidth="768.0">
-                    <HBox style="-fx-padding: 0 0 16 0">
+                    <HBox style="-fx-padding: 0 0 16 0" spacing="10">
                         <JFXTextField fx:id="currentPath"
                             maxWidth="Infinity"
                             editable="false"
@@ -31,6 +31,10 @@
                         <JFXButton onMouseClicked="#changePath"
                             styleClass="project-jfx-button-flat"
                             text="%DropZone.changePath" />
+                        <JFXButton onMouseClicked="#importFrom"
+                            styleClass="project-jfx-button-flat-transparent"
+                            text="%General.import"
+                            />
                     </HBox>
                     <HBox style="-fx-padding: 0 0 16 0">
                         <JFXTextField fx:id="searchKey"
