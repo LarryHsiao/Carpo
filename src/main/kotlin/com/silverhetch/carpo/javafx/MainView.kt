@@ -8,6 +8,7 @@ import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
+import com.silverhetch.carpo.workspace.WorkspaceMerging
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -139,5 +140,28 @@ class MainView : Initializable {
             }
         )
         tagManagementController.loadTags(carpo.tags())
+    }
+
+    @FXML
+    private fun importFrom(mouseEvent: MouseEvent) {
+        val chooser = DirectoryChooser()
+        chooser.title = ""
+        val defaultDirectory = File(System.getProperty("user.dir"))
+        chooser.initialDirectory = defaultDirectory
+        mouseEvent.source.let { source ->
+            if (source is Node) {
+                chooser.showDialog((source.scene.window))?.also {
+                    WorkspaceMerging(
+                        CarpoImpl(
+                            CarpoWorkspace(
+                                it
+                            )
+                        ),
+                        carpo
+                    ).fetch()
+                    reloadUI()
+                }
+            }
+        }
     }
 }
