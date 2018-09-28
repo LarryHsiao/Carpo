@@ -29,3 +29,7 @@ insert into view_conditions (view_id, tag_id, type)
 values (1, 1, 'included');
 insert into view_conditions (view_id, tag_id, type)
 values (1, 2, 'excluded');
+
+-- Use case: Delete a View
+delete from views
+where id=?;
