@@ -98,12 +98,8 @@ class MainView : Initializable {
         }
         searchKey.sceneProperty().addListener { observable, oldValue, newValue ->
             newValue.setOnKeyPressed {
-                when (it.code) {
-                    KeyCode.F5 -> {
-                        reloadUI()
-                    }
-                    else -> {
-                    }
+                if (it.code == KeyCode.F5) {
+                    reloadUI()
                 }
             }
         }
