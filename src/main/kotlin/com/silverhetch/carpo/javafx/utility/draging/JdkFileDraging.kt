@@ -8,6 +8,9 @@ import javafx.scene.input.DragEvent.DRAG_OVER
 import javafx.scene.input.TransferMode
 import java.io.File
 
+/**
+ * Handling dragging events that have [File] in dragboard.
+ */
 class JdkFileDraging(private val droppedFile: (files: List<File>) -> Unit) : EventHandler<DragEvent> {
     override fun handle(event: DragEvent) {
         when (event.eventType) {

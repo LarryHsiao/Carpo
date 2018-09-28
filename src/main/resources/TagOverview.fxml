@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?><?import com.jfoenix.controls.JFXToolbar?><?import javafx.scene.layout.VBox?><?import javafx.scene.control.Label?>
+<VBox xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:id="root"
+    prefWidth="640"
+    prefHeight="480"
+    fx:controller="com.silverhetch.carpo.javafx.tag.overview.TagOverviewView">
+
+    <JFXToolbar>
+        <leftItems>
+            <Label fx:id="tagName"/>
+        </leftItems>
+    </JFXToolbar>
+
+    <fx:include source="FileList.fxml"
+        VBox.vgrow="ALWAYS"
+        fx:id="fileList" />
+
+</VBox>

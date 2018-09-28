@@ -4,6 +4,9 @@ import com.silverhetch.clotho.Source
 import javafx.scene.control.ContextMenu
 import java.util.*
 
+/**
+ * Context menu factory that build a [ContextMenu] have regular CRUD functions for lists.
+ */
 class GeneralContextMenuFactory(private val events: ContextMenuFactory.Events, private val bundle: ResourceBundle) : Source<ContextMenu> {
     override fun fetch(): ContextMenu {
         return ContextMenuFactory(mapOf(

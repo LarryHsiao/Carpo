@@ -1,6 +1,6 @@
 package com.silverhetch.carpo.javafx;
 
-import com.sun.javafx.css.StyleManager;
+import com.jfoenix.controls.JFXDecorator;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,11 +21,15 @@ public class UIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        SvgImageLoaderFactory.install();
         final Parent parent = FXMLLoader.load(
-                getClass().getResource("/ui/Main.fxml"),
-                ResourceBundle.getBundle("ui/i18n/default")
+                getClass().getResource("/Main.fxml"),
+                ResourceBundle.getBundle("i18n/default")
         );
-        stage.setScene(new Scene(parent));
+        stage.getIcons().add(new Image(getClass().getResource("/icon/alpha-c-box.svg").toString()));
+        Scene scene = new Scene(new JFXDecorator(stage, parent));
+        scene.getStylesheets().addAll(new Stylesheets().fetch());
+        stage.setScene(scene);
         stage.show();
     }
 }

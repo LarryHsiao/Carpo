@@ -4,28 +4,23 @@ import com.jfoenix.controls.JFXSnackbar
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.config.CarpoConfigSource
+import com.silverhetch.carpo.config.Config
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
-import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
-import com.sun.javafx.css.StyleManager
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
-import javafx.application.Application
-import javafx.application.Platform
+import com.silverhetch.carpo.workspace.WorkspaceMerging
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
 import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
-import javafx.stage.Stage
 import java.io.File
 import java.net.URL
 import java.util.*
@@ -40,40 +35,18 @@ class MainView : Initializable {
     @FXML private lateinit var currentPath: JFXTextField
     @FXML private lateinit var searchKey: JFXTextField
     @FXML private lateinit var blankZone: ImageView
-    @FXML private lateinit var tagListController: TagListView
     @FXML private lateinit var fileListController: FileListView
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
     @FXML private lateinit var snackbar: JFXSnackbar
+    private var config: Config = CarpoConfigSource().fetch()
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            DefaultWorkspaceFile().fetch().also {
-                if (it.exists().not()) {
-                    it.mkdir()
-                }
-                File(it, "Sample file").also { sampleFile ->
-                    if (sampleFile.exists().not()) {
-                        sampleFile.createNewFile()
-                    }
-                }
-            }
+            File(config.workspacePath())
         )
     )
 
-    init {
-        Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA)
-        StyleManager.getInstance().addUserAgentStylesheet(
-            javaClass.getResource("/ui/css/General.css").toURI().toString()
-        )
-        SvgImageLoaderFactory.install()
-    }
-
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
-        Platform.runLater {
-            (rootPane.scene.window as Stage).icons.add(
-                Image(javaClass.getResource("/ui/icon/alpha-c-box.svg").toString())
-            )
-        }
         snackbar = JFXSnackbar(rootPane)
 
         MultiDraging(
@@ -113,6 +86,16 @@ class MainView : Initializable {
                 }
             }
         }
+        searchKey.textProperty().addListener { _, _, newValue ->
+            fileListController.loadList(carpo.byKeyword(searchKey.text))
+        }
+        searchKey.sceneProperty().addListener { observable, oldValue, newValue ->
+            newValue.setOnKeyPressed {
+                if (it.code == KeyCode.F5) {
+                    reloadUI()
+                }
+            }
+        }
         reloadUI()
     }
 
@@ -136,24 +119,38 @@ class MainView : Initializable {
         }
     }
 
-
-    @FXML
-    private fun searchByKey() {
-        tagListController.loadTags(carpo.tags().byName(searchKey.text))
-        fileListController.loadList(carpo.byKeyword(searchKey.text))
-    }
-
     private fun reloadUI() {
         currentPath.text = carpo.workspace().rootJFile().absolutePath
-        fileListController.loadList(carpo.all())
-        tagListController.loadTags(carpo.tags().all())
+        fileListController.loadList(
+            if (searchKey.text.isBlank()) {
+                carpo.all()
+            } else {
+                carpo.byKeyword(searchKey.text)
+            }
+        )
         tagManagementController.loadTags(carpo.tags())
     }
 
     @FXML
-    private fun searchKeyFieldKeyPressed(keyEvent: KeyEvent) {
-        if (keyEvent.code == KeyCode.ENTER) {
-            searchByKey()
+    private fun importFrom(mouseEvent: MouseEvent) {
+        val chooser = DirectoryChooser()
+        chooser.title = ""
+        val defaultDirectory = File(System.getProperty("user.dir"))
+        chooser.initialDirectory = defaultDirectory
+        mouseEvent.source.let { source ->
+            if (source is Node) {
+                chooser.showDialog((source.scene.window))?.also {
+                    WorkspaceMerging(
+                        CarpoImpl(
+                            CarpoWorkspace(
+                                it
+                            )
+                        ),
+                        carpo
+                    ).fetch()
+                    reloadUI()
+                }
+            }
         }
     }
 }

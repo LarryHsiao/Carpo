@@ -20,6 +20,7 @@ class FileInfoView : Initializable {
     private lateinit var cfile: CFile
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+        // no implementation needed here
     }
 
     /**
