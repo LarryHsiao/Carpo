@@ -42,7 +42,11 @@ class MainView : Initializable {
     private var config: Config = CarpoConfigSource().fetch()
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(config.workspacePath())
+            File(config.workspacePath()).also {
+                if (!it.exists()) {
+                    it.mkdir()
+                }
+            }
         )
     )
 
