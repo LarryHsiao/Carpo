@@ -5,6 +5,6 @@ package com.silverhetch.carpo.config
  */
 class ConstConfig : Config {
     override fun workspacePath(): String {
-        return System.getProperty("user.dir")
+        return System.getProperty("user.dir") + "/Playground"
     }
 }

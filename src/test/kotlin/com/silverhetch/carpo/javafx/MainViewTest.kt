@@ -31,6 +31,7 @@ class MainViewTest : ApplicationTest() {
             }
             it.mkdir()
             File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+            File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
         }
         val parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/Main.fxml"),

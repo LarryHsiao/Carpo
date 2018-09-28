@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.workspace
 
+import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.clotho.Source
 import java.io.File
 
@@ -8,6 +9,6 @@ import java.io.File
  */
 class DefaultWorkspaceFile : Source<File> {
     override fun fetch(): File {
-        return File(System.getProperty("user.home") + "/Playground")
+        return File(CarpoConfigSource().fetch().workspacePath())
     }
 }
