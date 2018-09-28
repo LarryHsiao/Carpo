@@ -4,10 +4,11 @@ import com.jfoenix.controls.JFXSnackbar
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.config.CarpoConfigSource
+import com.silverhetch.carpo.config.Config
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
-import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import com.silverhetch.carpo.workspace.WorkspaceMerging
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -38,18 +39,10 @@ class MainView : Initializable {
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
     @FXML private lateinit var snackbar: JFXSnackbar
+    private var config: Config = CarpoConfigSource().fetch()
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            DefaultWorkspaceFile().fetch().also {
-                if (it.exists().not()) {
-                    it.mkdir()
-                }
-                File(it, "Sample file").also { sampleFile ->
-                    if (sampleFile.exists().not()) {
-                        sampleFile.createNewFile()
-                    }
-                }
-            }
+            File(config.workspacePath())
         )
     )
 
