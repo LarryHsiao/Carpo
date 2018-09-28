@@ -12,7 +12,7 @@ class CarpoConfigSourceTest {
     fun notExist_usingDefault() {
         val tempConfig = Files.createTempFile("", "").toFile()
         Assert.assertEquals(
-            System.getProperty("user.dir"),
+            System.getProperty("user.dir") + "/Playground",
             CarpoConfigSource(tempConfig.absolutePath).fetch().workspacePath()
         )
     }

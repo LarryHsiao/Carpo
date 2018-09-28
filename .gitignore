@@ -12,3 +12,5 @@ local.properties
 **.iml
 build
 *.db
+
+Playground/
