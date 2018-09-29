@@ -20,12 +20,13 @@ class FileImageUrl(private val file: File, private val defaultUrl: String) : Sou
                 defaultUrl
             }
         } else {
-            file.listFiles().forEach {
-                if (mimeTypeMap.getContentType(it).contains("image")) {
-                    return it.toURI().toString()
+            file.listFiles().also { list ->
+                list.forEach {
+                    if (mimeTypeMap.getContentType(it).contains("image")) {
+                        return it.toURI().toString()
+                    }
                 }
             }
-            return defaultUrl
-        }
+            return defaultUrl}
     }
 }
