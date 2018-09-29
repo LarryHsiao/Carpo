@@ -2,13 +2,11 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListCell
 import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.JFXPopup
 import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
-import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
-import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
-import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.javafx.utility.draging.TagDraging
@@ -18,6 +16,7 @@ import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.MultipleSelectionModel
+import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
@@ -35,6 +34,29 @@ class FileListView : Initializable {
 
     override fun initialize(location: URL?, bundle: ResourceBundle) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
+        fileList.selectionModel.selectionMode = SelectionMode.MULTIPLE
+        fileList.setOnContextMenuRequested {event->
+            if (fileList.selectionModel.selectedItems.size == 0) {
+                return@setOnContextMenuRequested
+            }
+            JFXPopup().let { popup ->
+                popup.popupContent = JFXListView<String>().also { listView ->
+                    listView.items.addAll(bundle.getString("General.delete"))
+                    listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
+                        when (index) {
+                            0 -> {
+                                fileList.selectionModel.selectedItems.forEach {
+                                    it.remove()
+                                }
+                                fileList.items.removeAll(fileList.selectionModel.selectedItems)
+                            }
+                        }
+                        popup.hide()
+                    }
+                }
+                popup.show(fileList, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, event.x, event.y)
+            }
+        }
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
                 init {
@@ -56,27 +78,6 @@ class FileListView : Initializable {
                     ).let {
                         onDragOver = it
                         onDragDropped = it
-                    }
-
-                    setOnContextMenuRequested { _ ->
-                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
-                            override fun onItemClicked(id: String) {
-                                when (id) {
-                                    "rename" -> {
-                                        RenameAction(bundle).fetch().let { result ->
-                                            if (result.isBlank().not()) {
-                                                item.rename(result)
-                                                updateItem(item, false)
-                                            }
-                                        }
-                                    }
-                                    "delete" -> {
-                                        item.remove()
-                                        listView.items.remove(item)
-                                    }
-                                }
-                            }
-                        }, bundle).fetch()
                     }
                 }
 
