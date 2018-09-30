@@ -1,8 +1,8 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.*
-import com.jfoenix.controls.JFXPopup.PopupHPosition
-import com.jfoenix.controls.JFXPopup.PopupVPosition
+import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
+import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
 import com.silverhetch.carpo.javafx.tag.overview.TagOverviewStage
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
@@ -39,43 +39,40 @@ class TagListView : Initializable {
             if (tagList.selectionModel.selectedItems.size == 0) {
                 return@setOnContextMenuRequested
             }
-            JFXPopup().let { popup ->
-                popup.popupContent = JFXListView<String>().also { listView ->
-                    listView.items.addAll(
-                        resources.getString("General.delete")
-                    )
-                    listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
-                        when (index) {
-                            0 -> {
-                                JFXAlert<Unit>(tagList.scene.window as Stage).also { dialog ->
-                                    dialog.isHideOnEscape = false
-                                    dialog.isOverlayClose = false
-                                    dialog.setContent(JFXDialogLayout().also { layout ->
-                                        layout.setHeading(Label(resources.getString("General.delete")))
-                                        layout.setBody(Label(resources.getString("General.deleteSelected")))
-                                        layout.setActions(
-                                            JFXButton(resources.getString("General.confirm")).also { button ->
-                                                button.setOnAction {
-                                                    tagList.selectionModel.selectedItems.forEach { tag ->
-                                                        tag.remove()
-                                                    }
-                                                    tagList.items.removeAll(tagList.selectionModel.selectedItems)
-                                                    dialog.hideWithAnimation()
-                                                }
-                                            },
-                                            JFXButton(resources.getString("General.cancel")).also { button ->
-                                                button.setOnAction { dialog.hideWithAnimation() }
+            val popup = JFXPopup()
+            popup.popupContent = JFXListView<String>().also { listView ->
+                listView.items.addAll(resources.getString("General.delete"))
+                listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
+                    when (index) {
+                        0 -> {
+                            val dialog = JFXAlert<Unit>(tagList.scene.window as Stage)
+                            dialog.isHideOnEscape = false
+                            dialog.isOverlayClose = false
+                            dialog.setContent(JFXDialogLayout().also { layout ->
+                                layout.setHeading(Label(resources.getString("General.delete")))
+                                layout.setBody(Label(resources.getString("General.deleteSelected")))
+                                layout.setActions(
+                                    JFXButton(resources.getString("General.confirm")).also { button ->
+                                        button.setOnAction {
+                                            tagList.selectionModel.selectedItems.forEach { tag ->
+                                                tag.remove()
                                             }
-                                        )
-                                    })
-                                }.showAndWait()
-                            }
+                                            tagList.items.removeAll(tagList.selectionModel.selectedItems)
+                                            dialog.hideWithAnimation()
+                                        }
+                                    },
+                                    JFXButton(resources.getString("General.cancel")).also { button ->
+                                        button.setOnAction { dialog.hideWithAnimation() }
+                                    }
+                                )
+                            })
+                            dialog.showAndWait()
                         }
-                        popup.hide()
                     }
+                    popup.hide()
                 }
-                popup.show(tagList, PopupVPosition.TOP, PopupHPosition.LEFT, event.x, event.y)
             }
+            popup.show(tagList, TOP, LEFT, event.x, event.y)
         }
         tagList.setCellFactory {
             object : JFXListCell<Tag>() {

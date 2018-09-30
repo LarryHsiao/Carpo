@@ -1,6 +1,8 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.*
+import com.jfoenix.controls.JFXPopup.PopupHPosition.*
+import com.jfoenix.controls.JFXPopup.PopupVPosition.*
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
@@ -18,7 +20,7 @@ import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
-import javafx.stage.Modality
+import javafx.stage.Modality.APPLICATION_MODAL
 import javafx.stage.Stage
 import java.net.URL
 import java.util.*
@@ -39,43 +41,41 @@ class FileListView : Initializable {
             if (fileList.selectionModel.selectedItems.size == 0) {
                 return@setOnContextMenuRequested
             }
-            JFXPopup().let { popup ->
-                popup.popupContent = JFXListView<String>().also { listView ->
-                    listView.items.addAll(bundle.getString("General.delete"))
-                    listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
-                        when (index) {
-                            0 -> {
-                                JFXAlert<Unit>(fileList.scene.window as Stage).let { dialog ->
-                                    dialog.initModality(Modality.APPLICATION_MODAL)
-                                    dialog.isHideOnEscape = false
-                                    dialog.isOverlayClose = false
-                                    dialog.setContent(JFXDialogLayout().also { layout ->
-                                        layout.setHeading(Label(bundle.getString("General.delete")))
-                                        layout.setBody(Label(bundle.getString("General.deleteSelected")))
-                                        layout.setActions(
-                                            JFXButton(bundle.getString("General.confirm")).also { button ->
-                                                button.setOnAction {
-                                                    fileList.selectionModel.selectedItems.forEach { cFile ->
-                                                        cFile.remove()
-                                                    }
-                                                    fileList.items.removeAll(fileList.selectionModel.selectedItems)
-                                                    dialog.hideWithAnimation()
-                                                }
-                                            },
-                                            JFXButton(bundle.getString("General.cancel")).also { button ->
-                                                button.setOnAction { dialog.hideWithAnimation() }
+            val popup = JFXPopup()
+            popup.popupContent = JFXListView<String>().also { listView ->
+                listView.items.addAll(bundle.getString("General.delete"))
+                listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
+                    when (index) {
+                        0 -> {
+                            val dialog = JFXAlert<Unit>(fileList.scene.window as Stage)
+                            dialog.initModality(APPLICATION_MODAL)
+                            dialog.isHideOnEscape = false
+                            dialog.isOverlayClose = false
+                            dialog.setContent(JFXDialogLayout().also { layout ->
+                                layout.setHeading(Label(bundle.getString("General.delete")))
+                                layout.setBody(Label(bundle.getString("General.deleteSelected")))
+                                layout.setActions(
+                                    JFXButton(bundle.getString("General.confirm")).also { button ->
+                                        button.setOnAction {
+                                            fileList.selectionModel.selectedItems.forEach { cFile ->
+                                                cFile.remove()
                                             }
-                                        )
-                                    })
-                                    dialog.showAndWait()
-                                }
-                            }
+                                            fileList.items.removeAll(fileList.selectionModel.selectedItems)
+                                            dialog.hideWithAnimation()
+                                        }
+                                    },
+                                    JFXButton(bundle.getString("General.cancel")).also { button ->
+                                        button.setOnAction { dialog.hideWithAnimation() }
+                                    }
+                                )
+                            })
+                            dialog.showAndWait()
                         }
-                        popup.hide()
                     }
+                    popup.hide()
                 }
-                popup.show(fileList, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, event.x, event.y)
             }
+            popup.show(fileList, TOP, LEFT, event.x, event.y)
         }
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
