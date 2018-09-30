@@ -17,6 +17,9 @@
         </top>
         <center>
             <HBox fx:id="rootPane">
+                <BorderPane.margin>
+                    <Insets topRightBottomLeft="16"/>
+                </BorderPane.margin>
                 <fx:include source="TagManagement.fxml"
                     style="-fx-padding: 0 16 0 0"
                     fx:id="tagManagement" />
