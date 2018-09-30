@@ -3,6 +3,9 @@ package com.silverhetch.carpo.file.views
 import java.sql.Connection
 import java.sql.SQLException
 
+/**
+ * Views stores in database.
+ */
 class DbViews(private val dbConn: Connection) : Views {
     override fun all(): List<View> {
         dbConn.createStatement().use { statement ->

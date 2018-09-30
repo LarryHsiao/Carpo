@@ -6,6 +6,9 @@ import com.silverhetch.carpo.workspace.Workspace
 import com.silverhetch.clotho.Source
 import java.io.File
 
+/**
+ * Map source that filter out [CFile] which exist in workspace.
+ */
 class WorkspaceMapFactory(private val workspace: Workspace, private val dbMap: Map<String, CFile>) : Source<Map<String, CFile>> {
     override fun fetch(): Map<String, CFile> {
         return dbMap.filterKeys { key ->

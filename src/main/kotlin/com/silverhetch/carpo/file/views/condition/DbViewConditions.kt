@@ -4,6 +4,9 @@ import com.silverhetch.carpo.tag.Tag
 import java.sql.Connection
 import java.sql.SQLException
 
+/**
+ * Database implementation of [Conditions] which data stores in it.
+ */
 class DbViewConditions(private val connection: Connection, private val viewId: Long) : Conditions {
     override fun all(): List<Condition> {
         connection.prepareStatement("""
@@ -14,8 +17,7 @@ class DbViewConditions(private val connection: Connection, private val viewId: L
             statement.setLong(1, viewId)
             statement.executeQuery().use {
                 val result = ArrayList<Condition>()
-                result.add(DbCondition(
-                    connection,
+                result.add(ConstCondition(
                     it.getLong(it.findColumn("id")),
                     it.getLong(it.findColumn("tag_id")),
                     it.getLong(it.findColumn("view_id")),
@@ -37,8 +39,7 @@ class DbViewConditions(private val connection: Connection, private val viewId: L
             statement.executeUpdate()
             statement.generatedKeys.use {
                 if (it.next()) {
-                    return DbCondition(
-                        connection,
+                    return ConstCondition(
                         it.getLong(1),
                         tag.id(),
                         viewId,
