@@ -45,5 +45,10 @@ interface CFile {
     /**
      * The [File] of this [CFile]
      */
-    fun jdkFile():File
+    fun jdkFile(): File
+
+    /**
+     * The sub files in this [CFile]
+     */
+    fun subFiles(): Files
 }

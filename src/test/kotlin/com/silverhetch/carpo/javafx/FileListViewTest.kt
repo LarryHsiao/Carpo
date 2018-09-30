@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.javafx
 
 import com.silverhetch.carpo.file.phantom.PhantomCFile
+import com.silverhetch.carpo.javafx.file.FileListView
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.application.Platform
