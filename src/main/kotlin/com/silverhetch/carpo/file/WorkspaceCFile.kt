@@ -42,7 +42,7 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
         }
     }
 
-    private fun jdkFile(): File {
+    override fun jdkFile(): File {
         return File(workspace.rootJFile(), dbcFile.title())
     }
 }
