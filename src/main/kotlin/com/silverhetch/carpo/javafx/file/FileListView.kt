@@ -1,4 +1,4 @@
-package com.silverhetch.carpo.javafx
+package com.silverhetch.carpo.javafx.file
 
 import com.jfoenix.controls.*
 import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
@@ -88,8 +88,8 @@ class FileListView : Initializable {
                     setOnDragDetected { event ->
                         val dragboard = startDragAndDrop(TransferMode.LINK)
                         dragboard.setContent(ClipboardContent().also {
-                            it[DataFormat.FILES] = ArrayList<File>().also {jdkFileList->
-                                fileList.selectionModel.selectedItems.forEach {file->
+                            it[DataFormat.FILES] = ArrayList<File>().also { jdkFileList ->
+                                fileList.selectionModel.selectedItems.forEach { file ->
                                     jdkFileList.add(file.jdkFile())
                                 }
                             }
@@ -134,17 +134,21 @@ class FileListView : Initializable {
         fileList.setOnMouseClicked {
             if (it.clickCount == 2 && it.button == MouseButton.PRIMARY) {
                 fileList.selectionModel.selectedItem?.also { selected ->
-                    selected.executable().launch(object : CExecutable.Callback {
-                        override fun onFailed() {
-                            bundle.also { bundle ->
-                                if (::infoBar.isInitialized) {
-                                    Platform.runLater {
-                                        infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
+                    if (selected.jdkFile().isDirectory && selected.jdkFile().listFiles().size > 2 ) {
+                        FileInfoStage(bundle, selected).fetch()
+                    } else {
+                        selected.executable().launch(object : CExecutable.Callback {
+                            override fun onFailed() {
+                                bundle.also { bundle ->
+                                    if (::infoBar.isInitialized) {
+                                        Platform.runLater {
+                                            infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
+                                        }
                                     }
                                 }
                             }
-                        }
-                    })
+                        })
+                    }
                 }
             }
         }

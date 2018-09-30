@@ -75,6 +75,40 @@ class DBCFileTest {
         }
     }
 
+    @Test
+    fun doNotSupportJdkFile() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.jdkFile()
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
+    @Test
+    fun doNotSupportSubFiles() {
+        DBFiles(SampleDataConn(
+            CarpoDbConn(
+                InMemoryConn()
+            )
+        ).fetch()).let {
+            /** @see [SampleDataConn] */
+            try {
+                it.all()["filename"]!!.subFiles()
+                fail()
+            } catch (e: UnsupportedOperationException) {
+                assertTrue(true)
+            }
+        }
+    }
+
 
 
     @Test

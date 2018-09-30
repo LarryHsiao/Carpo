@@ -46,4 +46,8 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private var 
     override fun jdkFile(): File {
         throw UnsupportedOperationException("Create decorators to support this function")
     }
+
+    override fun subFiles(): Files {
+        throw UnsupportedOperationException("Database not handling File system things.")
+    }
 }

@@ -4,4 +4,4 @@
 <JFXListView xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:id="fileList"
-    fx:controller="com.silverhetch.carpo.javafx.FileListView"/>
+    fx:controller="com.silverhetch.carpo.javafx.file.FileListView"/>
