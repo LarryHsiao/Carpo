@@ -1,9 +1,6 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
-import com.jfoenix.controls.JFXPopup
-import com.jfoenix.controls.JFXSnackbar
+import com.jfoenix.controls.*
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
@@ -15,11 +12,14 @@ import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
 import javafx.scene.control.MultipleSelectionModel
 import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
+import javafx.stage.Modality
+import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 
@@ -35,7 +35,7 @@ class FileListView : Initializable {
     override fun initialize(location: URL?, bundle: ResourceBundle) {
         fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.selectionModel.selectionMode = SelectionMode.MULTIPLE
-        fileList.setOnContextMenuRequested {event->
+        fileList.setOnContextMenuRequested { event ->
             if (fileList.selectionModel.selectedItems.size == 0) {
                 return@setOnContextMenuRequested
             }
@@ -45,10 +45,30 @@ class FileListView : Initializable {
                     listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                         when (index) {
                             0 -> {
-                                fileList.selectionModel.selectedItems.forEach {
-                                    it.remove()
+                                JFXAlert<Unit>(fileList.scene.window as Stage).let { dialog ->
+                                    dialog.initModality(Modality.APPLICATION_MODAL)
+                                    dialog.isHideOnEscape = false
+                                    dialog.isOverlayClose = false
+                                    dialog.setContent(JFXDialogLayout().also { layout ->
+                                        layout.setHeading(Label(bundle.getString("General.delete")))
+                                        layout.setBody(Label(bundle.getString("General.deleteSelected")))
+                                        layout.setActions(
+                                            JFXButton(bundle.getString("General.confirm")).also { button ->
+                                                button.setOnAction {
+                                                    fileList.selectionModel.selectedItems.forEach { cFile ->
+                                                        cFile.remove()
+                                                    }
+                                                    fileList.items.removeAll(fileList.selectionModel.selectedItems)
+                                                    dialog.hideWithAnimation()
+                                                }
+                                            },
+                                            JFXButton(bundle.getString("General.cancel")).also { button ->
+                                                button.setOnAction { dialog.hideWithAnimation() }
+                                            }
+                                        )
+                                    })
+                                    dialog.showAndWait()
                                 }
-                                fileList.items.removeAll(fileList.selectionModel.selectedItems)
                             }
                         }
                         popup.hide()
