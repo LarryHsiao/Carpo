@@ -36,11 +36,10 @@ class FileListViewTest : ApplicationTest() {
     fun appendFile() {
         Platform.runLater {
             fileListView.appendCFile(PhantomCFile())
+            assertEquals(
+                1,
+                from(lookup("#fileList")).queryListView<Tag>().items.size
+            )
         }
-
-        assertEquals(
-            1,
-            from(lookup("#fileList")).queryListView<Tag>().items.size
-        )
     }
 }
