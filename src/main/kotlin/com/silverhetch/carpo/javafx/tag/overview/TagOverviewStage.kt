@@ -20,7 +20,7 @@ class TagOverviewStage(private val resources: ResourceBundle, private val select
                     loader.getController<TagOverviewView>().loadTag(selected)
                 }
             }
-        ).also { it.stylesheets.addAll(*Stylesheets().fetch()) }
+        ).also { it.stylesheets.addAll(Stylesheets().fetch()) }
         stage.show()
     }
 }
