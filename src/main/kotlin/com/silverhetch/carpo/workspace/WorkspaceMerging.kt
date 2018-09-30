@@ -4,6 +4,9 @@ import com.silverhetch.carpo.Carpo
 import com.silverhetch.clotho.Source
 import java.io.File
 
+/**
+ * Merges two workspace.
+ */
 class WorkspaceMerging(private val from: Carpo, private val dist: Carpo) : Source<Unit> {
     override fun fetch() {
         from.all().forEach { filename, CFile ->

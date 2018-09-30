@@ -4,6 +4,9 @@ import com.silverhetch.carpo.file.views.condition.Conditions
 import com.silverhetch.carpo.file.views.condition.DbViewConditions
 import java.sql.Connection
 
+/**
+ * View data stores in Database.
+ */
 class DbView(private val connection: Connection,
              private val id: Long,
              private val name: String) : View {
