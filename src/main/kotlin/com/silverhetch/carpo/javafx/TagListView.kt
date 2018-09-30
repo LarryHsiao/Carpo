@@ -1,8 +1,6 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
-import com.jfoenix.controls.JFXPopup
+import com.jfoenix.controls.*
 import com.jfoenix.controls.JFXPopup.PopupHPosition
 import com.jfoenix.controls.JFXPopup.PopupVPosition
 import com.silverhetch.carpo.javafx.tag.overview.TagOverviewStage
@@ -13,6 +11,7 @@ import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
 import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -20,6 +19,7 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton.PRIMARY
 import javafx.scene.input.TransferMode
+import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
@@ -41,14 +41,34 @@ class TagListView : Initializable {
             }
             JFXPopup().let { popup ->
                 popup.popupContent = JFXListView<String>().also { listView ->
-                    listView.items.addAll(resources.getString("General.delete"))
+                    listView.items.addAll(
+                        resources.getString("General.delete")
+                    )
                     listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                         when (index) {
                             0 -> {
-                                tagList.selectionModel.selectedItems.forEach {
-                                    it.remove()
-                                }
-                                tagList.items.removeAll(tagList.selectionModel.selectedItems)
+                                JFXAlert<Unit>(tagList.scene.window as Stage).also { dialog ->
+                                    dialog.isHideOnEscape = false
+                                    dialog.isOverlayClose = false
+                                    dialog.setContent(JFXDialogLayout().also { layout ->
+                                        layout.setHeading(Label(resources.getString("General.delete")))
+                                        layout.setBody(Label(resources.getString("General.deleteSelected")))
+                                        layout.setActions(
+                                            JFXButton(resources.getString("General.confirm")).also { button ->
+                                                button.setOnAction {
+                                                    tagList.selectionModel.selectedItems.forEach { tag ->
+                                                        tag.remove()
+                                                    }
+                                                    tagList.items.removeAll(tagList.selectionModel.selectedItems)
+                                                    dialog.hideWithAnimation()
+                                                }
+                                            },
+                                            JFXButton(resources.getString("General.cancel")).also { button ->
+                                                button.setOnAction { dialog.hideWithAnimation() }
+                                            }
+                                        )
+                                    })
+                                }.showAndWait()
                             }
                         }
                         popup.hide()
@@ -60,7 +80,6 @@ class TagListView : Initializable {
         tagList.setCellFactory {
             object : JFXListCell<Tag>() {
                 init {
-
                     setOnDragDetected { dropEvent ->
                         val dragboard = startDragAndDrop(TransferMode.MOVE, TransferMode.LINK)
                         dragboard.setContent(ClipboardContent().also { content ->
