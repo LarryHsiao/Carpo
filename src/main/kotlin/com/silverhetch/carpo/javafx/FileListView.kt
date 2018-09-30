@@ -1,8 +1,8 @@
 package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.*
-import com.jfoenix.controls.JFXPopup.PopupHPosition.*
-import com.jfoenix.controls.JFXPopup.PopupVPosition.*
+import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
+import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
@@ -19,11 +19,16 @@ import javafx.scene.control.MultipleSelectionModel
 import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton
+import javafx.scene.input.TransferMode
 import javafx.stage.Modality.APPLICATION_MODAL
 import javafx.stage.Stage
+import java.io.File
 import java.net.URL
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Represent list with given [CFile]
@@ -80,6 +85,17 @@ class FileListView : Initializable {
         fileList.setCellFactory { _ ->
             object : JFXListCell<CFile>() {
                 init {
+                    setOnDragDetected { event ->
+                        val dragboard = startDragAndDrop(TransferMode.LINK)
+                        dragboard.setContent(ClipboardContent().also {
+                            it[DataFormat.FILES] = ArrayList<File>().also {jdkFileList->
+                                fileList.selectionModel.selectedItems.forEach {file->
+                                    jdkFileList.add(file.jdkFile())
+                                }
+                            }
+                        })
+                        event.consume()
+                    }
                     setOnDragEntered {
                         fileList.selectionModel.select(item)
                         it.consume()
