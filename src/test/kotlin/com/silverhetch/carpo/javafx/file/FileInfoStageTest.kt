@@ -39,12 +39,11 @@ class FileInfoStageTest : ApplicationTest() {
                 ),
                 stage
             ).fetch()
-        }
-        Thread.sleep(1000)
 
-        Assert.assertEquals(
-            2,
-            from(lookup("#fileList")).queryListView<CFile>().items.size
-        )
+            Assert.assertEquals(
+                2,
+                from(lookup("#fileList")).queryListView<CFile>().items.size
+            )
+        }
     }
 }

@@ -24,11 +24,10 @@ class TagOverviewStageTest : ApplicationTest() {
                 PhantomTag(),
                 stage
             ).fetch()
-        }
-        Thread.sleep(1000)
 
-        Assert.assertTrue(
-            from(lookup("#TagOverviewWindow")).query<Parent>().isVisible
-        )
+            Assert.assertTrue(
+                from(lookup("#TagOverviewWindow")).query<Parent>().isVisible
+            )
+        }
     }
 }
