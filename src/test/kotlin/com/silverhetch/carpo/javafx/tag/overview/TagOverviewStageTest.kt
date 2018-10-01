@@ -14,6 +14,7 @@ class TagOverviewStageTest : ApplicationTest() {
     override fun start(stage: Stage?) {
         super.start(stage)
         this.stage = stage!!
+        stage.show()
     }
 
     @Test
