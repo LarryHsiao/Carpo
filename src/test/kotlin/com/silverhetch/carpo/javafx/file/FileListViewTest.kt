@@ -50,9 +50,9 @@ class FileListViewTest : ApplicationTest() {
     fun deletePopup() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        Thread.sleep(1000)
+        Thread.sleep(3000)
         clickOn(from(lookup("#popup").nth(0)).queryListView<CFile>())
-        Thread.sleep(1000)
+        Thread.sleep(3000)
 
         Assert.assertTrue(
             from(lookup("#deleteDialog")).query<Parent>().isVisible
