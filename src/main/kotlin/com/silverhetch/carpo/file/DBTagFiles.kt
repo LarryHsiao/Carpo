@@ -36,17 +36,14 @@ class DBTagFiles(private val dbConn: Connection, private val tagId: Long) : File
     }
 
     override fun add(file: File): CFile {
-        dbConn.prepareStatement("""
-            insert into files(name) values (?);
-        """).use { statement ->
+        dbConn.prepareStatement("""insert into files(name) values (?);""").use { statement ->
             statement.setString(1, file.name)
             statement.executeUpdate()
             statement.generatedKeys.use { resultSet ->
                 if (resultSet.next()) {
-                    resultSet.getLong(1).let { newFileId ->
-                        attachTagById(newFileId)
-                        return DBCFile(dbConn, newFileId, file.name)
-                    }
+                    val newFileId = resultSet.getLong(1)
+                    attachTagById(newFileId)
+                    return DBCFile(dbConn, newFileId, file.name)
                 } else {
                     throw SQLException("Insertion failed")
                 }
