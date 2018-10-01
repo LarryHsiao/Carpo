@@ -46,6 +46,9 @@ class TagOverviewView : Initializable {
         }
     }
 
+    /**
+     * Load view with given [Tag]
+     */
     fun loadTag(tag: Tag) {
         this.tag = tag
         tagName.text = tag.title()
