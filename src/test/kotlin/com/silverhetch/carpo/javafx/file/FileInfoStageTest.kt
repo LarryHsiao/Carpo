@@ -40,7 +40,7 @@ class FileInfoStageTest : ApplicationTest() {
                 stage
             ).fetch()
         }
-        Thread.sleep(3000)
+        Thread.sleep(1000)
 
         Assert.assertEquals(
             2,

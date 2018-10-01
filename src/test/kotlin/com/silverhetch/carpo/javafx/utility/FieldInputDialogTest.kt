@@ -30,10 +30,10 @@ class FieldInputDialogTest : ApplicationTest() {
                 "1234"
             ).fetch()
         }
-        Thread.sleep(3000)
+        Thread.sleep(1000)
         clickOn(lookup("#FieldInputDialogTextField").query<TextField>())
         write("NewTitle").push(KeyCode.ENTER)
-        Thread.sleep(3000)
+        Thread.sleep(1000)
         Assert.assertEquals("NewTitle", result)
     }
 }
