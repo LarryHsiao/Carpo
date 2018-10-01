@@ -48,6 +48,7 @@ class FileListView : Initializable {
             }
             val popup = JFXPopup()
             popup.popupContent = JFXListView<String>().also { listView ->
+                listView.id ="popup"
                 listView.items.addAll(bundle.getString("General.delete"))
                 listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                     when (index) {
@@ -57,6 +58,7 @@ class FileListView : Initializable {
                             dialog.isHideOnEscape = false
                             dialog.isOverlayClose = false
                             dialog.setContent(JFXDialogLayout().also { layout ->
+                                layout.id = "deleteDialog"
                                 layout.setHeading(Label(bundle.getString("General.delete")))
                                 layout.setBody(Label(bundle.getString("General.deleteSelected")))
                                 layout.setActions(
