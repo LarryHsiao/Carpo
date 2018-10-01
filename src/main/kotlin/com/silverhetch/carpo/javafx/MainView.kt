@@ -6,6 +6,8 @@ import com.silverhetch.carpo.Carpo
 import com.silverhetch.carpo.CarpoImpl
 import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.config.Config
+import com.silverhetch.carpo.javafx.file.FileInfoView
+import com.silverhetch.carpo.javafx.file.FileListView
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.workspace.CarpoWorkspace
@@ -42,7 +44,11 @@ class MainView : Initializable {
     private var config: Config = CarpoConfigSource().fetch()
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
-            File(config.workspacePath())
+            File(config.workspacePath()).also {
+                if (!it.exists()) {
+                    it.mkdir()
+                }
+            }
         )
     )
 

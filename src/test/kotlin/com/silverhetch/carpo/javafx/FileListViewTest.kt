@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.javafx
 
 import com.silverhetch.carpo.file.phantom.PhantomCFile
+import com.silverhetch.carpo.javafx.file.FileListView
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.application.Platform
@@ -35,11 +36,10 @@ class FileListViewTest : ApplicationTest() {
     fun appendFile() {
         Platform.runLater {
             fileListView.appendCFile(PhantomCFile())
+            assertEquals(
+                1,
+                from(lookup("#fileList")).queryListView<Tag>().items.size
+            )
         }
-
-        assertEquals(
-            1,
-            from(lookup("#fileList")).queryListView<Tag>().items.size
-        )
     }
 }

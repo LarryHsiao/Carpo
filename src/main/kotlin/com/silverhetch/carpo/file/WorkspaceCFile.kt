@@ -28,8 +28,11 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun rename(newName: String) {
-        jdkFile().renameTo(File(workspace.rootJFile(), newName))
-        dbcFile.rename(newName)
+        File(workspace.rootJFile(), newName).let { target ->
+            if (jdkFile().renameTo(target)) {
+                dbcFile.rename(newName)
+            }
+        }
     }
 
     override fun executable(): CExecutable {
@@ -42,7 +45,11 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
         }
     }
 
-    private fun jdkFile(): File {
+    override fun jdkFile(): File {
         return File(workspace.rootJFile(), dbcFile.title())
+    }
+
+    override fun subFiles(): Files {
+        return SubFiles(workspace, this)
     }
 }

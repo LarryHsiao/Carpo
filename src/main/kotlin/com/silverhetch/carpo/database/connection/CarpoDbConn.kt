@@ -33,6 +33,23 @@ class CarpoDbConn(private val conn: Source<Connection>) : Source<Connection> {
                       unique (name)
                     );
                 """)
+
+                statement.execute("""
+                  create table if not exists views(
+                    id integer primary key autoincrement ,
+                    name text not null unique
+                  );
+                """)
+
+                statement.execute("""
+                   create table if not exists view_conditions(
+                      id integer primary key autoincrement,
+                      view_id integer not null,
+                      tag_id integer not null,
+                      type text not null,
+                      unique (view_id, tag_id)
+                   );
+                """)
             }
         }
     }

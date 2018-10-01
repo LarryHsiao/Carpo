@@ -1,7 +1,8 @@
-package com.silverhetch.carpo.javafx
+package com.silverhetch.carpo.javafx.file
 
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.javafx.TagListView
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.input.KeyCode

@@ -42,4 +42,12 @@ class DBCFile(private val dbConn: Connection, private val id: Long, private var 
     override fun addFile(file: List<File>) {
         throw UnsupportedOperationException("Should create decorators to support this function")
     }
+
+    override fun jdkFile(): File {
+        throw UnsupportedOperationException("Create decorators to support this function")
+    }
+
+    override fun subFiles(): Files {
+        throw UnsupportedOperationException("Database not handling File system things.")
+    }
 }

@@ -1,11 +1,9 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.JFXListCell
-import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.*
+import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
+import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
 import com.silverhetch.carpo.javafx.tag.overview.TagOverviewStage
-import com.silverhetch.carpo.javafx.utility.ContextMenuFactory
-import com.silverhetch.carpo.javafx.utility.GeneralContextMenuFactory
-import com.silverhetch.carpo.javafx.utility.RenameAction
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
 import com.silverhetch.carpo.tag.factory.UriTagFactory
@@ -13,12 +11,15 @@ import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
+import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton.PRIMARY
 import javafx.scene.input.TransferMode
+import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,30 +34,49 @@ class TagListView : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle) {
         tagList.items = ObservableListWrapper<Tag>(ArrayList<Tag>())
+        tagList.selectionModel.selectionMode = SelectionMode.MULTIPLE
+        tagList.setOnContextMenuRequested { event ->
+            if (tagList.selectionModel.selectedItems.size == 0) {
+                return@setOnContextMenuRequested
+            }
+            val popup = JFXPopup()
+            popup.popupContent = JFXListView<String>().also { listView ->
+                listView.items.addAll(resources.getString("General.delete"))
+                listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
+                    when (index) {
+                        0 -> {
+                            val dialog = JFXAlert<Unit>(tagList.scene.window as Stage)
+                            dialog.isHideOnEscape = false
+                            dialog.isOverlayClose = false
+                            dialog.setContent(JFXDialogLayout().also { layout ->
+                                layout.setHeading(Label(resources.getString("General.delete")))
+                                layout.setBody(Label(resources.getString("General.deleteSelected")))
+                                layout.setActions(
+                                    JFXButton(resources.getString("General.confirm")).also { button ->
+                                        button.setOnAction {
+                                            tagList.selectionModel.selectedItems.forEach { tag ->
+                                                tag.remove()
+                                            }
+                                            tagList.items.removeAll(tagList.selectionModel.selectedItems)
+                                            dialog.hideWithAnimation()
+                                        }
+                                    },
+                                    JFXButton(resources.getString("General.cancel")).also { button ->
+                                        button.setOnAction { dialog.hideWithAnimation() }
+                                    }
+                                )
+                            })
+                            dialog.showAndWait()
+                        }
+                    }
+                    popup.hide()
+                }
+            }
+            popup.show(tagList, TOP, LEFT, event.x, event.y)
+        }
         tagList.setCellFactory {
             object : JFXListCell<Tag>() {
                 init {
-                    setOnContextMenuRequested { menu ->
-                        contextMenu = GeneralContextMenuFactory(object : ContextMenuFactory.Events {
-                            override fun onItemClicked(id: String) {
-                                when (id) {
-                                    "rename" -> {
-                                        RenameAction(resources).fetch().let { result ->
-                                            if (result.isEmpty().not()) {
-                                                item.rename(result)
-                                                updateItem(item, false)
-                                            }
-                                        }
-                                    }
-                                    "delete" -> {
-                                        item.remove()
-                                        tagList.items.remove(item)
-                                    }
-                                }
-                            }
-                        }, resources).fetch()
-                    }
-
                     setOnDragDetected { dropEvent ->
                         val dragboard = startDragAndDrop(TransferMode.MOVE, TransferMode.LINK)
                         dragboard.setContent(ClipboardContent().also { content ->

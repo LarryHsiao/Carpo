@@ -41,4 +41,14 @@ interface CFile {
      * Add files into this [CFile]
      */
     fun addFile(file: List<File>)
+
+    /**
+     * The [File] of this [CFile]
+     */
+    fun jdkFile(): File
+
+    /**
+     * The sub files in this [CFile]
+     */
+    fun subFiles(): Files
 }

@@ -146,28 +146,4 @@ class MainViewTest : ApplicationTest() {
         }
 
     }
-
-    @Ignore("Can`t handle context menu test in CI servers.")
-    @Test
-    fun renameFile_checkWithSearch() {
-        val newFileName = UUID.randomUUID().toString()
-        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        clickOn(lookup("#rename").query<Node>())
-        write(newFileName).push(KeyCode.ENTER)
-
-        clickOn(lookup("#searchKey").query<JFXTextField>())
-        write(newFileName).push(KeyCode.ENTER)
-
-        from(lookup("#fileList")).queryListView<CFile>().also {
-            assertEquals(
-                1,
-                it.items.size
-            )
-            assertEquals(
-                newFileName,
-                it.items[0].title()
-            )
-        }
-    }
 }
