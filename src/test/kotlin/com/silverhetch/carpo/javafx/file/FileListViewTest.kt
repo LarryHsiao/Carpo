@@ -5,14 +5,17 @@ import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.fxml.FXMLLoader
+import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import org.junit.Assert
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
+import org.testfx.util.WaitForAsyncUtils
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class FileListViewTest : ApplicationTest() {
     override fun start(stage: Stage) {
@@ -38,7 +41,10 @@ class FileListViewTest : ApplicationTest() {
     fun contextMenuCount() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        Thread.sleep(1000)
+
+        WaitForAsyncUtils.waitFor(30, TimeUnit.SECONDS) {
+            from(lookup("#popup")).tryQuery<Node>().isPresent
+        }
 
         Assert.assertEquals(
             1,
@@ -50,9 +56,16 @@ class FileListViewTest : ApplicationTest() {
     fun deletePopup() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         rightClickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
-        Thread.sleep(3000)
+
+        WaitForAsyncUtils.waitFor(30, TimeUnit.SECONDS) {
+            from(lookup("#popup").nth(0)).tryQuery<Node>().isPresent
+        }
+
         clickOn(from(lookup("#popup").nth(0)).queryListView<CFile>())
-        Thread.sleep(3000)
+
+        WaitForAsyncUtils.waitFor(30, TimeUnit.SECONDS) {
+            from(lookup("#deleteDialog")).tryQuery<Node>().isPresent
+        }
 
         Assert.assertTrue(
             from(lookup("#deleteDialog")).query<Parent>().isVisible
