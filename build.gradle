@@ -41,6 +41,14 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+task unitTest(type: Test){
+    exclude '**/javafx/**'
+}
+
+task uiTest(type: Test){
+    include '**/javafx/**'
+}
+
 apply plugin: 'jacoco'
 jacocoTestReport {
     reports {
