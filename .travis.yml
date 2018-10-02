@@ -1,8 +1,6 @@
 language: java
 before_script:
-- "export DISPLAY=:99.0"
 - sleep 3
 script:
-- xvfb-run --server-args="-screen 99 1024x768x24" make test
 - jdk_switcher use oraclejdk8
-- "./gradlew build --info"
+- "./gradlew build -x test unitTest --info"
