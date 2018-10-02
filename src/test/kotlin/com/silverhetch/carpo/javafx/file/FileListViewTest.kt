@@ -40,7 +40,6 @@ class FileListViewTest : ApplicationTest() {
         stage.show()
     }
 
-    @Ignore("FIXME:Failed on Travis")
     @Test
     fun contextMenuCount() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
@@ -52,7 +51,6 @@ class FileListViewTest : ApplicationTest() {
         )
     }
 
-    @Ignore("FIXME:Failed on Travis")
     @Test
     fun deletePopup() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
