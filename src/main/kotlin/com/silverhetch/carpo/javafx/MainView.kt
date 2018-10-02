@@ -114,6 +114,7 @@ class MainView : Initializable {
         event.source.let { source ->
             if (source is Node) {
                 chooser.showDialog((source.scene.window))?.also {
+                    config.changeWorkspacePath(it)
                     carpo = CarpoImpl(
                         CarpoWorkspace(
                             it
