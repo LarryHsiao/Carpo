@@ -6,7 +6,7 @@ import java.io.File
  * The hard code version of [Config]. This class also known as default value of [Config].
  */
 class ConstConfig : Config {
-    private var workspacePath = System.getProperty("user.dir") + "/Playground"
+    private var workspacePath = System.getProperty("user.dir") +File.separator+ "Playground"
     override fun workspacePath(): String {
         return workspacePath
     }
