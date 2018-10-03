@@ -8,7 +8,12 @@ import java.util.*
  */
 class JdkPropertiesConfig(private val jdkFile: File, private val properties: Properties, private val default: Config) : Config {
     override fun workspacePath(): String {
-        return properties.getProperty("workspace", default.workspacePath())
+        val workspacePath = properties.getProperty("workspace", default.workspacePath())
+        return if(File(workspacePath).exists().not()){
+            default.workspacePath()
+        }else {
+            workspacePath
+        }
     }
 
     override fun changeWorkspacePath(newWorkspace: File) {

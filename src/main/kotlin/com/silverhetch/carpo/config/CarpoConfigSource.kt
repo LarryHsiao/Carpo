@@ -12,7 +12,7 @@ class CarpoConfigSource(private val path: String = System.getProperty("user.dir"
     override fun fetch(): Config {
         return try {
             val config = File(path)
-            if (!config.exists()){
+            if (!config.exists()) {
                 config.createNewFile()
             }
             JdkPropertiesConfig(
