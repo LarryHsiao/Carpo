@@ -44,6 +44,7 @@ class SppServer() {
                     connection.close()
                 }
             } catch (ignore: InterruptedException) {
+                // thrown if shutdown invoked which we don`t handle
             }
         }.apply { start() }
     }
