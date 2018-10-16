@@ -12,7 +12,7 @@ import javax.microedition.io.StreamConnectionNotifier
 class SppServer() {
     private lateinit var thread: Thread
     private lateinit var server: StreamConnectionNotifier
-    private val uuid = javax.bluetooth.UUID("1101", true)
+    private val uuid = javax.bluetooth.UUID("e6c50c7312ca47d6a718e5ec97a6d407", false)
     private var running = false
 
     /**
