@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.VBox?><?import com.jfoenix.controls.JFXTextArea?>
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="com.silverhetch.carpo.javafx.file.FileInfoView">
-    <JFXTextField fx:id="fileName"
+    <JFXTextArea fx:id="fileName"
         editable="false"
+        wrapText="true"
+        prefHeight="50"
         maxWidth="Infinity" />
 
     <HBox style="-fx-padding: 16 0 16 0">
