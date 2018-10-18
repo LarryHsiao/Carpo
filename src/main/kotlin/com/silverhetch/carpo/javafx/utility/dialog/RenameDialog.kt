@@ -24,16 +24,19 @@ class RenameDialog(private val stage: Stage, private val bundle: ResourceBundle,
             layout.setHeading(Label(bundle.getString("General.rename")))
             val textField = JFXTextField()
             layout.setBody(textField.apply {
+                id = "renameField"
                 promptText = bundle.getString("General.rename.hint")
             })
             layout.setActions(
                 JFXButton(bundle.getString("General.confirm")).also { button ->
+                    button.id = "confirmButton"
                     button.setOnAction {
                         confirm(textField.text)
                         dialog.hideWithAnimation()
                     }
                 },
                 JFXButton(bundle.getString("General.cancel")).also { button ->
+                    button.id = "cancelButton"
                     button.setOnAction { dialog.hideWithAnimation() }
                 }
             )

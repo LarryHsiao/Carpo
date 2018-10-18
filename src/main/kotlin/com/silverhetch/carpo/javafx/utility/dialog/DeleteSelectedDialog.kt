@@ -26,12 +26,14 @@ class DeleteSelectedDialog(private val stage: Stage, private val bundle: Resourc
             layout.setBody(Label(bundle.getString("General.deleteSelected")))
             layout.setActions(
                 JFXButton(bundle.getString("General.confirm")).also { button ->
+                    button.id = "confirmButton"
                     button.setOnAction {
                         confirmHandler.handle(it)
                         dialog.hideWithAnimation()
                     }
                 },
                 JFXButton(bundle.getString("General.cancel")).also { button ->
+                    button.id = "cancelButton"
                     button.setOnAction { dialog.hideWithAnimation() }
                 }
             )

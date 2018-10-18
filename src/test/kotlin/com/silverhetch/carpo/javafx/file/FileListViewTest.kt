@@ -46,7 +46,7 @@ class FileListViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>(), Motion.DEFAULT, MouseButton.SECONDARY)
 
         Assert.assertEquals(
-            1,
+            2,
             from(lookup("#popup")).queryListView<CFile>().items.size
         )
     }
@@ -55,6 +55,7 @@ class FileListViewTest : ApplicationTest() {
     fun deletePopup() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>())
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>(), Motion.DEFAULT, MouseButton.SECONDARY)
+        Thread.sleep(500)
         clickOn(from(lookup("#popup").nth(0)).queryListView<CFile>())
 
         Assert.assertTrue(
