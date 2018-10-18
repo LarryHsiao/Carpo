@@ -19,7 +19,10 @@ class DeleteSelectedDialogTest : ApplicationTest() {
     override fun start(stage: Stage?) {
         super.start(stage)
         this.stage = stage!!
-        this.stage.scene = Scene(StackPane())
+        this.stage.scene = Scene(StackPane().apply {
+            prefHeight = 480.0
+            prefWidth = 640.0
+        })
         this.stage.show()
     }
 
