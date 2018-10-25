@@ -1,6 +1,5 @@
 package com.silverhetch.carpo.server
 
-import com.silverhetch.carpo.Carpo
 import fi.iki.elonen.SimpleWebServer
 import java.io.File
 import java.net.InetAddress
@@ -15,6 +14,10 @@ class NanoHttpdFileServer(rootFile: File) : Server {
 
     override fun start() {
         server.start()
+    }
+
+    override fun isRunning(): Boolean {
+        return server.isAlive
     }
 
     override fun hostname(): String {

@@ -1,6 +1,7 @@
 package com.silverhetch.carpo.javafx;
 
 import com.jfoenix.controls.JFXDecorator;
+import com.silverhetch.carpo.threads.WorkerThread;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

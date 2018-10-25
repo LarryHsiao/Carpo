@@ -15,6 +15,11 @@ interface Server {
     fun stop()
 
     /**
+     * Server running.
+     */
+    fun isRunning(): Boolean
+
+    /**
      * Returns current hostname
      */
     fun hostname(): String

@@ -6,7 +6,6 @@ import org.junit.Test
 import java.io.File
 import java.lang.Thread.sleep
 import java.net.InetAddress
-import java.net.NetworkInterface
 import java.util.concurrent.TimeUnit.SECONDS
 
 @Ignore("Edge test")
