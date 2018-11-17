@@ -7,7 +7,7 @@ import javax.microedition.io.StreamConnection
 /**
  * Represent a client connection.
  */
-class ClientConnection(private val connection: StreamConnection, private val proceedMessage: (msg: String) -> String) : TextBaseConn {
+class ClientConnection(private val connection: StreamConnection, private val proceedMessage: (TextBaseConn, String) -> Unit) : TextBaseConn {
     private lateinit var textBaseConnectionImpl: TextBaseConnImpl
 
     override fun launch() {

@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.discovery.bluetooth.server
 
+import com.silverhetch.clotho.connection.socket.TextBaseConn
 import javax.bluetooth.DiscoveryAgent
 import javax.bluetooth.LocalDevice
 import javax.bluetooth.UUID
@@ -18,7 +19,7 @@ class SppServer(private val uuid: UUID, private val serverName: String) {
     /**
      * launch SPP server.
      */
-    fun launch(onMessage: (msg: String) -> String) {
+    fun launch(onMessage: (TextBaseConn, String) -> Unit) {
         running = true
         serverThread = Thread {
             try {

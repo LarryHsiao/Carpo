@@ -17,7 +17,7 @@ class BtDevice() : CarpoDevice {
 
     override fun launch() {
         discovery.start()
-        sppserver.launch{
+        sppserver.launch { conn, it ->
             ""
         }
     }

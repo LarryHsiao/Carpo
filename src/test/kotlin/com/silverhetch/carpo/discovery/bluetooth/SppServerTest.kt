@@ -13,9 +13,9 @@ class SppServerTest {
             UUID("07d4a697ece518a7d647ca12730cc5e6", false),
             "CarpoServer"
         ).let { server ->
-            server.launch {
+            server.launch { conn, it ->
                 System.out.println("Received $it")
-                "response"
+                conn.send("I`ve received $it")
             }
             Thread.sleep(5000000)
             server.shutdown()
