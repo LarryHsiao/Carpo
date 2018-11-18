@@ -11,6 +11,7 @@ import javafx.stage.Stage
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
+import java.io.File
 import java.util.*
 
 class FileListViewTest : ApplicationTest() {
@@ -18,7 +19,15 @@ class FileListViewTest : ApplicationTest() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        CarpoConfigSource().fetch().clear()
+        CarpoConfigSource().fetch().apply {
+            clear()
+            val root = File(workspacePath()).apply {
+                deleteRecursively()
+                mkdirs()
+            }
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+        }
         FXMLLoader().let {
             it.resources = ResourceBundle.getBundle("i18n/default")
             it.location = javaClass.getResource("/FileList.fxml")
