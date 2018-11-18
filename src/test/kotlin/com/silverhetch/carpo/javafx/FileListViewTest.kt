@@ -1,9 +1,9 @@
 package com.silverhetch.carpo.javafx
 
+import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.file.phantom.PhantomCFile
 import com.silverhetch.carpo.javafx.file.FileListView
 import com.silverhetch.carpo.tag.Tag
-import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -18,11 +18,7 @@ class FileListViewTest : ApplicationTest() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        DefaultWorkspaceFile().fetch().let {
-            if (it.exists()) {
-                it.deleteRecursively()
-            }
-        }
+        CarpoConfigSource().fetch().clear()
         FXMLLoader().let {
             it.resources = ResourceBundle.getBundle("i18n/default")
             it.location = javaClass.getResource("/FileList.fxml")

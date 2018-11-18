@@ -9,9 +9,9 @@ import java.util.*
 class JdkPropertiesConfig(private val jdkFile: File, private val properties: Properties, private val default: Config) : Config {
     override fun workspacePath(): String {
         val workspacePath = properties.getProperty("workspace", default.workspacePath())
-        return if(File(workspacePath).exists().not()){
+        return if (File(workspacePath).exists().not()) {
             default.workspacePath()
-        }else {
+        } else {
             workspacePath
         }
     }
@@ -21,5 +21,10 @@ class JdkPropertiesConfig(private val jdkFile: File, private val properties: Pro
             properties["workspace"] = newWorkspace.absolutePath
             properties.store(jdkFile.outputStream(), "Modified by Carpo")
         }
+    }
+
+    override fun clear() {
+        jdkFile.delete()
+        jdkFile.createNewFile()
     }
 }

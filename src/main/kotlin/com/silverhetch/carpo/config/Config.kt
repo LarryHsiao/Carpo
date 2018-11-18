@@ -15,4 +15,9 @@ interface Config {
      * Change the workspace path in config file
      */
     fun changeWorkspacePath(newWorkspace:File)
+
+    /**
+     * Clear config.
+     */
+    fun clear()
 }
