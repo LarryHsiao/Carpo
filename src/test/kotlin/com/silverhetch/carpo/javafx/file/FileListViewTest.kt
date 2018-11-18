@@ -20,7 +20,15 @@ class FileListViewTest : ApplicationTest() {
     override fun start(stage: Stage) {
         super.start(stage)
         SvgImageLoaderFactory.install()
-        CarpoConfigSource().fetch().clear()
+        CarpoConfigSource().fetch().apply {
+            clear()
+            val root = File(workspacePath()).apply {
+                deleteRecursively()
+                mkdirs()
+            }
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+        }
         val parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/Main.fxml"),
             ResourceBundle.getBundle("i18n/default")
