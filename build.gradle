@@ -1,3 +1,30 @@
+/**
+ * Obtain current tag on git log tree.
+ */
+def getCurrentGitTag = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'tag', '--points-at', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString()
+}
+
+def getCurrentDate = {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
+
+def getVersionName = { ->
+    def tag = getCurrentGitTag()
+    if (tag.empty){
+        return "Dev-${getCurrentDate()}"
+    }else{
+        return tag
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'org.sonarqube' version '2.6.2'
@@ -17,7 +44,7 @@ sourceSets {
 }
 
 group 'com.silverhetch'
-version '1.0.1'
+version getVersionName()
 
 repositories {
     mavenCentral()
