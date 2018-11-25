@@ -1,3 +1,9 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+    id 'org.sonarqube' version '2.6.2'
+    id "no.tornado.fxlauncher" version "1.0.20"
+}
+
 /**
  * Obtain current tag on git log tree.
  */
@@ -18,17 +24,11 @@ def getCurrentDate = {
 
 def getVersionName = { ->
     def tag = getCurrentGitTag()
-    if (tag.empty){
+    if (tag.empty) {
         return "Dev-${getCurrentDate()}"
-    }else{
+    } else {
         return tag
     }
-}
-
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
-    id 'org.sonarqube' version '2.6.2'
-    id "no.tornado.fxlauncher" version "1.0.20"
 }
 
 apply plugin: 'application'
@@ -38,7 +38,10 @@ sourceSets {
     main {
         java {
             // we put the java classes in kotlin source tree
-            srcDirs = ['src/main/kotlin']
+            srcDirs = [
+                    'src/main/kotlin',
+                    'build/generated/com/silverhetch/carpo/'
+            ]
         }
     }
 }
@@ -70,11 +73,11 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-task unitTest(type: Test){
+task unitTest(type: Test) {
     exclude '**/javafx/**'
 }
 
-task uiTest(type: Test){
+task uiTest(type: Test) {
     include '**/javafx/**'
 }
 
@@ -108,3 +111,23 @@ fxlauncher {
     acceptDowngrade false
     deployTarget 'larryhsiao@silverhetch.com:CarpoDeployment'
 }
+
+
+task generateConsts {
+    inputs.property "version", project.version
+    outputs.dir "$buildDir/generated"
+    doFirst {
+        def versionFile = file("$buildDir/generated/com/silverhetch/carpo/Consts.java")
+
+        versionFile.parentFile.mkdirs()
+        versionFile.text =
+                """
+package com.silverhetch.carpo;
+
+public class Consts {
+    public static final String VERSION = "$project.version";
+}
+"""
+    }
+}
+compileKotlin.dependsOn generateConsts
