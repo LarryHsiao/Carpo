@@ -6,7 +6,7 @@ import java.net.InetAddress
 
 class NanoHttpdFileServer(rootFile: File) : Server {
     private val server = SimpleWebServer(
-        InetAddress.getLocalHost().hostName,
+        "localhost",
         0,
         rootFile,
         true
