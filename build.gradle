@@ -1,43 +1,25 @@
+buildscript {
+    repositories {
+        maven { url = 'http://172.104.79.181:81/repository/Elizabeth/' }
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'org.sonarqube' version '2.6.2'
     id "no.tornado.fxlauncher" version "1.0.20"
     id 'de.fuerstenau.buildconfig' version '1.1.8'
-}
-
-/**
- * Obtain current tag on git log tree.
- */
-def getCurrentGitTag = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'tag', '--points-at', 'HEAD'
-        standardOutput = stdout
-    }
-    return stdout.toString()
-}
-
-def getCurrentDate = {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMddHHmm')
-    return formattedDate
-}
-
-def getVersionName = { ->
-    def tag = getCurrentGitTag()
-    if (tag.empty) {
-        return "Dev-${getCurrentDate()}"
-    } else {
-        return tag
-    }
+    id 'com.silverhetch.thea' version '1.2.1'
 }
 
 apply plugin: 'idea'
 apply plugin: 'application'
 mainClassName = "com.silverhetch.carpo.Main"
 
+println(thea.versionIndicator.apply("")) // print current version info
+
 group 'com.silverhetch'
-version getVersionName()
+version thea.version.versionByFlavor("").versionName()
 
 repositories {
     mavenCentral()

@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
 import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.file.FileExecutable
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
 import com.silverhetch.carpo.javafx.utility.dialog.DeleteSelectedDialog
 import com.silverhetch.carpo.javafx.utility.dialog.RenameDialog
@@ -55,10 +56,20 @@ class FileListView : Initializable {
                 listView.id = "popup"
                 listView.items.addAll(
                     bundle.getString("General.rename"),
-                    bundle.getString("General.delete")
+                    bundle.getString("General.delete"),
+                    bundle.getString("General.openContainerFolder")
                 )
                 listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                     when (index) {
+                        2 ->{
+                            FileExecutable(
+                                fileList.selectionModel.selectedItem.jdkFile().parentFile.toURI().toString()
+                            ).launch(object: CExecutable.Callback{
+                                override fun onFailed() {
+                                    // TODO
+                                }
+                            })
+                        }
                         1 -> {
                             DeleteSelectedDialog(
                                 fileList.scene.window as Stage,
@@ -78,8 +89,7 @@ class FileListView : Initializable {
                                 fileList.selectionModel.selectedItem.rename(newName)
                                 fileList.items[fileList.selectionModel.selectedIndex] = fileList.items[fileList.selectionModel.selectedIndex]
                             }.fetch()
-                        }
-                    }
+                        } }
                     popup.hide()
                 }
             }
@@ -97,9 +107,11 @@ class FileListView : Initializable {
                                 }
                             }
                         })
+                        fileList.selectionModel.clearSelection()
                         event.consume()
                     }
                     setOnDragEntered {
+                        fileList.selectionModel.clearSelection()
                         fileList.selectionModel.select(item)
                         it.consume()
                     }
