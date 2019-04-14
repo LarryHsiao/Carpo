@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="carpo_main" target="1.8" />
+      <module name="carpo_ru" target="1.8" />
       <module name="carpo_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

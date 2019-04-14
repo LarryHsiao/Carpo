@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXToggleButton?><?import javafx.scene.control.Label?><?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.silverhetch.carpo.javafx.server.ServerStatusView"
+    prefHeight="400.0"
+    prefWidth="600.0">
+
+    <JFXToggleButton fx:id="enabledToggle"
+        text="%General.enable" />
+
+    <Label fx:id="hostname" />
+    <Label fx:id="port" />
+
+</VBox>

@@ -1,20 +1,26 @@
 package com.silverhetch.carpo.javafx.file
 
-import com.jfoenix.controls.*
+import com.jfoenix.controls.JFXListCell
+import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.JFXPopup
 import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
 import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
+import com.jfoenix.controls.JFXSnackbar
 import com.silverhetch.carpo.file.CExecutable
 import com.silverhetch.carpo.file.CFile
+import com.silverhetch.carpo.file.FileExecutable
 import com.silverhetch.carpo.file.comparetor.FileNameComparator
+import com.silverhetch.carpo.javafx.utility.dialog.DeleteSelectedDialog
+import com.silverhetch.carpo.javafx.utility.dialog.RenameDialog
 import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.javafx.utility.draging.TagDraging
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
 import javafx.scene.control.MultipleSelectionModel
 import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
@@ -23,7 +29,6 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton
 import javafx.scene.input.TransferMode
-import javafx.stage.Modality.APPLICATION_MODAL
 import javafx.stage.Stage
 import java.io.File
 import java.net.URL
@@ -48,35 +53,43 @@ class FileListView : Initializable {
             }
             val popup = JFXPopup()
             popup.popupContent = JFXListView<String>().also { listView ->
-                listView.items.addAll(bundle.getString("General.delete"))
+                listView.id = "popup"
+                listView.items.addAll(
+                    bundle.getString("General.rename"),
+                    bundle.getString("General.delete"),
+                    bundle.getString("General.openContainerFolder")
+                )
                 listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                     when (index) {
-                        0 -> {
-                            val dialog = JFXAlert<Unit>(fileList.scene.window as Stage)
-                            dialog.initModality(APPLICATION_MODAL)
-                            dialog.isHideOnEscape = false
-                            dialog.isOverlayClose = false
-                            dialog.setContent(JFXDialogLayout().also { layout ->
-                                layout.setHeading(Label(bundle.getString("General.delete")))
-                                layout.setBody(Label(bundle.getString("General.deleteSelected")))
-                                layout.setActions(
-                                    JFXButton(bundle.getString("General.confirm")).also { button ->
-                                        button.setOnAction {
-                                            fileList.selectionModel.selectedItems.forEach { cFile ->
-                                                cFile.remove()
-                                            }
-                                            fileList.items.removeAll(fileList.selectionModel.selectedItems)
-                                            dialog.hideWithAnimation()
-                                        }
-                                    },
-                                    JFXButton(bundle.getString("General.cancel")).also { button ->
-                                        button.setOnAction { dialog.hideWithAnimation() }
-                                    }
-                                )
+                        2 ->{
+                            FileExecutable(
+                                fileList.selectionModel.selectedItem.jdkFile().parentFile.toURI().toString()
+                            ).launch(object: CExecutable.Callback{
+                                override fun onFailed() {
+                                    // TODO
+                                }
                             })
-                            dialog.showAndWait()
                         }
-                    }
+                        1 -> {
+                            DeleteSelectedDialog(
+                                fileList.scene.window as Stage,
+                                bundle,
+                                EventHandler {
+                                    fileList.selectionModel.selectedItems.forEach { cFile ->
+                                        cFile.remove()
+                                    }
+                                    fileList.items.removeAll(fileList.selectionModel.selectedItems)
+                                }
+
+                            ).fetch()
+
+                        }
+                        0 -> {
+                            RenameDialog(fileList.scene.window as Stage, bundle) { newName ->
+                                fileList.selectionModel.selectedItem.rename(newName)
+                                fileList.items[fileList.selectionModel.selectedIndex] = fileList.items[fileList.selectionModel.selectedIndex]
+                            }.fetch()
+                        } }
                     popup.hide()
                 }
             }
@@ -94,9 +107,11 @@ class FileListView : Initializable {
                                 }
                             }
                         })
+                        fileList.selectionModel.clearSelection()
                         event.consume()
                     }
                     setOnDragEntered {
+                        fileList.selectionModel.clearSelection()
                         fileList.selectionModel.select(item)
                         it.consume()
                     }
@@ -134,7 +149,7 @@ class FileListView : Initializable {
         fileList.setOnMouseClicked {
             if (it.clickCount == 2 && it.button == MouseButton.PRIMARY) {
                 fileList.selectionModel.selectedItem?.also { selected ->
-                    if (selected.jdkFile().isDirectory && selected.jdkFile().listFiles().size > 2 ) {
+                    if (selected.jdkFile().isDirectory && selected.jdkFile().listFiles().size > 2) {
                         FileInfoStage(bundle, selected).fetch()
                     } else {
                         selected.executable().launch(object : CExecutable.Callback {

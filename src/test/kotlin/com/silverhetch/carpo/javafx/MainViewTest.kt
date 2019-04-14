@@ -2,19 +2,17 @@ package com.silverhetch.carpo.javafx
 
 import com.jfoenix.controls.JFXListView
 import com.jfoenix.controls.JFXTextField
+import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
-import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.fxml.FXMLLoader
-import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.input.KeyCode
 import javafx.stage.Stage
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Ignore
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
 import java.io.File
@@ -25,13 +23,14 @@ class MainViewTest : ApplicationTest() {
     override fun start(stage: Stage) {
         super.start(stage)
         SvgImageLoaderFactory.install()
-        DefaultWorkspaceFile().fetch().let { it ->
-            if (it.exists()) {
-                it.deleteRecursively()
+        CarpoConfigSource().fetch().apply {
+            clear()
+            val root = File(workspacePath()).apply {
+                deleteRecursively()
+                mkdirs()
             }
-            it.mkdir()
-            File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
-            File(it, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
+            File(root, UUID.randomUUID().toString().substring(0, 5)).createNewFile()
         }
         val parent = FXMLLoader.load<Parent>(
             javaClass.getResource("/Main.fxml"),

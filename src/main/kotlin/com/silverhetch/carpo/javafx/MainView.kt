@@ -16,23 +16,23 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
+import javafx.scene.control.SplitPane
 import javafx.scene.image.ImageView
 import javafx.scene.input.DragEvent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.HBox
+import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
 import javafx.stage.DirectoryChooser
 import java.io.File
 import java.net.URL
 import java.util.*
 
-
 /**
  * Controls drop zone view.
  */
 class MainView : Initializable {
-    @FXML private lateinit var rootPane: HBox
+    @FXML private lateinit var rootPane: StackPane
     @FXML private lateinit var dropZone: VBox
     @FXML private lateinit var currentPath: JFXTextField
     @FXML private lateinit var searchKey: JFXTextField
@@ -53,7 +53,7 @@ class MainView : Initializable {
     )
 
     override fun initialize(p0: URL?, bundle: ResourceBundle) {
-        snackbar = JFXSnackbar(rootPane)
+        snackbar = JFXSnackbar(dropZone)
 
         MultiDraging(
             EventHandler {
@@ -114,6 +114,7 @@ class MainView : Initializable {
         event.source.let { source ->
             if (source is Node) {
                 chooser.showDialog((source.scene.window))?.also {
+                    config.changeWorkspacePath(it)
                     carpo = CarpoImpl(
                         CarpoWorkspace(
                             it

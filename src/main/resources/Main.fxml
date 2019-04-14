@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import com.jfoenix.controls.JFXToolbar?><?import javafx.scene.control.Label?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.Label?><?import javafx.scene.control.SplitPane?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?>
 <StackPane xmlns="http://javafx.com/javafx/8.0.121"
     xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="rootPane"
     fx:controller="com.silverhetch.carpo.javafx.MainView">
     <BorderPane>
         <top>
@@ -13,12 +14,12 @@
                     </leftItems>
                 </JFXToolbar>
             </VBox>
-
         </top>
-        <center>
-            <HBox fx:id="rootPane">
+        <center >
+            <SplitPane
+                dividerPositions="0.2,0.8">
                 <BorderPane.margin>
-                    <Insets topRightBottomLeft="16"/>
+                    <Insets topRightBottomLeft="16" />
                 </BorderPane.margin>
                 <fx:include source="TagManagement.fxml"
                     style="-fx-padding: 0 16 0 0"
@@ -26,7 +27,8 @@
                 <VBox fx:id="dropZone"
                     prefHeight="350.0"
                     prefWidth="768.0">
-                    <HBox style="-fx-padding: 0 0 16 0" spacing="10">
+                    <HBox style="-fx-padding: 0 0 16 0"
+                        spacing="10">
                         <JFXTextField fx:id="currentPath"
                             maxWidth="Infinity"
                             editable="false"
@@ -36,8 +38,7 @@
                             text="%DropZone.changePath" />
                         <JFXButton onMouseClicked="#importFrom"
                             styleClass="project-jfx-button-flat-transparent"
-                            text="%General.import"
-                            />
+                            text="%General.import" />
                     </HBox>
                     <HBox style="-fx-padding: 0 0 16 0">
                         <JFXTextField fx:id="searchKey"
@@ -61,7 +62,10 @@
                                 requestedHeight="35" />
 
                             <StackPane.margin>
-                                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                <Insets bottom="25.0"
+                                    left="25.0"
+                                    right="25.0"
+                                    top="25.0" />
                             </StackPane.margin>
                         </ImageView>
                     </StackPane>
@@ -71,7 +75,7 @@
                     prefWidth="450"
                     style="-fx-padding: 0 0 0 16"
                     fx:id="fileInfo" />
-            </HBox>
+            </SplitPane>
         </center>
     </BorderPane>
 </StackPane>

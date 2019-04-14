@@ -10,6 +10,12 @@ import org.junit.Assert
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
 import java.util.*
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Callable
+import java.util.concurrent.TimeUnit
+import org.testfx.util.WaitForAsyncUtils
+
+
 
 class FieldInputDialogTest : ApplicationTest() {
     private lateinit var stage: Stage
@@ -22,7 +28,7 @@ class FieldInputDialogTest : ApplicationTest() {
 
     @Test
     fun simple() {
-        var result = ""
+        var result=""
         Platform.runLater {
             result = FieldInputDialog(
                 stage,
@@ -30,10 +36,12 @@ class FieldInputDialogTest : ApplicationTest() {
                 "1234"
             ).fetch()
         }
-        Thread.sleep(3000)
+        WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS) {
+            from(lookup(("#FieldInputDialogTextField"))).tryQuery<TextField>().isPresent
+        }
         clickOn(lookup("#FieldInputDialogTextField").query<TextField>())
         write("NewTitle").push(KeyCode.ENTER)
-        Thread.sleep(3000)
+        Thread.sleep(1000)
         Assert.assertEquals("NewTitle", result)
     }
 }

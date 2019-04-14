@@ -1,5 +1,6 @@
 package com.silverhetch.carpo.javafx.file
 
+import com.jfoenix.controls.JFXTextArea
 import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.javafx.TagListView
@@ -15,9 +16,8 @@ import java.util.*
  */
 class FileInfoView : Initializable {
     @FXML private lateinit var tagListController: TagListView
-    @FXML private lateinit var fileName: JFXTextField
+    @FXML private lateinit var fileName: JFXTextArea
     @FXML private lateinit var tagName: JFXTextField
-
     private lateinit var cfile: CFile
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {

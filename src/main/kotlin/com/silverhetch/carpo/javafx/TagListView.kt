@@ -1,17 +1,21 @@
 package com.silverhetch.carpo.javafx
 
-import com.jfoenix.controls.*
+import com.jfoenix.controls.JFXListCell
+import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.JFXPopup
 import com.jfoenix.controls.JFXPopup.PopupHPosition.LEFT
 import com.jfoenix.controls.JFXPopup.PopupVPosition.TOP
 import com.silverhetch.carpo.javafx.tag.overview.TagOverviewStage
+import com.silverhetch.carpo.javafx.utility.dialog.DeleteSelectedDialog
+import com.silverhetch.carpo.javafx.utility.dialog.RenameDialog
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
 import com.silverhetch.carpo.tag.factory.UriTagFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
 import com.sun.javafx.collections.ObservableListWrapper
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
 import javafx.scene.control.SelectionMode
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -41,32 +45,29 @@ class TagListView : Initializable {
             }
             val popup = JFXPopup()
             popup.popupContent = JFXListView<String>().also { listView ->
-                listView.items.addAll(resources.getString("General.delete"))
+                listView.items.addAll(
+                    resources.getString("General.rename"),
+                    resources.getString("General.delete")
+                )
                 listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                     when (index) {
-                        0 -> {
-                            val dialog = JFXAlert<Unit>(tagList.scene.window as Stage)
-                            dialog.isHideOnEscape = false
-                            dialog.isOverlayClose = false
-                            dialog.setContent(JFXDialogLayout().also { layout ->
-                                layout.setHeading(Label(resources.getString("General.delete")))
-                                layout.setBody(Label(resources.getString("General.deleteSelected")))
-                                layout.setActions(
-                                    JFXButton(resources.getString("General.confirm")).also { button ->
-                                        button.setOnAction {
-                                            tagList.selectionModel.selectedItems.forEach { tag ->
-                                                tag.remove()
-                                            }
-                                            tagList.items.removeAll(tagList.selectionModel.selectedItems)
-                                            dialog.hideWithAnimation()
-                                        }
-                                    },
-                                    JFXButton(resources.getString("General.cancel")).also { button ->
-                                        button.setOnAction { dialog.hideWithAnimation() }
+                        1 -> {
+                            DeleteSelectedDialog(
+                                tagList.scene.window as Stage,
+                                resources,
+                                EventHandler {
+                                    tagList.selectionModel.selectedItems.forEach { tag ->
+                                        tag.remove()
                                     }
-                                )
-                            })
-                            dialog.showAndWait()
+                                    tagList.items.removeAll(tagList.selectionModel.selectedItems)
+                                }
+                            ).fetch()
+                        }
+                        0 -> {
+                            RenameDialog(tagList.scene.window as Stage, resources) { newName ->
+                                tagList.selectionModel.selectedItem.rename(newName)
+                                tagList.items[tagList.selectionModel.selectedIndex] = tagList.items[tagList.selectionModel.selectedIndex]
+                            }.fetch()
                         }
                     }
                     popup.hide()

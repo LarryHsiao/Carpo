@@ -1,10 +1,10 @@
 package com.silverhetch.carpo.javafx
 
 import com.silverhetch.carpo.CarpoImpl
+import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.javafx.tag.overview.TagOverviewView
 import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.workspace.CarpoWorkspace
-import com.silverhetch.carpo.workspace.DefaultWorkspaceFile
 import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -13,6 +13,8 @@ import javafx.stage.Stage
 import org.junit.Assert
 import org.junit.Test
 import org.testfx.framework.junit.ApplicationTest
+import java.io.File
+import java.nio.file.Files
 import java.util.*
 
 class TagOverviewViewTest : ApplicationTest() {
@@ -20,12 +22,6 @@ class TagOverviewViewTest : ApplicationTest() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        DefaultWorkspaceFile().fetch().let {
-            if (it.exists()) {
-                it.deleteRecursively()
-            }
-            it.mkdir()
-        }
         FXMLLoader().let {
             it.resources = ResourceBundle.getBundle("i18n/default")
             it.location = javaClass.getResource("/TagOverview.fxml")
@@ -41,7 +37,7 @@ class TagOverviewViewTest : ApplicationTest() {
         Platform.runLater {
             tagOverview.loadTag(CarpoImpl(
                 CarpoWorkspace(
-                    DefaultWorkspaceFile().fetch()
+                    Files.createTempDirectory("test").toFile()
                 )
             ).tags().addTag(newTagName))
 

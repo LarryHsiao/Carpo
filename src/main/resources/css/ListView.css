@@ -5,7 +5,7 @@
 
 .jfx-list-cell:odd,
 .jfx-list-cell:even {
-    -fx-background-color: WHITE;
+    -fx-background-color: transparent;
 }
 
 .jfx-list-cell:filled:hover,
@@ -23,6 +23,7 @@
 }
 
 .jfx-list-view {
+    -fx-background-color: transparent;
     -fx-background-insets: 0.0;
     -jfx-cell-horizontal-margin: 0.0;
     -jfx-cell-vertical-margin: 5.0;

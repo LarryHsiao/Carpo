@@ -12,7 +12,9 @@ class Stylesheets : Source<List<String>> {
             javaClass.getResource("/css/Decorator.css").toExternalForm(),
             javaClass.getResource("/css/ListView.css").toExternalForm(),
             javaClass.getResource("/css/Button.css").toExternalForm(),
-            javaClass.getResource("/css/TextField.css").toExternalForm()
+            javaClass.getResource("/css/TextField.css").toExternalForm(),
+            javaClass.getResource("/css/SplitPane.css").toExternalForm(),
+            javaClass.getResource("/css/ToggleButton.css").toExternalForm()
         )
     }
 }

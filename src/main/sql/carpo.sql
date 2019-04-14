@@ -1,12 +1,51 @@
 create table if not exists files (
-  id   integer primary key autoincrement,
-  name text not null unique
+  id         integer primary key autoincrement,
+  name       text not null unique,
+  updateTime date
 );
 
+create trigger insert_files_update_time
+  after insert
+  on files
+begin
+  update files
+  set updateTime = DATETIME('NOW')
+  where rowid = new.rowid;
+end;
+
+create trigger update_files_update_time
+  after update
+  on files
+begin
+  update files
+  set updateTime = DATETIME('NOW')
+  where rowid = new.rowid;
+end;
+
+
 create table if not exists tags (
-  id   integer primary key autoincrement,
-  name text not null unique
+  id         integer primary key autoincrement,
+  name       text not null unique,
+  updateTime date
 );
+
+create trigger insert_tags_update_time
+  after insert
+  on tags
+begin
+  update tags
+  set updateTime = DATETIME('NOW')
+  where rowid = new.rowid;
+end;
+
+create trigger update_tags_update_time
+  after update
+  on tags
+begin
+  update tags
+  set updateTime = DATETIME('NOW')
+  where rowid = new.rowid;
+end;
 
 create table if not exists file_tag (
   id      integer primary key autoincrement,
@@ -68,5 +107,10 @@ where file_tag.tag_id = 2
 
 -- Use case: Update a tag name.
 update tags
+set name = ?
+where id = ?;
+
+-- Use case: Update a file name.
+update files
 set name = ?
 where id = ?;
