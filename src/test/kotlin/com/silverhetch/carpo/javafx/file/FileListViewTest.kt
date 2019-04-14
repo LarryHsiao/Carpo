@@ -43,7 +43,7 @@ class FileListViewTest : ApplicationTest() {
         clickOn(from(lookup("#fileList")).lookup(".list-cell").nth(0).query<JFXListView<String>>(), Motion.DEFAULT, MouseButton.SECONDARY)
 
         Assert.assertEquals(
-            2,
+            3,
             from(lookup("#popup")).queryListView<CFile>().items.size
         )
     }
