@@ -5,6 +5,8 @@ out
 local.properties
 
 .idea/libraries
+.idea/datasources
+.idea/dataSources.xml
 .idea/modules.xml
 .idea/usage.statistics.xml
 .idea/tasks.xml
@@ -14,4 +16,6 @@ build
 *.db
 
 Playground/
-.carpo.config
+*.carpo.config
+
+*.name
