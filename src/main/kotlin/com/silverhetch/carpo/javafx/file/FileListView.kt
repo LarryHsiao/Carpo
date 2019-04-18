@@ -37,6 +37,8 @@ import kotlin.collections.ArrayList
 
 /**
  * Represent list with given [CFile]
+ *
+ * todo #1 Reimplement as Custom View
  */
 class FileListView : Initializable {
     @FXML

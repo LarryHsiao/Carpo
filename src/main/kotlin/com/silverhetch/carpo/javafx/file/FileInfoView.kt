@@ -13,6 +13,8 @@ import java.util.*
 
 /**
  * View representing info of given file.
+ *
+ * todo #2 Reimplemented as custom view
  */
 class FileInfoView : Initializable {
     @FXML private lateinit var tagListController: TagListView
