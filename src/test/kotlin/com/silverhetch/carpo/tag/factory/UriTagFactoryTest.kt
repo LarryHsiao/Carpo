@@ -14,7 +14,7 @@ class UriTagFactoryTest {
     fun toUri() {
         assertEquals(
             "carpo://silverhetch.com/tag/TagName123",
-            UriTagFactory.TagUri(PhantomTag("TagName123")).fetch()
+            UriTagFactory.TagUri(PhantomTag("TagName123")).value()
         )
     }
 
@@ -27,8 +27,8 @@ class UriTagFactoryTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
-            )).fetch().id()
+                ).value()
+            )).value().id()
         )
     }
 

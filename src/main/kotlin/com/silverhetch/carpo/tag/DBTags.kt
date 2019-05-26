@@ -16,7 +16,7 @@ class DBTags(private val dbConn: Connection) : Tags {
                     from tags;
                   """
             ).use {
-                return DBTagMapFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).value()
             }
         }
     }
@@ -49,7 +49,7 @@ class DBTags(private val dbConn: Connection) : Tags {
                   """).use { statement ->
             statement.setString(1, "%$name%")
             statement.executeQuery().use {
-                return DBTagMapFactory(dbConn, it).fetch()
+                return DBTagMapFactory(dbConn, it).value()
             }
         }
     }

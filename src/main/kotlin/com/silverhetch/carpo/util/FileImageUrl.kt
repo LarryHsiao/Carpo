@@ -12,7 +12,7 @@ import javax.activation.MimetypesFileTypeMap
  */
 class FileImageUrl(private val file: File, private val defaultUrl: String) : Source<String> {
     private val mimeTypeMap = MimetypesFileTypeMap()
-    override fun fetch(): String {
+    override fun value(): String {
         if (file.isFile) {
             return if (mimeTypeMap.getContentType(file).contains("image")) {
                 file.toURI().toString()

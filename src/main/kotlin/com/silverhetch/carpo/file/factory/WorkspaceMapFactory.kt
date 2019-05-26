@@ -10,7 +10,7 @@ import java.io.File
  * Map source that filter out [CFile] which exist in workspace.
  */
 class WorkspaceMapFactory(private val workspace: Workspace, private val dbMap: Map<String, CFile>) : Source<Map<String, CFile>> {
-    override fun fetch(): Map<String, CFile> {
+    override fun value(): Map<String, CFile> {
         return dbMap.filterKeys { key ->
             File(workspace.rootJFile(), key).exists()
         }.let { dbMap ->

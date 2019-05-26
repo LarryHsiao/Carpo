@@ -16,7 +16,7 @@ class DBTagsTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             ).all().size
         )
     }
@@ -30,7 +30,7 @@ class DBTagsTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             ).let {
                 it.addTag("Sample")
                 it.all().size
@@ -47,7 +47,7 @@ class DBTagsTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             ).let {
                 it.addTag("Sample'")
                 it.all().size
@@ -64,7 +64,7 @@ class DBTagsTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             ).let {
                 it.addTag("newTag'")
                 it.byName("newTag").size

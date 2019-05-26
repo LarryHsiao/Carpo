@@ -36,7 +36,7 @@ class DeleteSelectedDialogTest : ApplicationTest() {
                 EventHandler {
                     countDownLatch.countDown()
                 }
-            ).fetch()
+            ).value()
         }
         Thread.sleep(1000)
         clickOn(lookup("#confirmButton").queryButton())
@@ -54,7 +54,7 @@ class DeleteSelectedDialogTest : ApplicationTest() {
                 EventHandler {
                     fail()
                 }
-            ).fetch()
+            ).value()
         }
         Thread.sleep(1000)
         clickOn(lookup("#cancelButton").queryButton())

@@ -30,7 +30,7 @@ class CarpoWorkspace(private val root: File) : Workspace {
             CarpoDbConn(
                 SQLiteConn(File(root, DB_FILENAME).absolutePath)
             )
-        ).fetch()
+        ).value()
     }
 
     override fun rootJFile(): File {

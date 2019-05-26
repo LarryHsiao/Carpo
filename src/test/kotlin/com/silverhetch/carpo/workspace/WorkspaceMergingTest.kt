@@ -27,7 +27,7 @@ class WorkspaceMergingTest {
                 )
             ), distWorkspace
 
-        ).fetch()
+        ).value()
 
         Assert.assertEquals(
             4,
@@ -61,7 +61,7 @@ class WorkspaceMergingTest {
         WorkspaceMerging(
             fromWorkspace,
             distWorkspace
-        ).fetch()
+        ).value()
 
         distWorkspace.all().let{
             Assert.assertEquals(

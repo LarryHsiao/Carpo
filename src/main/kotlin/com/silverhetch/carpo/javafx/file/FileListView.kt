@@ -83,14 +83,14 @@ class FileListView : Initializable {
                                     fileList.items.removeAll(fileList.selectionModel.selectedItems)
                                 }
 
-                            ).fetch()
+                            ).value()
 
                         }
                         0 -> {
                             RenameDialog(fileList.scene.window as Stage, bundle) { newName ->
                                 fileList.selectionModel.selectedItem.rename(newName)
                                 fileList.items[fileList.selectionModel.selectedIndex] = fileList.items[fileList.selectionModel.selectedIndex]
-                            }.fetch()
+                            }.value()
                         } }
                     popup.hide()
                 }
@@ -152,7 +152,7 @@ class FileListView : Initializable {
             if (it.clickCount == 2 && it.button == MouseButton.PRIMARY) {
                 fileList.selectionModel.selectedItem?.also { selected ->
                     if (selected.jdkFile().isDirectory && selected.jdkFile().listFiles().size > 2) {
-                        FileInfoStage(bundle, selected).fetch()
+                        FileInfoStage(bundle, selected).value()
                     } else {
                         selected.executable().launch(object : CExecutable.Callback {
                             override fun onFailed() {

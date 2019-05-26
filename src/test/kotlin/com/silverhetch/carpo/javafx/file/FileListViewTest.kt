@@ -20,7 +20,7 @@ class FileListViewTest : ApplicationTest() {
     override fun start(stage: Stage) {
         super.start(stage)
         SvgImageLoaderFactory.install()
-        CarpoConfigSource().fetch().apply {
+        CarpoConfigSource().value().apply {
             clear()
             val root = File(workspacePath()).apply {
                 deleteRecursively()

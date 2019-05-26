@@ -72,7 +72,7 @@ class WorkspaceCFileTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch(),
+                ).value(),
                 2,
                 "filename2"
             )

@@ -11,8 +11,8 @@ class CarpoDbConn(private val conn: Source<Connection>) : Source<Connection> {
         private const val DATABASE_VERSION = 1
     }
 
-    override fun fetch(): Connection {
-        return conn.fetch().also { conn ->
+    override fun value(): Connection {
+        return conn.value().also { conn ->
             var currentVer = 0
             conn.createStatement().executeQuery("PRAGMA user_version;").use {
                 currentVer = it.getInt(1)

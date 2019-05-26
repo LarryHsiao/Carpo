@@ -16,7 +16,7 @@ class DBTagFiles(private val dbConn: Connection, private val tagId: Long) : File
                 left join files on file_tag.file_id=files.id
                 where file_tag.tag_id=$tagId
             """).use {
-                return DBFileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).value()
             }
         }
     }
@@ -30,7 +30,7 @@ class DBTagFiles(private val dbConn: Connection, private val tagId: Long) : File
             """).use { statement ->
             statement.setString(1, "%$tagName%")
             statement.executeQuery().use {
-                return DBFileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).value()
             }
         }
     }

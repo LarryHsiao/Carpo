@@ -21,7 +21,7 @@ class WorkspaceTagsTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 )
             ).byName("tag").size
         )

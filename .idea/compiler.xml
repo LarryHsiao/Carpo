@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="carpo.main" target="1.8" />
+      <module name="carpo.test" target="1.8" />
       <module name="carpo_main" target="1.8" />
       <module name="carpo_ru" target="1.8" />
       <module name="carpo_test" target="1.8" />

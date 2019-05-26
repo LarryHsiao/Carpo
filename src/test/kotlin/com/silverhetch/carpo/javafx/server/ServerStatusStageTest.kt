@@ -30,7 +30,7 @@ class ServerStatusStageTest : ApplicationTest() {
                     )
                 ),
                 stage
-            ).fetch()
+            ).value()
 
 
             Assert.assertTrue(

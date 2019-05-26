@@ -12,14 +12,14 @@ class WorkspaceTaggedFiles(private val workspace: Workspace, private val files: 
         return WorkspaceMapFactory(
             workspace,
             files.all()
-        ).fetch()
+        ).value()
     }
 
     override fun byTag(tagName: String): Map<String, CFile> {
         return WorkspaceMapFactory(
             workspace,
             files.byTag(tagName)
-        ).fetch()
+        ).value()
     }
 
     override fun add(file: File): CFile {

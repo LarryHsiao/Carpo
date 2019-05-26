@@ -13,7 +13,7 @@ class DbViewTest{
         DbViews(
             CarpoDbConn(
                 InMemoryConn()
-            ).fetch()
+            ).value()
         ).let {
             it.newView("").remove()
             assertEquals(

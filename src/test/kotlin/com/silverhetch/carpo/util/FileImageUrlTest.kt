@@ -13,7 +13,7 @@ class FileImageUrlTest {
                 FileImageUrl(
                     imageFile,
                     "Default"
-                ).fetch()
+                ).value()
             )
         }
     }
@@ -25,7 +25,7 @@ class FileImageUrlTest {
             FileImageUrl(
                 Files.createTempFile("", "").toFile(),
                 "Default"
-            ).fetch()
+            ).value()
         )
     }
 
@@ -38,7 +38,7 @@ class FileImageUrlTest {
                 FileImageUrl(
                     it,
                     "Default"
-                ).fetch()
+                ).value()
             )
         }
     }
@@ -51,7 +51,7 @@ class FileImageUrlTest {
                 FileImageUrl(
                     root,
                     "Default"
-                ).fetch()
+                ).value()
             )
         }
     }

@@ -12,7 +12,7 @@ class DbViewConditionsTest {
         DbViewConditions(
             CarpoDbConn(
                 InMemoryConn()
-            ).fetch()
+            ).value()
             , 1
         ).let {
             it.newCondition(PhantomTag(), Condition.Type.INCLUDED)

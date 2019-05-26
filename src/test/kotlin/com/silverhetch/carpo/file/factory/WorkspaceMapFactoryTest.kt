@@ -24,9 +24,9 @@ class WorkspaceMapFactoryTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 ).all()
-            ).fetch().size
+            ).value().size
         )
     }
 
@@ -45,9 +45,9 @@ class WorkspaceMapFactoryTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 ).all()
-            ).fetch().size
+            ).value().size
         )
     }
 }

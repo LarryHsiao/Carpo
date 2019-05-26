@@ -21,7 +21,7 @@ class TagDraging(private val dropped: (tagName: String) -> Unit) : EventHandler<
             }
             DRAG_DROPPED -> {
                 if (event.dragboard.hasUrl() && UriTagFactory().isValidUri(event.dragboard.url)) {
-                    dropped(UriTagFactory.TagName(event.dragboard.url).fetch())
+                    dropped(UriTagFactory.TagName(event.dragboard.url).value())
                     event.isDropCompleted = true
                     event.consume()
                 }

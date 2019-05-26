@@ -23,7 +23,7 @@ class WorkspaceTaggedFilesTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 )
             ).all().size
         )
@@ -45,7 +45,7 @@ class WorkspaceTaggedFilesTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 )
             ).all().size
         )
@@ -67,7 +67,7 @@ class WorkspaceTaggedFilesTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 )
             ).byTag("tag").size
         )
@@ -86,7 +86,7 @@ class WorkspaceTaggedFilesTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch()
+                    ).value()
                 )
             ).byTag("tag").size
         )
@@ -106,7 +106,7 @@ class WorkspaceTaggedFilesTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             )
         ).let {
             it.add(Files.createTempFile("", "").toFile())

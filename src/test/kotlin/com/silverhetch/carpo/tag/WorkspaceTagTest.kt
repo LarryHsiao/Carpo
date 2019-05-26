@@ -22,7 +22,7 @@ class WorkspaceTagTest {
                         CarpoDbConn(
                             InMemoryConn()
                         )
-                    ).fetch(), 1, ""
+                    ).value(), 1, ""
                 )
             ).let {
                 it.rename("newName")
@@ -41,7 +41,7 @@ class WorkspaceTagTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
             )
         ).let {
             it.byName("tag")["tag"]!!.remove()

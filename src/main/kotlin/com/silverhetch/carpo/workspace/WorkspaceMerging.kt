@@ -8,7 +8,7 @@ import java.io.File
  * Merges two workspace.
  */
 class WorkspaceMerging(private val from: Carpo, private val dist: Carpo) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         from.all().forEach { filename, CFile ->
             CFile.tags().all().let {
                 dist.addFile(listOf(File(from.workspace().rootJFile(), filename))).also { distCFile ->

@@ -14,16 +14,16 @@ import java.util.*
  * Factory that build and show FileList stage with given [CFile]
  */
 class FileInfoStage(private val resources: ResourceBundle, private val file: CFile, private val stage: Stage = Stage()) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         stage.scene = Scene(
             FXMLLoader(javaClass.getResource("/FileList.fxml")).let { loader ->
                 loader.resources = resources
                 val view = loader.load<Parent>()
                 loader.getController<FileListView>().loadList(file.subFiles().all())
-                JFXDecoratorParent(stage, view).fetch()
+                JFXDecoratorParent(stage, view).value()
 
             }, 640.0, 480.0
-        ).also { it.stylesheets.addAll(Stylesheets().fetch()) }
+        ).also { it.stylesheets.addAll(Stylesheets().value()) }
         stage.show()
     }
 }
