@@ -7,8 +7,8 @@ import java.sql.Connection
  * Database connection with initial data.
  */
 class SampleDataConn(private val db: Source<Connection>) : Source<Connection> {
-    override fun fetch(): Connection {
-        return db.fetch().also {
+    override fun value(): Connection {
+        return db.value().also {
             it.createStatement().execute("insert into files(name) values ('filename');")
             it.createStatement().execute("insert into files(name) values ('filename2');")
             it.createStatement().execute("insert into tags(name) values ('tag');")

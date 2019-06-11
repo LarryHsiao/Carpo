@@ -10,7 +10,7 @@ import java.sql.ResultSet
  * An Factory build Tag map with query result.
  */
 class DBTagMapFactory(private val dbConn: Connection, private val it: ResultSet) : Source<Map<String, Tag>> {
-    override fun fetch(): Map<String, Tag> {
+    override fun value(): Map<String, Tag> {
         HashMap<String, Tag>().let { result ->
             while (it.next()) {
                 val name = it.getString(

@@ -34,7 +34,7 @@ class FieldInputDialogTest : ApplicationTest() {
                 stage,
                 ResourceBundle.getBundle("i18n/default"),
                 "1234"
-            ).fetch()
+            ).value()
         }
         WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS) {
             from(lookup(("#FieldInputDialogTextField"))).tryQuery<TextField>().isPresent

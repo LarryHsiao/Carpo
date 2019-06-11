@@ -38,7 +38,7 @@ class RenameDialogTest : ApplicationTest() {
             ) { newName ->
                 result = newName
                 countDownLatch.countDown()
-            }.fetch()
+            }.value()
         }
         Thread.sleep(1000)
         clickOn(lookup("#renameField").query<TextField>())
@@ -58,7 +58,7 @@ class RenameDialogTest : ApplicationTest() {
                 ResourceBundle.getBundle("i18n/default")
             ) {
                 fail()
-            }.fetch()
+            }.value()
         }
         Thread.sleep(1000)
         clickOn(lookup("#cancelButton").queryButton())

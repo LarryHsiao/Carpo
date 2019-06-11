@@ -14,7 +14,7 @@ class DBTagTest {
                 CarpoDbConn(
                     InMemoryConn()
                 )
-            ).fetch(), 1, "tag1"
+            ).value(), 1, "tag1"
         ).let {
             it.rename("THIS is new name.")
             Assert.assertEquals(
@@ -31,7 +31,7 @@ class DBTagTest {
                 CarpoDbConn(
                     InMemoryConn()
                 )
-            ).fetch()).let {
+            ).value()).let {
             it.byName("tag")["tag"]!!.remove()
             Assert.assertNull(
                 it.byName("tag")["tag"]
@@ -46,7 +46,7 @@ class DBTagTest {
                 CarpoDbConn(
                     InMemoryConn()
                 )
-            ).fetch(), 2, "tag2"
+            ).value(), 2, "tag2"
         ).let {
             Assert.assertEquals(
                 2,

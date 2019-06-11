@@ -10,7 +10,7 @@ import java.sql.ResultSet
  * Factory that builds [CFile] map from database querying result.
  */
 class DBFileListFactory(private val dbConn: Connection, private val it: ResultSet) : Source<Map<String, CFile>> {
-    override fun fetch(): Map<String, CFile> {
+    override fun value(): Map<String, CFile> {
         HashMap<String, CFile>().let { result ->
             while (it.next()) {
                 val name = it.getString(it.findColumn("name"))

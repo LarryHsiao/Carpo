@@ -16,7 +16,7 @@ class JdkPropertiesConfigTest{
             writer.printf("workspace=/home/abc/def")
             writer.close()
         }
-        val config = CarpoConfigSource(tempConfig.absolutePath).fetch()
+        val config = CarpoConfigSource(tempConfig.absolutePath).value()
         Assert.assertEquals(
             ConstConfig().workspacePath(),
             config.workspacePath()

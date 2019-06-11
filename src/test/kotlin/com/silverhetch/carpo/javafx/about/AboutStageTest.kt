@@ -24,7 +24,7 @@ class AboutStageTest : ApplicationTest() {
             AboutStage(
                 ResourceBundle.getBundle("i18n/default"),
                 stage
-            ).fetch()
+            ).value()
 
             Assert.assertTrue(
                 from(lookup("#aboutInfo")).query<TextArea>().text.isNotBlank()

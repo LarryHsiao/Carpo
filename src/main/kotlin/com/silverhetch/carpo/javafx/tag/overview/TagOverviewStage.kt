@@ -10,16 +10,16 @@ import javafx.stage.Stage
 import java.util.*
 
 class TagOverviewStage(private val resources: ResourceBundle, private val selected: Tag, private val stage: Stage = Stage()) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         stage.scene = Scene(
             FXMLLoader(javaClass.getResource("/TagOverview.fxml")).let { loader ->
                 loader.resources = resources
-                val view = JFXDecoratorParent(stage, loader.load()).fetch()
+                val view = JFXDecoratorParent(stage, loader.load()).value()
                 view.id = "TagOverviewWindow"
                 loader.getController<TagOverviewView>().loadTag(selected)
                 view
             }
-        ).also { it.stylesheets.addAll(Stylesheets().fetch()) }
+        ).also { it.stylesheets.addAll(Stylesheets().value()) }
         stage.show()
     }
 }

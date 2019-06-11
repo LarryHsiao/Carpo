@@ -24,7 +24,7 @@ class TagOverviewStageTest : ApplicationTest() {
                 ResourceBundle.getBundle("i18n/default"),
                 PhantomTag(),
                 stage
-            ).fetch()
+            ).value()
 
             Assert.assertTrue(
                 from(lookup("#TagOverviewWindow")).query<Parent>().isVisible

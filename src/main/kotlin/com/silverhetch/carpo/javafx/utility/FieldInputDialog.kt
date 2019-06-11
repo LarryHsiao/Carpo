@@ -16,7 +16,7 @@ import java.util.*
  */
 class FieldInputDialog(private val stage: Stage, private val resource: ResourceBundle,
                        private val title: String) : Source<String> {
-    override fun fetch(): String {
+    override fun value(): String {
         val alert = JFXAlert<String>(stage)
         alert.initModality(Modality.APPLICATION_MODAL)
         alert.isHideOnEscape = false

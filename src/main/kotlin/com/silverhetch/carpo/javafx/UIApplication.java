@@ -30,7 +30,7 @@ public class UIApplication extends Application {
         );
         stage.getIcons().add(new Image(getClass().getResource("/icon/alpha-c-box.svg").toString()));
         Scene scene = new Scene(new JFXDecorator(stage, parent));
-        scene.getStylesheets().addAll(new Stylesheets().fetch());
+        scene.getStylesheets().addAll(new Stylesheets().value());
         stage.setScene(scene);
         stage.show();
     }

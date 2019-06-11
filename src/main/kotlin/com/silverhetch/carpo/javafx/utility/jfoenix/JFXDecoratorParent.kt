@@ -9,7 +9,7 @@ import javafx.stage.Stage
  * Source that apply JFXDecorator to given [Parent] node when is possible.
  */
 class JFXDecoratorParent(private val stage: Stage, private val parent: Parent) : Source<Parent> {
-    override fun fetch(): Parent {
+    override fun value(): Parent {
         return if (stage.isShowing) {
             parent
         } else {

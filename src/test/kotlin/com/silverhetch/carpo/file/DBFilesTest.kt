@@ -14,7 +14,7 @@ class DBFilesTest {
             DBFiles(
                 CarpoDbConn(
                     InMemoryConn()
-                ).fetch()
+                ).value()
             ).all().size
         )
     }
@@ -25,7 +25,7 @@ class DBFilesTest {
         DBFiles(
             CarpoDbConn(
                 InMemoryConn()
-            ).fetch()
+            ).value()
         ).let {
             it.add(newFile)
             assertEquals(1, it.all().size)

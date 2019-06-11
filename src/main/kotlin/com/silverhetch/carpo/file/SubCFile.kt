@@ -14,7 +14,7 @@ class SubCFile(private val workspace: Workspace, private var jdkFile: File, priv
     }
 
     override fun thumbnailUrl(): String {
-        return FileImageUrl(jdkFile(), javaClass.getResource("/icon/file.svg").toString()).fetch()
+        return FileImageUrl(jdkFile(), javaClass.getResource("/icon/file.svg").toString()).value()
     }
 
     override fun tags(): Tags {

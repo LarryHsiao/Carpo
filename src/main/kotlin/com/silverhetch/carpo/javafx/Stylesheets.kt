@@ -3,7 +3,7 @@ package com.silverhetch.carpo.javafx
 import com.silverhetch.clotho.Source
 
 class Stylesheets : Source<List<String>> {
-    override fun fetch(): List<String> {
+    override fun value(): List<String> {
         return listOf(
             javaClass.getResource("/css/General.css").toExternalForm(),
             javaClass.getResource("/css/jfoenix-design.css").toExternalForm(),

@@ -61,13 +61,13 @@ class TagListView : Initializable {
                                     }
                                     tagList.items.removeAll(tagList.selectionModel.selectedItems)
                                 }
-                            ).fetch()
+                            ).value()
                         }
                         0 -> {
                             RenameDialog(tagList.scene.window as Stage, resources) { newName ->
                                 tagList.selectionModel.selectedItem.rename(newName)
                                 tagList.items[tagList.selectionModel.selectedIndex] = tagList.items[tagList.selectionModel.selectedIndex]
-                            }.fetch()
+                            }.value()
                         }
                     }
                     popup.hide()
@@ -81,7 +81,7 @@ class TagListView : Initializable {
                     setOnDragDetected { dropEvent ->
                         val dragboard = startDragAndDrop(TransferMode.MOVE, TransferMode.LINK)
                         dragboard.setContent(ClipboardContent().also { content ->
-                            content[DataFormat.URL] = UriTagFactory.TagUri(item).fetch()
+                            content[DataFormat.URL] = UriTagFactory.TagUri(item).value()
                             dragboard.dragView = Image(
                                 javaClass.getResource("/icon/tag.svg").toURI().toString(),
                                 32.0,
@@ -116,7 +116,7 @@ class TagListView : Initializable {
         tagList.setOnMouseClicked { mouseEvent ->
             if (mouseEvent.button == PRIMARY && mouseEvent.clickCount == 2) {
                 tagList.selectionModel.selectedItem?.also { selected ->
-                    TagOverviewStage(resources, selected).fetch()
+                    TagOverviewStage(resources, selected).value()
                 }
             }
         }

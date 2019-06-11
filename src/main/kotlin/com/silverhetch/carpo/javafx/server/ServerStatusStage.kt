@@ -13,16 +13,16 @@ import java.util.*
  * Source that build and show server status.
  */
 class ServerStatusStage(private val resources: ResourceBundle, private val carpo: Carpo, private val stage: Stage) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         stage.scene = Scene(
             FXMLLoader(javaClass.getResource("/ServerStatus.fxml")).let { loader ->
                 loader.resources = resources
-                val view = JFXDecoratorParent(stage, loader.load()).fetch()
+                val view = JFXDecoratorParent(stage, loader.load()).value()
                 view.id = "SeverStatusView"
                 loader.getController<ServerStatusView>().loadCarpo(carpo)
                 view
             }
-        ).also { it.stylesheets.addAll(Stylesheets().fetch()) }
+        ).also { it.stylesheets.addAll(Stylesheets().value()) }
         stage.show()
     }
 }

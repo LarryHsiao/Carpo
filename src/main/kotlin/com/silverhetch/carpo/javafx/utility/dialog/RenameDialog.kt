@@ -14,7 +14,7 @@ import java.util.*
  * Dialog for rename.
  */
 class RenameDialog(private val stage: Stage, private val bundle: ResourceBundle, private val confirm: (newName: String) -> Unit) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         val dialog = JFXAlert<Unit>(stage)
         dialog.initModality(Modality.APPLICATION_MODAL)
         dialog.isHideOnEscape = false

@@ -38,7 +38,7 @@ class FileInfoStageTest : ApplicationTest() {
                     PhantomCFile()
                 ),
                 stage
-            ).fetch()
+            ).value()
 
             Assert.assertEquals(
                 2,

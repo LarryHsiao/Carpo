@@ -9,7 +9,7 @@ import java.util.*
  * Source class that builds [Config] instance for Carpo.
  */
 class CarpoConfigSource(private val path: String = System.getProperty("user.dir") + File.separator + ".carpo.config") : Source<Config> {
-    override fun fetch(): Config {
+    override fun value(): Config {
         return try {
             val config = File(path)
             if (!config.exists()) {

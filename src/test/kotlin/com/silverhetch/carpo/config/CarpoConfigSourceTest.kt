@@ -14,7 +14,7 @@ class CarpoConfigSourceTest {
         val tempConfig = Files.createTempFile("", "").toFile()
         Assert.assertEquals(
             System.getProperty("user.dir") + File.separator +"Playground",
-            CarpoConfigSource(tempConfig.absolutePath).fetch().workspacePath()
+            CarpoConfigSource(tempConfig.absolutePath).value().workspacePath()
         )
     }
 
@@ -28,7 +28,7 @@ class CarpoConfigSourceTest {
         }
         Assert.assertEquals(
             workspace.absolutePath,
-            CarpoConfigSource(tempConfig.absolutePath).fetch().workspacePath()
+            CarpoConfigSource(tempConfig.absolutePath).value().workspacePath()
         )
     }
 
@@ -40,7 +40,7 @@ class CarpoConfigSourceTest {
             writer.printf("workspace=${tempWorkspace.absolutePath.replace("""\""","""\\""")}")
             writer.close()
         }
-        val config = CarpoConfigSource(tempConfig.absolutePath).fetch()
+        val config = CarpoConfigSource(tempConfig.absolutePath).value()
         config.changeWorkspacePath(File("/newFileLocation"))
         Assert.assertEquals(
             tempWorkspace.absolutePath,
@@ -56,7 +56,7 @@ class CarpoConfigSourceTest {
             writer.close()
         }
         val newWorkspace = Files.createTempDirectory("").toFile()
-        val config = CarpoConfigSource(tempConfig.absolutePath).fetch()
+        val config = CarpoConfigSource(tempConfig.absolutePath).value()
         config.changeWorkspacePath(newWorkspace)
         Assert.assertEquals(
             newWorkspace.absolutePath,
@@ -70,11 +70,11 @@ class CarpoConfigSourceTest {
             it.deleteRecursively()
         }
         val newWorkspace = Files.createTempDirectory("").toFile()
-        val config = CarpoConfigSource(tempConfig.absolutePath).fetch()
+        val config = CarpoConfigSource(tempConfig.absolutePath).value()
         config.changeWorkspacePath(newWorkspace)
         Assert.assertEquals(
             newWorkspace.absolutePath,
-            CarpoConfigSource(tempConfig.absolutePath).fetch().workspacePath()
+            CarpoConfigSource(tempConfig.absolutePath).value().workspacePath()
         )
     }
 }

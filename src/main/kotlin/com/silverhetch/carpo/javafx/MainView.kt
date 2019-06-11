@@ -41,7 +41,7 @@ class MainView : Initializable {
     @FXML private lateinit var fileInfoController: FileInfoView
     @FXML private lateinit var tagManagementController: TagManagementView
     @FXML private lateinit var snackbar: JFXSnackbar
-    private var config: Config = CarpoConfigSource().fetch()
+    private var config: Config = CarpoConfigSource().value()
     private var carpo: Carpo = CarpoImpl(
         CarpoWorkspace(
             File(config.workspacePath()).also {
@@ -154,7 +154,7 @@ class MainView : Initializable {
                             )
                         ),
                         carpo
-                    ).fetch()
+                    ).value()
                     reloadUI()
                 }
             }

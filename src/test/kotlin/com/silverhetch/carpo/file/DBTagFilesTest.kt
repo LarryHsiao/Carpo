@@ -17,7 +17,7 @@ class DBTagFilesTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
                 , 1
             ).byTag("tag").size
         )
@@ -33,7 +33,7 @@ class DBTagFilesTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
                 , 2
             ).byTag("tag").size
         )
@@ -48,7 +48,7 @@ class DBTagFilesTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
                 , 2
             ).all().size
         )
@@ -63,7 +63,7 @@ class DBTagFilesTest {
                     CarpoDbConn(
                         InMemoryConn()
                     )
-                ).fetch()
+                ).value()
                 , 2
             ).let {
                 it.add(File.createTempFile("123", ""))

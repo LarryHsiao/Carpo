@@ -20,7 +20,7 @@ class UriTagFactory {
      * Uri of given [Tag]
      */
     class TagUri(private val obj: Tag) : Source<String> {
-        override fun fetch(): String {
+        override fun value(): String {
             return URI(URI_SCHEMA, URI_HOST, URI_PATH + obj.title(), null).toASCIIString()
         }
     }
@@ -29,8 +29,8 @@ class UriTagFactory {
      * [Tag] instance of given uri.
      */
     class UriTag(private val uri: String, private val tags: Tags) : Source<Tag> {
-        override fun fetch(): Tag {
-            TagName(uri).fetch().let { tagName ->
+        override fun value(): Tag {
+            TagName(uri).value().let { tagName ->
                 return tags.byName(tagName)[tagName] ?: tags.addTag(tagName)
             }
         }
@@ -40,7 +40,7 @@ class UriTagFactory {
      * Tag name in given uri.
      */
     class TagName(private val uri: String) : Source<String> {
-        override fun fetch(): String {
+        override fun value(): String {
             return URI.create(uri).path.replace("/tag/", "")
         }
     }

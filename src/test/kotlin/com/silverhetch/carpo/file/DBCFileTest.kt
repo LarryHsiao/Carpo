@@ -14,7 +14,7 @@ class DBCFileTest {
                 CarpoDbConn(
                     InMemoryConn()
                 )
-            ).fetch(),
+            ).value(),
             2,
             "filename2"
         ).tags().let {
@@ -30,7 +30,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             it.all()["filename"]!!.tags().addTag("Quote'")
             assertEquals(
@@ -47,7 +47,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             it.byTag("tag")["filename"]!!.remove()
             assertEquals(0, it.byTag("tag1").size)
@@ -60,7 +60,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             try {
                 it.all()["filename"]!!.executable().launch(object : CExecutable.Callback {
@@ -81,7 +81,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             try {
                 it.all()["filename"]!!.jdkFile()
@@ -98,7 +98,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             try {
                 it.all()["filename"]!!.subFiles()
@@ -117,7 +117,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             try {
                 it.all()["filename"]!!.thumbnailUrl()
@@ -135,7 +135,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             try {
                 it.all()["filename"]!!.addFile(listOf())
@@ -152,7 +152,7 @@ class DBCFileTest {
             CarpoDbConn(
                 InMemoryConn()
             )
-        ).fetch()).let {
+        ).value()).let {
             /** @see [SampleDataConn] */
             it.all()["filename"]!!.rename("The new Name")
 

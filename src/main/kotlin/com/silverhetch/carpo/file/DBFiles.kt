@@ -15,7 +15,7 @@ class DBFiles(private val dbConn: Connection) : Files {
                 select *
                 from files;
             """).use {
-                return DBFileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).value()
             }
         }
     }
@@ -50,7 +50,7 @@ class DBFiles(private val dbConn: Connection) : Files {
             """).use { statement ->
             statement.setString(1, "%$tagName%")
             statement.executeQuery().use {
-                return DBFileListFactory(dbConn, it).fetch()
+                return DBFileListFactory(dbConn, it).value()
             }
         }
     }

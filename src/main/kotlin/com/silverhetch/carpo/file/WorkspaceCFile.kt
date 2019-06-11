@@ -15,7 +15,7 @@ class WorkspaceCFile(private val workspace: Workspace, private val dbcFile: CFil
     }
 
     override fun thumbnailUrl(): String {
-        return FileImageUrl(jdkFile(), javaClass.getResource("/icon/file.svg").toString()).fetch()
+        return FileImageUrl(jdkFile(), javaClass.getResource("/icon/file.svg").toString()).value()
     }
 
     override fun tags(): Tags {

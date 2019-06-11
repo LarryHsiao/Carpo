@@ -15,7 +15,7 @@ import java.util.*
  * Delete confirm dialog.
  */
 class DeleteSelectedDialog(private val stage: Stage, private val bundle: ResourceBundle, private val confirmHandler: EventHandler<ActionEvent>) : Source<Unit> {
-    override fun fetch() {
+    override fun value() {
         val dialog = JFXAlert<Unit>(stage)
         dialog.initModality(Modality.APPLICATION_MODAL)
         dialog.isHideOnEscape = false
