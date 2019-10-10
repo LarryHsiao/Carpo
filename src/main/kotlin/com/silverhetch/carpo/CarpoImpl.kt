@@ -40,26 +40,23 @@ class CarpoImpl(private val workspace: Workspace) : Carpo {
             throw IllegalArgumentException("The files should be at least one.")
         }
 
-        val fileRoot = File(
-            java.nio.file.Files.createTempDirectory(files[0].parentFile.toPath(), ".carpo_temp").toFile().also {
-                it.deleteOnExit()
-            },
-            files[0].name
-        )
-
-        if (files.size == 1 && files[0].isDirectory) {
-            return workspaceFiles.add(files[0])
+        return if (files.size == 1 && files[0].isDirectory) {
+            workspaceFiles.add(files[0])
         } else {
-
+            val fileRoot = File(
+                java.nio.file.Files.createTempDirectory(files[0].parentFile.toPath(), ".carpo_temp").toFile().also {
+                    it.deleteOnExit()
+                },
+                files[0].name
+            )
             if (!fileRoot.exists()) {
                 fileRoot.mkdir()
             }
-
             files.forEach { file ->
                 workspace.insertionPipe().through(file, File(fileRoot, file.name))
             }
+            workspaceFiles.add(fileRoot)
         }
-        return workspaceFiles.add(fileRoot)
     }
 
     override fun byTag(tag: String): Map<String, CFile> {

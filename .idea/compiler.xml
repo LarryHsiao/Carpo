@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="carpo_main" target="1.8" />
       <module name="carpo_test" target="1.8" />
+      <module name="com.silverhetch.carpo.main" target="1.8" />
+      <module name="com.silverhetch.carpo.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
