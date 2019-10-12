@@ -12,7 +12,7 @@ import com.silverhetch.carpo.tag.Tag
 import com.silverhetch.carpo.tag.TagNameComparator
 import com.silverhetch.carpo.tag.factory.UriTagFactory
 import com.silverhetch.clotho.utility.comparator.StringComparator
-import com.sun.javafx.collections.ObservableListWrapper
+import javafx.beans.property.SimpleListProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -26,7 +26,6 @@ import javafx.scene.input.TransferMode
 import javafx.stage.Stage
 import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -37,7 +36,6 @@ class TagListView : Initializable {
     private lateinit var tagList: JFXListView<Tag>
 
     override fun initialize(location: URL?, resources: ResourceBundle) {
-        tagList.items = ObservableListWrapper<Tag>(ArrayList<Tag>())
         tagList.selectionModel.selectionMode = SelectionMode.MULTIPLE
         tagList.setOnContextMenuRequested { event ->
             if (tagList.selectionModel.selectedItems.size == 0) {

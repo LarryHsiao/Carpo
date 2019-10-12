@@ -3,7 +3,6 @@ package com.silverhetch.carpo.javafx.file
 import com.jfoenix.controls.JFXListView
 import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.file.CFile
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -19,7 +18,6 @@ import java.util.*
 class FileListViewTest : ApplicationTest() {
     override fun start(stage: Stage) {
         super.start(stage)
-        SvgImageLoaderFactory.install()
         CarpoConfigSource().fetch().apply {
             clear()
             val root = File(workspacePath()).apply {

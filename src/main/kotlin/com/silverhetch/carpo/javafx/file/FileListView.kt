@@ -16,8 +16,9 @@ import com.silverhetch.carpo.javafx.utility.draging.JdkFileDraging
 import com.silverhetch.carpo.javafx.utility.draging.MultiDraging
 import com.silverhetch.carpo.javafx.utility.draging.TagDraging
 import com.silverhetch.clotho.utility.comparator.StringComparator
-import com.sun.javafx.collections.ObservableListWrapper
 import javafx.application.Platform
+import javafx.beans.property.SimpleListProperty
+import javafx.collections.transformation.SortedList
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -29,6 +30,7 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.DataFormat
 import javafx.scene.input.MouseButton
 import javafx.scene.input.TransferMode
+import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import java.io.File
 import java.net.URL
@@ -47,7 +49,6 @@ class FileListView : Initializable {
     private lateinit var infoBar: JFXSnackbar
 
     override fun initialize(location: URL?, bundle: ResourceBundle) {
-        fileList.items = ObservableListWrapper<CFile>(ArrayList<CFile>())
         fileList.selectionModel.selectionMode = SelectionMode.MULTIPLE
         fileList.setOnContextMenuRequested { event ->
             if (fileList.selectionModel.selectedItems.size == 0) {
@@ -63,10 +64,10 @@ class FileListView : Initializable {
                 )
                 listView.selectionModel.selectedIndexProperty().addListener { _, _, index ->
                     when (index) {
-                        2 ->{
+                        2 -> {
                             FileExecutable(
                                 fileList.selectionModel.selectedItem.jdkFile().parentFile.toURI().toString()
-                            ).launch(object: CExecutable.Callback{
+                            ).launch(object : CExecutable.Callback {
                                 override fun onFailed() {
                                     // TODO
                                 }
@@ -91,7 +92,8 @@ class FileListView : Initializable {
                                 fileList.selectionModel.selectedItem.rename(newName)
                                 fileList.items[fileList.selectionModel.selectedIndex] = fileList.items[fileList.selectionModel.selectedIndex]
                             }.fetch()
-                        } }
+                        }
+                    }
                     popup.hide()
                 }
             }
@@ -159,7 +161,9 @@ class FileListView : Initializable {
                                 bundle.also { bundle ->
                                     if (::infoBar.isInitialized) {
                                         Platform.runLater {
-                                            infoBar.enqueue(JFXSnackbar.SnackbarEvent(bundle.getString("MainView.OpenFileFailed")))
+                                            infoBar.enqueue(JFXSnackbar.SnackbarEvent(
+                                                VBox()
+                                            ))
                                         }
                                     }
                                 }

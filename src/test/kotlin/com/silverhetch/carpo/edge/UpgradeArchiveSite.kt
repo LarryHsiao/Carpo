@@ -4,7 +4,7 @@ import com.silverhetch.clotho.connection.Get
 import com.silverhetch.clotho.connection.TargetImpl
 import org.junit.Assert
 import org.junit.Test
-import sun.security.ssl.SSLSocketFactoryImpl
+import javax.net.ssl.SSLSocketFactory
 
 class UpgradeArchiveSite {
     @Test
@@ -13,8 +13,8 @@ class UpgradeArchiveSite {
             200,
             Get(
                 TargetImpl(
-                    "https://silverhetch.com:12000/",
-                    SSLSocketFactoryImpl()
+                    "https://larryhsiao.com:12000/",
+                    SSLSocketFactory.getDefault() as SSLSocketFactory
                 )
             ).request().code
         )

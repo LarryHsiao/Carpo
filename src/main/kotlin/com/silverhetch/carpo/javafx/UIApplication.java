@@ -1,8 +1,6 @@
 package com.silverhetch.carpo.javafx;
 
 import com.jfoenix.controls.JFXDecorator;
-import com.silverhetch.carpo.threads.WorkerThread;
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 /**
@@ -23,7 +20,6 @@ public class UIApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SvgImageLoaderFactory.install();
         final Parent parent = FXMLLoader.load(
                 getClass().getResource("/Main.fxml"),
                 ResourceBundle.getBundle("i18n/default")

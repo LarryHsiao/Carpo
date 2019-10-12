@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField
 import com.silverhetch.carpo.config.CarpoConfigSource
 import com.silverhetch.carpo.file.CFile
 import com.silverhetch.carpo.tag.Tag
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -22,7 +21,6 @@ class MainViewTest : ApplicationTest() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        SvgImageLoaderFactory.install()
         CarpoConfigSource().fetch().apply {
             clear()
             val root = File(workspacePath()).apply {
